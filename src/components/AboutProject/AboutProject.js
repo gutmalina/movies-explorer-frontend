@@ -6,11 +6,11 @@ function AboutProject() {
         <div className="about-project__border"></div>
         <ul className="about-project__container">
           <li className="about-project__list">
-            <h3 className="about-project__title title about-project__list_indent">Дипломный проект включал 5 этапов</h3>
+            <h3 className="about-project__list_title about-project__title title about-project__list_indent">Дипломный проект включал 5 этапов</h3>
             <p className="about-project__subtitle subtitle">Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.</p>
           </li>
           <li className="about-project__list">
-            <h3 className="about-project__title title about-project__list_indent">На выполнение диплома ушло 5 недель</h3>
+            <h3 className="about-project__list_title about-project__title title about-project__list_indent">На выполнение диплома ушло 5 недель</h3>
             <p className="about-project__subtitle subtitle">У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.</p>
           </li>
         </ul>

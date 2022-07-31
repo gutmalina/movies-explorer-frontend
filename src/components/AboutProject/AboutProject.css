@@ -45,15 +45,6 @@
 .about-project__grid_teme-light{
   color: #A0A0A0;
 }
-.about-project__group{
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 10px;
-}
-.about-project__group_text{
-  display: flex;
-  flex-direction: row;
-}
 .about-project__item{
   display: flex;
   justify-content: center;
@@ -86,8 +77,28 @@
     font-size: 12px;
     line-height: 150%;
   }
+  .about-project__grid{
+    gap: 14px 0;
+  }
   .about-project__grid_subtitle{
     font-size: 14px;
     line-height: 122%;
+  }
+}
+@media screen and (min-width: 1280px){
+  .about-project{
+    margin: 110px 70px;
+  }
+  .about-project__container{
+    gap: 0 40px;
+    margin-bottom: 110px;
+  }
+  .about-project__list_title{
+    font-size: 20px;
+    line-height: 120%;
+  }
+  .about-project__subtitle{
+    font-size: 14px;
+    line-height: 143%;
   }
 }
