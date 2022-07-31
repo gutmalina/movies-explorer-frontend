@@ -1,5 +1,4 @@
 import promoLogo from '../../../src/images/Promo-logo.svg';
-import NavTab from '../NavTab/NavTab';
 
 function Promo(){
   return (
@@ -15,7 +14,6 @@ function Promo(){
           <p className="promo__subtitle subtitle">Листайте ниже, чтобы узнать больше про этот проект и его создателя.</p>
         </div>
       </section>
-      <NavTab/>
     </>
   );
 }
