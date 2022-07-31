@@ -1,0 +1,46 @@
+.register{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.register__title{
+  margin:0 auto 80px;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 121%;
+  text-align: center;
+}
+.register__submit{
+  width: 260px;
+  height: 45px;
+  background: #4285F4;
+  border-radius: 3px;
+  border: none;
+  margin-bottom: 14px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 125%;
+  text-align: center;
+  color: #FFFFFF;
+}
+.register__footer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.register__subtitle{
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 125%;
+  text-align: center;
+  color: #8B8B8B;
+  margin: 0 7px 0 0;
+}
+.register__link{
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 125%;
+  text-align: center;
+  color: #4285F4;
+}
