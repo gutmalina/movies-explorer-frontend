@@ -46,3 +46,9 @@
   font-style: normal;
   text-align: center;
 }
+.subtitle__teme-light{
+  color: #A0A0A0;
+}
+.subtitle__teme-dark{
+  color: #000000;
+}

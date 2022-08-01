@@ -6,28 +6,28 @@ function AboutProject() {
           <h2 className="main__title title">О проекте</h2>
           <div className="main__decor"></div>
         </div>
-        <ul className="main__container">
-          <li className="main__list list">
-            <h3 className="main__title title about-project__title">Дипломный проект включал 5 этапов</h3>
-            <p className="main__subtitle subtitle">Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.</p>
+        <ul className="about-project__container">
+          <li className="about-project__list list">
+            <h3 className="about-project__title title">Дипломный проект включал 5 этапов</h3>
+            <p className="about-project__subtitle subtitle">Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.</p>
           </li>
-          <li className="main__list list">
-            <h3 className="main__title title about-project__title">На выполнение диплома ушло 5 недель</h3>
-            <p className="main__subtitle subtitle">У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.</p>
+          <li className="about-project__list list">
+            <h3 className="about-project__title title">На выполнение диплома ушло 5 недель</h3>
+            <p className="about-project__subtitle subtitle">У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.</p>
           </li>
         </ul>
         <div className="about-project__grid">
           <div className="about-project__item about-project__item_back">
-            <p className="about-project__subtitle subtitle">1 неделя</p>
+            <p className="about-project__grid-subtitle about-project__subtitle subtitle subtitle__teme-dark">1 неделя</p>
           </div>
           <div className="about-project__item about-project__item_front">
-            <p className="about-project__subtitle subtitle">4 недели</p>
+            <p className="about-project__grid-subtitle about-project__subtitle subtitle subtitle__teme-dark">4 недели</p>
           </div>
           <div className="about-project__item">
-            <p className="about-project__subtitle about-project__subtitle_teme-light subtitle">Back-end</p>
+            <p className="about-project__grid-subtitle about-project__subtitle subtitle subtitle__teme-light">Back-end</p>
           </div>
           <div className="about-project__item">
-            <p className="about-project__subtitle about-project__subtitle_teme-light subtitle">Front-end</p>
+            <p className="about-project__grid-subtitle about-project__subtitle subtitle subtitle__teme-light">Front-end</p>
           </div>
         </div>
       </section>
