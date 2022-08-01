@@ -24,7 +24,6 @@
   font-weight: 400;
   font-size: 13px;
   line-height: 123%;
-  text-align: center;
   mix-blend-mode: normal;
   opacity: 0.5;
   margin: 0 30px 80px;
@@ -48,7 +47,7 @@
     flex-direction: row-reverse;
   }
   .promo__logo{
-    margin: 75px 70px 94px 190px;
+    margin: 75px 70px 94px calc(100% - 1090px);
   }
   .promo__container{
     width: 640px;

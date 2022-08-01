@@ -1,49 +1,22 @@
-.about-project{
-  margin: 70px 18px;
-}
 .about-project__title{
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 122%;
-  letter-spacing: -0.04em;
-  margin-bottom: 28px;
-  text-align: start;
-}
-.about-project__border{
-  border-bottom: 1px solid #DADADA;
-  margin-bottom: 60px;
-}
-.about-project__container{
-  padding: 0;
-  margin: 0;
-}
-.about-project__list{
-  list-style: none;
-  margin-bottom: 56px;
-}
-.about-project__list_indent{
   margin-bottom: 16px;
 }
 .about-project__subtitle{
-  font-weight: 400;
-  font-size: 11px;
-  line-height: 145%;
-}
-.about-project__grid{
-  display: grid;
-  grid-template-columns: 0.9fr 1.6fr;
-  grid-template-rows: 35px;
-  gap: 10px 0;
-}
-.about-project__grid_subtitle{
   font-weight: 400;
   font-size: 11px;
   line-height: 118%;
   text-align: center;
   color: #000000;
 }
-.about-project__grid_teme-light{
+.about-project__subtitle_teme-light{
   color: #A0A0A0;
+}
+.about-project__grid{
+  display: grid;
+  grid-template-columns: 0.9fr 1.6fr;
+  grid-template-rows: 35px;
+  gap: 10px 0;
+  margin: 0 18px 70px;
 }
 .about-project__item{
   display: flex;
@@ -57,48 +30,21 @@
   background: #303030;
 }
 @media screen and (min-width: 768px){
-  .about-project{
-    margin: 90px 50px;
-  }
-  .about-project__title{
-    font-size: 22px;
-    margin-bottom: 23px;
-  }
-  .about-project__border{
-    margin-bottom: 70px;
-  }
-  .about-project__container{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0 30px;
-    margin-bottom: 93px;
-  }
-  .about-project__subtitle{
-    font-size: 12px;
-    line-height: 150%;
-  }
   .about-project__grid{
     gap: 14px 0;
+    margin: 0 50px 90px;
   }
-  .about-project__grid_subtitle{
+  .about-project__subtitle{
     font-size: 14px;
     line-height: 122%;
   }
 }
 @media screen and (min-width: 1280px){
-  .about-project{
-    margin: 110px 70px;
-  }
-  .about-project__container{
-    gap: 0 40px;
-    margin-bottom: 110px;
-  }
-  .about-project__list_title{
+  .about-project__title{
     font-size: 20px;
     line-height: 120%;
   }
-  .about-project__subtitle{
-    font-size: 14px;
-    line-height: 143%;
+  .about-project__grid{
+    margin: 0 70px 110px;
   }
 }

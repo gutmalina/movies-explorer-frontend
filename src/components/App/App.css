@@ -23,6 +23,9 @@
   cursor: pointer;
   opacity: 0.7;
 }
+.list{
+  list-style: none;
+}
 .button{
   padding: 0;
   border: none;
@@ -41,4 +44,5 @@
 .subtitle{
   margin: 0;
   font-style: normal;
+  text-align: center;
 }
