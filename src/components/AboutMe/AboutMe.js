@@ -1,4 +1,4 @@
-import aboutMeImg from '../../../src/images/About-me.JPEG';
+import aboutMeImg from '../../../src/images/About-me.jpg';
 import {
   githubLink,
   codewarsLink,

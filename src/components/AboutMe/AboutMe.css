@@ -5,7 +5,6 @@
 .about-me__img{
   border-radius: 10px;
   width: 292px;
-  height: 352px;
   object-fit: cover;
   object-position: center;
   margin: 0 calc(50% - 146px) 40px;
@@ -60,7 +59,6 @@
   }
   .about-me__img{
     width: 255px;
-    height: 307px;
     position: absolute;
     right: 50px;
     margin: 0;
@@ -93,7 +91,6 @@
 @media screen and (min-width: 1280px){
   .about-me__img{
     width: 270px;
-    height: 327px;
     position: absolute;
     right: 70px;
   }
