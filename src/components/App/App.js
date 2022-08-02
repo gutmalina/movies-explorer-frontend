@@ -4,6 +4,11 @@ import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 
+/* Установить текущий год дя footer */
+const getYear=()=>{
+  return new Date().getFullYear();
+}
+
 function App() {
   return (
     <div className="body">
@@ -12,7 +17,7 @@ function App() {
           <Route exact path="/">
             <Header />
             <Main />
-            <Footer />
+            <Footer date={getYear()} />
           </Route>
         </Switch>
       </div>

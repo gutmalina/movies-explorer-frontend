@@ -1,5 +1,4 @@
 .techs{
-  background: #202020;
   padding-top: 70px;
 }
 .techs__decor{
@@ -47,6 +46,7 @@
 }
 @media screen and (min-width: 768px){
   .techs{
+    background: #272727;
     padding-top: 90px;
   }
   .techs__decor{

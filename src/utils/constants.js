@@ -1,5 +1,6 @@
 const githubLink = 'https://github.com/gutmalina';
 const codewarsLink = 'https://www.codewars.com/users/gutmalina';
+const yandexLink = 'https://practicum.yandex.ru';
 const siteStaticLink = 'https://github.com/gutmalina/how-to-learn';
 const siteAdaptiveLink = 'https://gutmalina.github.io/russian-travel/index.html';
 const onePageSiteLink = 'http://gutmalina.mesto.front.nomoredomains.sbs';
@@ -10,6 +11,7 @@ const biography = "Я родилась и живу в Москве, имею 2 �
 export {
   githubLink,
   codewarsLink,
+  yandexLink,
   siteStaticLink,
   siteAdaptiveLink,
   onePageSiteLink,

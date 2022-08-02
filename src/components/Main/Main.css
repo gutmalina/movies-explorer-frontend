@@ -1,5 +1,6 @@
 .main__title-wrap{
   margin: 0 18px 60px;
+  border-bottom: 1px solid #DADADA;
 }
 .main__title{
   font-weight: 400;
@@ -8,9 +9,6 @@
   letter-spacing: -0.04em;
   margin-bottom: 28px;
   text-align: start;
-}
-.main__decor{
-  border-bottom: 1px solid #DADADA;
 }
 @media screen and (min-width: 768px){
   .main__title-wrap{

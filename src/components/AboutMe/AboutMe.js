@@ -28,10 +28,10 @@ function AboutMe() {
           </li>
         </ul>
         <ul className="about-me__links">
-          <li>
+          <li className="about-me__list list">
             <a className="about-me__link list link" href={githubLink} target="_blank" rel="noreferrer">Github</a>
           </li>
-          <li>
+          <li className="about-me__list list">
             <a className="about-me__link list link" href={codewarsLink} target="_blank" rel="noreferrer">Codewars</a>
           </li>
         </ul>
