@@ -11,7 +11,7 @@ function Footer({date}) {
         <div className="footer__title-wrap">
           <h2 className="footer__title title">Учебный проект Яндекс.Практикум х BeatFilm.</h2>
         </div>
-        <nav class="footer__links">
+        <nav className="footer__links">
           <ul className="footer__container container">
             <li className="footer__list list">
               <a href={yandexLink} className="footer__link link" target="_blank" rel="noreferrer">Яндекс.Практикум</a>

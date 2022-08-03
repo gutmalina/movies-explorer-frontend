@@ -18,19 +18,21 @@
   line-height: 133%;
   align-items: center;
   color: #FFFFFF;
-  margin: 0 auto 30px;
+}
+.navtab__link{
+  margin-bottom: 30px;
 }
 @media screen and (min-width: 768px){
   .navtab{
     margin-bottom: 90px;
   }
-  .navtab__button{
+  .navtab__link{
     margin-bottom: 76px;
   }
 }
 @media screen and (min-width: 1280px){
   .navtab{
-    margin-bottom: 110px;
+    margin-bottom: 108px;
     align-items: flex-start;
   }
   .navtab__button{

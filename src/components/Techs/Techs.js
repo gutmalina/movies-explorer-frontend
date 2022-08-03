@@ -2,9 +2,8 @@ function Techs() {
   return (
     <>
       <section className="techs">
-        <div className="main__title-wrap">
+        <div className="main__title-wrap techs__title-wrap">
           <h2 className="main__title title">Технологии</h2>
-          <div className="main__decor techs__decor"></div>
         </div>
         <ul className="techs__container container">
           <li className="techs__list list">
