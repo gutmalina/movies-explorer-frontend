@@ -24,7 +24,7 @@ function Footer({date}) {
             </li>
           </ul>
         </nav>
-        <p className="footer__copyright">&copy;{date}</p>
+        <p className="footer__copyright">&copy;{' ' + date}</p>
       </section>
     </>
   );

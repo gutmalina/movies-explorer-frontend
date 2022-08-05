@@ -1,0 +1,20 @@
+.button__submit{
+  background: #4285F4;
+  width: 58px;
+  height: 34px;
+  align-items: center;
+  color: #FFFFFF;
+  font-size: 11px;
+  line-height: 164%;
+}
+.button__submit_search{
+  border-radius: 48px;
+}
+@media screen and (min-width: 768px){
+  .button__submit_search{
+    margin-right: 19px;
+  }
+}
+@media screen and (min-width: 1280px){}
+
+

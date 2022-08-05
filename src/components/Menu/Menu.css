@@ -39,27 +39,6 @@
 .menu__list_item-active{
   border-bottom: 2px solid #FFFFFF;
 }
-.menu__profile{
-  display: flex;
-  align-items: center;
-  position: absolute;
-  bottom: 46px;
-}
-.menu__subtitle{
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 92%;
-  margin: 0 7px 0 0;
-}
-.menu__icon{
-  background: #313131;
-  border-radius: 50px;
-  width: 26px;
-  height: 26px;
-  background-image: url(../../../src/images/Menu-profile.svg);
-  background-repeat: no-repeat;
-  background-position: center;
-}
 @media screen and (min-width: 768px) {
   .menu{
     min-width: 520px;
@@ -74,8 +53,5 @@
   }
   .menu__list_item{
     margin-bottom: 28px;
-  }
-  .menu__profile{
-    bottom: 90px;
   }
 }

@@ -17,7 +17,7 @@
 .button{
   padding: 0;
   border: none;
-  color: #000000;
+  font-weight: 500;
 }
 .button:hover{
   cursor: pointer;
@@ -27,9 +27,26 @@
   padding: 0;
   margin: 0;
 }
+.input{
+  font-family: inherit;
+  padding: 0;
+  outline: none;
+  border: 0;
+  -webkit-box-shadow: 0 0 0px 1000px #222222 inset;
+}
+/* .input:focus{
+  border-bottom: 1px solid #4285F4;;
+  -webkit-box-shadow: 0 0 0px 1000px #222222 inset;
+} */
+.form{
+  border: none;
+  padding: 0;
+  margin: 0;
+}
 .link{
   text-decoration: none;
   color: #FFFFFF;
+  font-family: inherit;
 }
 .link:hover{
   cursor: pointer;
