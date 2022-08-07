@@ -1,25 +1,28 @@
-import FormUser from '../FormUser/FormUser';
+import FormRegister from '../FormRegister/FormRegister';
+import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
+import CaptionForm from '../CaptionForm/CaptionForm';
 
-function Register(){
+function Register({title}){
   return (
     <>
       <section className="register">
-        <h2 className="register__title">Добро пожаловать!</h2>
+        <h2 className="register__title title title__type_form">{title}</h2>
         <form name="register-form"
-          className ="register__form">
-          <fieldset className="register__fieldset">
-          <FormUser/>
+          className ="register__form form">
+          <fieldset className="register__fieldset fieldset">
+            <FormRegister
+              nameForm="register"
+            />
           </fieldset>
-          <button
+          <ButtonSubmit
             name="register"
-            type="submit"
-            className="register__submit">Зарегистрироваться
-          </button>
+            contentButton="Зарегистрироваться"
+          />
         </form>
-        <div className='register__footer'>
-          <p className="register__subtitle">Уже зарегистрированы?</p>
-          <a href="#" className="register__link">Войти</a>
-        </div>
+        <CaptionForm
+          nameForm="register"
+          subtitle="Уже зарегистрированы?"
+        />
       </section>
     </>
   )

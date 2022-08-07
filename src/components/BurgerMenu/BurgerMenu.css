@@ -6,6 +6,12 @@
   justify-content: center;
   align-items: center;
 }
+.burger__button{
+  background: #073042;
+}
+.burger__button_type_profile{
+  background: #202020;
+}
 .burger__item{
   width: 22px;
   height: 2.5px;

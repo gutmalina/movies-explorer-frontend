@@ -1,7 +1,11 @@
+import SearchForm from "../SearchForm/SearchForm";
+import MoviesCardList from "../MoviesCardList/MoviesCardList";
+
 function SavedMovies() {
   return (
     <>
-{"здесь будут сохраненные фильмы"}
+      <SearchForm/>
+      <MoviesCardList/>
     </>
   );
 }

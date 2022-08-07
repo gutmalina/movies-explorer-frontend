@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import {
   githubLink,
   codewarsLink,
@@ -5,9 +6,12 @@ import {
 } from '../../../src/utils/constants';
 
 function Footer({date}) {
+  const { pathname } = useLocation();
+  const footer = `footer ${pathname === "/signup" || pathname === "/signin" || pathname === "/profile" ? "footer__inactive" : ''}`;
+
   return (
     <>
-      <section className="footer">
+      <section className={footer}>
         <div className="footer__title-wrap">
           <h2 className="footer__title title">Учебный проект Яндекс.Практикум х BeatFilm.</h2>
         </div>

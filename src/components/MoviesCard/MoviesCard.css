@@ -29,7 +29,7 @@
   text-align: start;
   margin-right: 10px;
 }
-.card__button_like{
+.card__button{
   background: #313131;
   border-radius: 36px;
   width: 24px;
@@ -45,7 +45,9 @@
 .card__button_like_inactive{
   background-image: url(../../../src/images/Card-like-inactive.svg);
 }
-
+.card__button_delete{
+  background-image: url(../../../src/images/Card-delete.svg);
+}
 @media screen and (min-width: 768px){
   .card{
     margin: 0;

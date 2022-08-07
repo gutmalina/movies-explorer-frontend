@@ -1,12 +1,15 @@
+import { useLocation } from "react-router-dom";
+
 function ButtonSubmit({contentButton, name}) {
-  const classNameButtonSubmit = `button button__submit button__submit_${name}`
+  const { pathname } = useLocation();
+  const submit = `button button__submit ${pathname === '/signup' || pathname === '/signin' ? 'button__submit_type_sign' : pathname === '/profile' ? 'button__submit_type_profile' : ''}`
 
   return (
     <>
       <button
         type="submit"
         name={name}
-        className={classNameButtonSubmit}>
+        className={submit}>
           {contentButton}
       </button>
     </>
