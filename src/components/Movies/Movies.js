@@ -1,11 +1,19 @@
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
-function Movies() {
+function Movies({location}) {
   return (
     <>
-      <SearchForm/>
-      <MoviesCardList/>
+      <section className="movies">
+        <SearchForm
+          location={location}
+        />
+        <MoviesCardList/>
+        <button
+          type="button"
+          className="movies-card-list__button button">Ещё
+        </button>
+      </section>
     </>
   );
 }

@@ -1,11 +1,8 @@
-import { useLocation } from "react-router-dom";
-
-function InputFields({nameForm, nameInput, type, placeholder, textContent}){
-  const { pathname } = useLocation();
-  const container = `input__container container ${pathname === "/profile" ? "input__container_type_profile" : ""}`;
-  const input = `input ${pathname === "/profile" ? "input__type_profile" : ""}`;
-  const subtitle = `input__subtitle subtitle ${pathname === "/profile" ? "input__subtitle_type_profile" : ""}`;
-  const span = `span-wrap ${pathname === "/profile" ? "span-wrap_type_profile" : ""}`;
+function InputFields({nameForm, nameInput, type, placeholder, textContent, location}){
+  const container = `input__container container ${location === "/profile" ? "input__container_type_profile" : ""}`;
+  const input = `input input__type_form ${location === "/profile" ? "input__type_profile" : ""}`;
+  const subtitle = `input__subtitle subtitle ${location === "/profile" ? "input__subtitle_type_profile" : ""}`;
+  const span = `span-wrap ${location === "/profile" ? "span-wrap_type_profile" : ""}`;
 
   return(
     <>

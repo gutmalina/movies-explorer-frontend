@@ -1,6 +1,6 @@
 import InputFields from "../InputFields/InputFields";
 
-function FormLogin({nameForm}){
+function FormLogin({nameForm, location}){
   return (
     <>
       <InputFields
@@ -9,6 +9,7 @@ function FormLogin({nameForm}){
         type="email"
         placeholder=""
         textContent="E-mail"
+        location={location}
       />
       <InputFields
         nameForm={nameForm}
@@ -16,6 +17,7 @@ function FormLogin({nameForm}){
         type="password"
         placeholder=""
         textContent="Пароль"
+        location={location}
       />
     </>
   )

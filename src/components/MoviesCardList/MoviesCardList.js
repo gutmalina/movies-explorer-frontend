@@ -1,6 +1,5 @@
 import { initialCards } from "../../utils/initialCards";
 import MoviesCard from "../MoviesCard/MoviesCard";
-import { Route } from "react-router-dom";
 
 function MoviesCardList() {
   return (
@@ -14,12 +13,6 @@ function MoviesCardList() {
           ))
         }
         </div>
-        <Route path="/movies">
-          <button
-            type="button"
-            className="movies-card-list__button button">Ещё
-          </button>
-        </Route>
       </section>
     </>
   );

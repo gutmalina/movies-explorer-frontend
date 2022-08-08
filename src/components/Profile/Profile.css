@@ -11,7 +11,7 @@
   margin-bottom: 350px;
 }
 .profile__title{
-  margin-bottom: 0 auto 76px;
+  margin: 0 auto 76px;
 }
 @media screen and (min-width: 768px){
   .profile{
@@ -19,7 +19,7 @@
     margin: 0 calc((100% - 410px) / 2);
   }
   .profile__fieldset{
-    margin-bottom: 183px;
+    margin-bottom: 178px;
   }
   .profile__title{
     min-width: 100%;
@@ -32,7 +32,7 @@
     align-items: flex-start;
   }
   .profile__fieldset{
-    margin-bottom: 192px;
+    margin-bottom: 189px;
   }
   .profile__title{
     margin-bottom: 122px;

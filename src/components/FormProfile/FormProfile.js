@@ -1,6 +1,6 @@
 import InputFields from '../InputFields/InputFields';
 
-function FormProfile({nameForm}) {
+function FormProfile({nameForm, location}) {
   return(
     <>
       <InputFields
@@ -9,6 +9,7 @@ function FormProfile({nameForm}) {
         type="text"
         placeholder=""
         textContent="Имя"
+        location={location}
       />
       <InputFields
         nameForm={nameForm}
@@ -16,6 +17,7 @@ function FormProfile({nameForm}) {
         type="email"
         placeholder=""
         textContent="E-mail"
+        location={location}
       />
     </>
   )

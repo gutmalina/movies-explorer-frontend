@@ -1,9 +1,9 @@
 .input{
   font-family: 'Inter', Arial, sans-serif;
-  padding: 0 0 6px;
+  padding: 0;
   outline: none;
   border: 0;
-  -webkit-box-shadow: 0 0 0px 1000px #202020 inset;
+  -webkit-box-shadow: 0 0 0px 1000px #222222 inset;
   min-width: 100%;
   font-weight: 400;
   font-size: 14px;
@@ -11,6 +11,10 @@
   color: #FFFFFF;
   min-height: 25px;
   margin-bottom: 3px;
+}
+.input__type_form{
+  padding-bottom: 6px;
+  -webkit-box-shadow: 0 0 0px 1000px #202020 inset;
 }
 .input__type_profile{
   font-size: 11px;
@@ -50,7 +54,7 @@
   color: #EE3465;
 }
 .span-wrap{
-  min-height: 13px;
+  min-height: 18px;
 }
 .span-wrap_type_profile{
   min-height: 10px;

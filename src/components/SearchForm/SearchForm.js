@@ -1,7 +1,7 @@
-import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import ButtonSubmit from "../ButtonSubmit/ButtonSubmit";
+import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
-function SearchForm() {
+function SearchForm({location}) {
   return (
     <>
     <div className="search">
@@ -16,7 +16,9 @@ function SearchForm() {
           />
           <ButtonSubmit
             name="search"
-            contentButton="Найти"/>
+            contentButton="Найти"
+            location={location}
+          />
           <div className="search__decor"></div>
         </filsed>
         <FilterCheckbox/>

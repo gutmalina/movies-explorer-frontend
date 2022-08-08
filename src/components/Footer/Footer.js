@@ -1,13 +1,16 @@
-import { useLocation } from 'react-router-dom';
 import {
   githubLink,
   codewarsLink,
   yandexLink,
 } from '../../../src/utils/constants';
 
-function Footer({date}) {
-  const { pathname } = useLocation();
-  const footer = `footer ${pathname === "/signup" || pathname === "/signin" || pathname === "/profile" ? "footer__inactive" : ''}`;
+function Footer({date, location}) {
+  const pathFooterActive = [
+    '/',
+    '/movies',
+    '/saved-movies'
+  ];
+  const footer = `footer ${pathFooterActive.includes(location) ? "footer__active" : ''}`;
 
   return (
     <>

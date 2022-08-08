@@ -1,6 +1,6 @@
 import InputFields from "../InputFields/InputFields";
 
-function FormRegister({nameForm}){
+function FormRegister({nameForm, location}){
   return (
     <>
       <InputFields
@@ -9,6 +9,7 @@ function FormRegister({nameForm}){
         type="text"
         placeholder=""
         textContent="Имя"
+        location={location}
       />
       <InputFields
         nameForm={nameForm}
@@ -16,6 +17,7 @@ function FormRegister({nameForm}){
         type="email"
         placeholder=""
         textContent="E-mail"
+        location={location}
       />
       <InputFields
         nameForm={nameForm}
@@ -23,6 +25,7 @@ function FormRegister({nameForm}){
         type="password"
         placeholder=""
         textContent="Пароль"
+        location={location}
       />
     </>
   )

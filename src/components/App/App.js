@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import {useState} from 'react';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -9,10 +9,12 @@ import Footer from '../Footer/Footer';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
+import NotFound from '../NotFound/NotFound';
 import { name } from '../../../src/utils/constants';
 
 
 function App() {
+  const { pathname } = useLocation();
   const [isNavigationMenuOpen, setIsNavigationMenuOpen] = useState(false);
 
   /** Открыть попапы */
@@ -37,34 +39,50 @@ function App() {
           onNavigation={handleNavigationMenuClick}
           isOpen={isNavigationMenuOpen}
           onClose={closeAllPopups}
+          location={pathname}
         />
         <Switch>
           <Route exact path="/">
-            <Main />
+            <Main
+              location={pathname}
+            />
           </Route>
           <Route exact path="/movies">
-            <Movies />
+            <Movies
+              location={pathname}
+            />
           </Route>
           <Route exact path="/saved-movies">
-            <SavedMovies />
+            <SavedMovies
+              location={pathname}
+            />
           </Route>
           <Route exact path="/profile">
             <Profile
               title={`Привет, ${name}!`}
+              location={pathname}
             />
           </Route>
           <Route exact path="/signup">
             <Register
               title="Добро пожаловать!"
+              location={pathname}
             />
           </Route>
           <Route exact path="/signin">
             <Login
               title="Рады видеть!"
+              location={pathname}
             />
           </Route>
+          <Route exact path="*">
+            <NotFound/>
+          </Route>
         </Switch>
-        <Footer date={getYear()} />
+        <Footer
+          date={getYear()}
+          location={pathname}
+        />
       </div>
     </div>
   );

@@ -63,7 +63,7 @@
   .about-project__grid{
     grid-template-columns: 0.43fr 1.6fr;
     gap: 14px 0;
-    margin-bottom: 90px;
+    margin-bottom: 106px;
   }
   .about-project__grid-subtitle{
     font-size: 14px;

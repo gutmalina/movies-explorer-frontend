@@ -1,11 +1,26 @@
-import {Route, Link, Switch, useLocation} from 'react-router-dom';
+import {Route, Link, Switch} from 'react-router-dom';
 import headerLogo from '../../../src/images/header-logo.svg';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import Navigation from '../Navigation/Navigation';
 
-function Header({onNavigation, isOpen, onClose}){
-  const { pathname } = useLocation();
-  const classNameHeader = `header ${pathname === "/signup" || pathname === "/signin" ? "header__type_form_sign" : pathname === "/profile" ? "header__type_form_profile" : ""}`;
+function Header({onNavigation, isOpen, onClose, location}){
+  const pathHeaderActive = [
+    "/",
+    "/movies",
+    "/saved-movies"
+  ];
+
+  const pathHeaderTypeSign = [
+    "/signup",
+    "/signin"
+  ];
+
+  const classNameHeader = `header ${
+    pathHeaderActive.includes(location) ? "header__active" :
+    pathHeaderTypeSign.includes(location) ? "header__type_form_sign header__active" :
+    location === "/profile" ? "header__type_form_profile header__active" : ""
+  }`;
+
 
   return(
     <>
@@ -27,6 +42,7 @@ function Header({onNavigation, isOpen, onClose}){
           <Route path={["/movies", "/saved-movies", "/profile"]}>
             <BurgerMenu
               onClick={onNavigation}
+              location={location}
             />
             <Navigation
               isOpen={isOpen}

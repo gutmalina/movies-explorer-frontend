@@ -1,5 +1,5 @@
 .search{
-  margin: 74px 10px 50px;
+  margin: 74px 0 50px;
   border-bottom: 1px solid #424242;
 }
 .search__decor{
@@ -34,7 +34,7 @@
 }
 @media screen and (min-width: 768px){
   .search{
-    margin: 74px 30px 81px;
+    margin: 74px 0 81px;
   }
   .search__decor{
     display: inline;
@@ -74,9 +74,7 @@
 }
 @media screen and (min-width: 1280px){
   .search{
-    margin: 70px 70px 81px;
-  }
-  .search__decor{
+    margin: 70px 0 81px;
   }
   .search__input{
       min-width: calc(100% - 144px);

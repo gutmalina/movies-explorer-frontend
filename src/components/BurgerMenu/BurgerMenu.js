@@ -1,8 +1,5 @@
-import { useLocation } from "react-router-dom";
-
-function BurgerMenu({onClick}){
-  const { pathname } = useLocation();
-  const burgerButton = `burger__button button ${pathname === "/profile" ? "burger__button_type_profile" : ""}`;
+function BurgerMenu({onClick, location}){
+  const burgerButton = `burger__button button ${location === "/profile" ? "burger__button_type_profile" : ""}`;
 
   return(
     <>

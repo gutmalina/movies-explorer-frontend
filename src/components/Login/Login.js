@@ -2,7 +2,7 @@ import FormLogin from '../FormLogin/FormLogin';
 import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
 import CaptionForm from '../CaptionForm/CaptionForm';
 
-function Login({title}){
+function Login({title, location}){
   return(
     <>
       <section className="login">
@@ -12,16 +12,19 @@ function Login({title}){
           <fieldset className="login__fieldset fieldset">
             <FormLogin
               nameForm="login"
+              location={location}
             />
           </fieldset>
           <ButtonSubmit
             name="login"
             contentButton="Войти"
+            location={location}
           />
         </form>
         <CaptionForm
           nameForm="login"
           subtitle="Ещё не зарегистрированы?"
+          location={location}
         />
       </section>
     </>

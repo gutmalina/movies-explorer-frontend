@@ -2,7 +2,7 @@ import FormRegister from '../FormRegister/FormRegister';
 import ButtonSubmit from '../ButtonSubmit/ButtonSubmit';
 import CaptionForm from '../CaptionForm/CaptionForm';
 
-function Register({title}){
+function Register({title, location}){
   return (
     <>
       <section className="register">
@@ -12,16 +12,19 @@ function Register({title}){
           <fieldset className="register__fieldset fieldset">
             <FormRegister
               nameForm="register"
+              location={location}
             />
           </fieldset>
           <ButtonSubmit
             name="register"
             contentButton="Зарегистрироваться"
+            location={location}
           />
         </form>
         <CaptionForm
           nameForm="register"
           subtitle="Уже зарегистрированы?"
+          location={location}
         />
       </section>
     </>

@@ -1,9 +1,8 @@
-import { Route, Link, useLocation } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 
-function CaptionForm({subtitle}){
-  const { pathname } = useLocation();
-  const captionForm = `caption-form ${pathname === "/profile" ? "caption-form__type_profile" : ""}`;
-  const linkProfileOut = `caption-form__link link ${pathname === "/profile" ? "caption-form__link__type_out" : ""}`;
+function CaptionForm({subtitle, location}){
+  const captionForm = `caption-form ${location === "/profile" ? "caption-form__type_profile" : ""}`;
+  const linkProfileOut = `caption-form__link link ${location === "/profile" ? "caption-form__link__type_out" : ""}`;
 
   return(
     <>
