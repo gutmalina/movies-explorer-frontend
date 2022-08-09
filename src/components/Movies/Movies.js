@@ -1,17 +1,18 @@
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
-function Movies({location}) {
+function Movies({location, onSubmit}) {
   return (
     <>
       <section className="movies">
         <SearchForm
           location={location}
+          onSubmit={onSubmit}
         />
         <MoviesCardList/>
         <button
           type="button"
-          className="movies-card-list__button button">Ещё
+          className="movies__button button">Ещё
         </button>
       </section>
     </>

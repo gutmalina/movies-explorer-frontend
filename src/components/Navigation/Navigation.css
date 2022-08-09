@@ -2,7 +2,7 @@
   opacity: 0;
   display: none;
 }
-.navigation_opened {
+.navigation__opened{
   min-width: 100%;
   min-height: 780px;
   display: flex;
@@ -46,11 +46,11 @@
   margin-bottom: 24px;
   width: fit-content;
 }
-.navigation__list_item-active{
+.navigation__list_item:hover{
   border-bottom: 2px solid #FFFFFF;
 }
 @media screen and (min-width: 768px) {
-  .navigation_opened {
+  .navigation__opened {
     min-width: 520px;
     min-height: 1024px;
     position: absolute;

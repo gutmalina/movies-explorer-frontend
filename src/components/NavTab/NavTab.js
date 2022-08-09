@@ -1,13 +1,15 @@
+import {Link} from 'react-router-dom';
+
 function NavTab() {
   return (
     <>
       <section className="navtab">
-        <a href="#about-project" className="navtab__link">
+        <Link to="/#about-project" className="navtab__link">
           <button
             type="button"
             className="navtab__button button">Узнать больше
           </button>
-        </a>
+        </Link>
       </section>
     </>
   );

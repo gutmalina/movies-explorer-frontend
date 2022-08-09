@@ -1,6 +1,7 @@
 import InputFields from '../InputFields/InputFields';
 
-function FormProfile({nameForm, location}) {
+function FormProfile({nameForm, location, minLength, maxLength, onDisabled}) {
+
   return(
     <>
       <InputFields
@@ -10,6 +11,9 @@ function FormProfile({nameForm, location}) {
         placeholder=""
         textContent="Имя"
         location={location}
+        minLength={minLength}
+        maxLength={maxLength}
+        onDisabled={onDisabled}
       />
       <InputFields
         nameForm={nameForm}
@@ -18,6 +22,7 @@ function FormProfile({nameForm, location}) {
         placeholder=""
         textContent="E-mail"
         location={location}
+        onDisabled={onDisabled}
       />
     </>
   )

@@ -27,6 +27,11 @@ function App() {
     setIsNavigationMenuOpen(false)
   }
 
+  /** Submit */
+  const handleSubmit = (evt)=>{
+    evt.preventDefault();
+  }
+
   /* Установить текущий год дя footer */
   const getYear=()=>{
   return new Date().getFullYear();
@@ -50,29 +55,34 @@ function App() {
           <Route exact path="/movies">
             <Movies
               location={pathname}
+              onSubmit={handleSubmit}
             />
           </Route>
           <Route exact path="/saved-movies">
             <SavedMovies
               location={pathname}
+              onSubmit={handleSubmit}
             />
           </Route>
           <Route exact path="/profile">
             <Profile
               title={`Привет, ${name}!`}
               location={pathname}
+              onSubmit={handleSubmit}
             />
           </Route>
           <Route exact path="/signup">
             <Register
               title="Добро пожаловать!"
               location={pathname}
+              onSubmit={handleSubmit}
             />
           </Route>
           <Route exact path="/signin">
             <Login
               title="Рады видеть!"
               location={pathname}
+              onSubmit={handleSubmit}
             />
           </Route>
           <Route exact path="*">

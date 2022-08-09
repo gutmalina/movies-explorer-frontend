@@ -1,6 +1,6 @@
 import InputFields from "../InputFields/InputFields";
 
-function FormRegister({nameForm, location}){
+function FormRegister({ nameForm, location, minLength, maxLength, onDisabled }){
   return (
     <>
       <InputFields
@@ -10,6 +10,9 @@ function FormRegister({nameForm, location}){
         placeholder=""
         textContent="Имя"
         location={location}
+        minLength={minLength}
+        maxLength={maxLength}
+        onDisabled={onDisabled}
       />
       <InputFields
         nameForm={nameForm}
@@ -18,6 +21,7 @@ function FormRegister({nameForm, location}){
         placeholder=""
         textContent="E-mail"
         location={location}
+        onDisabled={onDisabled}
       />
       <InputFields
         nameForm={nameForm}
@@ -26,6 +30,7 @@ function FormRegister({nameForm, location}){
         placeholder=""
         textContent="Пароль"
         location={location}
+        onDisabled={onDisabled}
       />
     </>
   )

@@ -3,13 +3,13 @@ function ButtonSubmit({contentButton, name, location}) {
     "/movies",
     "/saved-movies"
   ];
-  const submitTypeSign = [
+  const submitTypeForm = [
     "/signup",
-    "/signin"
+    "/signin",
+    '/profile'
   ];
   const submit = `button button__submit ${
-    submitTypeSign.includes(location) ? 'button__submit_type_sign' :
-    location === '/profile' ? 'button__submit_type_profile' :
+    submitTypeForm.includes(location) ? 'button__submit_type_form' :
     submintMovies.includes(location) ? 'button__submit_type_movies' : ''
   }`;
 

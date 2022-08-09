@@ -1,4 +1,13 @@
+import {useState} from "react";
+
 function FilterCheckbox() {
+  const [checked, setChecked] = useState(false);
+
+  /** изменить состояние checkbox */
+  const handleChange = () => {
+    setChecked(!checked);
+  };
+
   return (
     <>
       <div className="filter-checkbox">
@@ -6,11 +15,19 @@ function FilterCheckbox() {
           <label
             htmlFor="short-movie"
             className="filter-checkbox__label">
-            <input id="filter"
+            <input
+              id="filter"
               type="checkbox"
-              className="filter-checkbox__input filter-checkbox__type-hidden" />
-            <span className="filter-checkbox__item"></span>
-            <span className="filter-checkbox__item-text">Короткометражки</span>
+              className="filter-checkbox__invisible"
+              value="filter-checkbox"
+              checked={checked}
+              onChange={handleChange}
+            />
+            <span
+              className="filter-checkbox__visible"
+              onClick={handleChange}>
+            </span>
+            <span className="filter-checkbox__text">Короткометражки</span>
           </label>
         </fieldset>
       </div>

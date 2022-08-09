@@ -1,12 +1,14 @@
 import ButtonSubmit from "../ButtonSubmit/ButtonSubmit";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
-function SearchForm({location}) {
+function SearchForm({location, onSubmit}) {
   return (
     <>
     <div className="search">
       <div className="search__wrap">
-        <filsed className="search__form form">
+        <form
+          className="search__form form"
+          onSubmit={onSubmit}>
           <div className="search__img"></div>
           <input id="search"
             type="text"
@@ -20,7 +22,7 @@ function SearchForm({location}) {
             location={location}
           />
           <div className="search__decor"></div>
-        </filsed>
+        </form>
         <FilterCheckbox/>
       </div>
     </div>

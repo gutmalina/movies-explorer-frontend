@@ -1,18 +1,18 @@
 .header{
-  padding: 16px 14px 20px;
+  padding: 16px 14px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: #073042;
   display: none;
 }
-.header__active{
+.header__visible{
   display: flex;
 }
 .header__type_form_sign{
   background: inherit;
   justify-content: center;
-  padding: 56px calc((100% - 260px) / 2) 49px;
+  padding: 56px calc((100% - 260px) / 2) 46px;
 }
 .header__type_form_profile{
   background: inherit;
@@ -62,7 +62,7 @@
   .header__type_form_sign{
     background: inherit;
     justify-content: flex-start;
-    padding: 233px calc((100% - 396px) / 2) 39px;
+    padding: 233px calc((100% - 396px) / 2) 35px;
   }
   .header__type_form_profile{
     margin-bottom: 230px;
@@ -90,13 +90,14 @@
 }
 @media screen and (min-width: 1280px){
   .header{
-    padding: 18px 70px;
+    padding: 18px 70px 14px;
   }
   .header__type_form_sign{
-    padding: 71px calc((100% - 396px) / 2) 39px;
+    padding: 71px calc((100% - 396px) / 2) 35px;
   }
   .header__type_form_profile{
-    margin-bottom: 73px;
+    margin-bottom: 71px;
+    padding-top: 17px;
   }
 }
 

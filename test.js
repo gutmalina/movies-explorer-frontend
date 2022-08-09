@@ -1,3 +1,0 @@
-FormProfile
-ButtonSubmit
-CaptionForm

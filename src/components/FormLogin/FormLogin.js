@@ -1,6 +1,6 @@
 import InputFields from "../InputFields/InputFields";
 
-function FormLogin({nameForm, location}){
+function FormLogin({nameForm, location, minLength, maxLength, onDisabled }){
   return (
     <>
       <InputFields
@@ -10,6 +10,9 @@ function FormLogin({nameForm, location}){
         placeholder=""
         textContent="E-mail"
         location={location}
+        minLength={minLength}
+        maxLength={maxLength}
+        onDisabled={onDisabled}
       />
       <InputFields
         nameForm={nameForm}
@@ -18,6 +21,7 @@ function FormLogin({nameForm, location}){
         placeholder=""
         textContent="Пароль"
         location={location}
+        onDisabled={onDisabled}
       />
     </>
   )
