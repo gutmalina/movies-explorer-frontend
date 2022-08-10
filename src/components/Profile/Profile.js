@@ -26,8 +26,10 @@ function Profile({title, location, onSubmit}){
                 maxLength="30"
                 onDisabled={isDisabledInput}
               />
+
             </fieldset>
           </form>
+          <p className="profile__span_subtitle subtitle">При обновлении профиля произошла ошибка.</p>
           { !isDisabledInput ?
             <ButtonSubmit
               name="register"
