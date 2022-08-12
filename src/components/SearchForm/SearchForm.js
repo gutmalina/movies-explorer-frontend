@@ -15,6 +15,7 @@ function SearchForm({location, onSubmit}) {
             className="search__input input"
             placeholder="Фильм"
             autoFocus
+            required
           />
           <ButtonSubmit
             name="search"

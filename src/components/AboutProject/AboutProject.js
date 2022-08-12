@@ -20,7 +20,7 @@ function AboutProject() {
             <p className="about-project__grid-subtitle subtitle subtitle__teme-dark">1 неделя</p>
           </div>
           <div className="about-project__item about-project__item_front">
-            <p className="about-project__grid-subtitle subtitle subtitle__teme-dark">4 недели</p>
+            <p className="about-project__grid-subtitle subtitle">4 недели</p>
           </div>
           <div className="about-project__item">
             <p className="about-project__grid-subtitle subtitle subtitle__teme-light">Back-end</p>

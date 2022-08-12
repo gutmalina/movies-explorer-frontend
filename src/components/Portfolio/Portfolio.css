@@ -1,5 +1,5 @@
 .portfolio{
-  margin: 0 14px 128px;
+  margin: 0 14px 148px;
 }
 .portfolio__img{
   background-image: url('../../../src/images/Portfolio-img.svg');
@@ -41,7 +41,7 @@
 }
 @media screen and (min-width: 768px){
   .portfolio{
-    margin: 0 50px 150px;
+    margin: 0 50px 170px;
   }
   .portfolio__img{
     width: 17px;
@@ -60,7 +60,7 @@
 }
 @media screen and (min-width: 1280px){
   .portfolio{
-    margin: 0 70px 78px;
+    margin: 0 70px 203px;
   }
   .portfolio__img{
     margin-right: 7px;

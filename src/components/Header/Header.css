@@ -9,6 +9,9 @@
 .header__visible{
   display: flex;
 }
+.header__type_form_movies{
+  background: inherit;
+}
 .header__type_form_sign{
   background: inherit;
   justify-content: center;

@@ -4,8 +4,7 @@ import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import Navigation from '../Navigation/Navigation';
 
 function Header({onNavigation, isOpen, onClose, location}){
-  const headerVisible = [
-    "/",
+  const headerMovies = [
     "/movies",
     "/saved-movies"
   ];
@@ -16,11 +15,11 @@ function Header({onNavigation, isOpen, onClose, location}){
   ];
 
   const classNameHeader = `header ${
-    headerVisible.includes(location) ? "header__visible" :
+    location === "/" ? "header__visible" :
+    headerMovies.includes(location) ? "header__type_form_movies header__visible" :
     headerTypeSign.includes(location) ? "header__type_form_sign header__visible" :
     location === "/profile" ? "header__type_form_profile header__visible" : ""
   }`;
-
 
   return(
     <header className={classNameHeader}>

@@ -14,7 +14,7 @@ function Footer({date, location}) {
 
   return (
     <>
-      <section className={footer}>
+      <footer className={footer}>
         <div className="footer__title-wrap">
           <h2 className="footer__title title">Учебный проект Яндекс.Практикум х BeatFilm.</h2>
         </div>
@@ -32,7 +32,7 @@ function Footer({date, location}) {
           </ul>
         </nav>
         <p className="footer__copyright">&copy;{' ' + date}</p>
-      </section>
+      </footer>
     </>
   );
 }
