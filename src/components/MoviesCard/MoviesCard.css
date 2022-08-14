@@ -1,0 +1,81 @@
+.card{
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+}
+.card__duration{
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 120%;
+  color: #8B8B8B;
+  margin-bottom: 28px;
+  padding-top: 6px;
+  border-top: 1px solid #424242;
+}
+.card__img{
+  max-width: 100%;
+  height: 168px;
+  margin-bottom: 10px;
+}
+.card__caption{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 46px;
+}
+.card__title-nameRu{
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 125%;
+  text-align: start;
+  margin-right: 10px;
+}
+.card__button{
+  background: #313131;
+  border-radius: 36px;
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-size: 10px 8.5px;
+  background-position: center;
+}
+.card__button_like_active{
+  background-image: url(../../../src/images/Card-like-active.svg);
+  opacity: 1;
+}
+.card__button_like_inactive{
+  background-image: url(../../../src/images/Card-like-inactive.svg);
+}
+.card__button_delete{
+  background-image: url(../../../src/images/Card-delete.svg);
+}
+@media screen and (min-width: 768px){
+  .card{
+    margin: 0;
+  }
+  .card__duration{
+    margin-bottom: 0;
+  }
+  .card__img{
+    height: 190px;
+  }
+  .card__title-nameRu{
+    font-size: 13px;
+    line-height: 123%;
+    margin-right: 15px;
+  }
+}
+@media screen and (min-width: 1024px){
+  .card__img{
+    height: 168px;
+  }
+}
+@media screen and (min-width: 1280px){
+  .card__img{
+    height: 151px;
+  }
+  .card__title-nameRu{
+    margin-right: 25px;
+  }
+}

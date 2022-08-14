@@ -1,0 +1,23 @@
+.login{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 calc((100% - 260px) / 2);
+}
+.login__form{
+  min-width: 100%;
+}
+.login__fieldset{
+  margin-bottom: 285px;
+}
+@media screen and (min-width: 768px){
+  .login{
+    align-items: flex-start;
+    margin: 0 calc((100% - 396px) / 2);
+  }
+  .login__fieldset{
+    margin-bottom: 198px;
+  }
+}
+
+

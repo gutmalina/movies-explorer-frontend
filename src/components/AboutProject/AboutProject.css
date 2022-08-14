@@ -1,0 +1,110 @@
+.about-project{
+  margin: 0 18px;
+}
+.about-project__container{
+  padding: 0;
+  margin-bottom: 67px;
+}
+.about-project__grid{
+  display: grid;
+  grid-template-columns: 0.86fr 1.6fr;
+  grid-template-rows: 35px;
+  gap: 10px 0;
+  margin-bottom: 70px;
+}
+.about-project__grid-subtitle{
+  font-size: 11px;
+  line-height: 118%;
+}
+.about-project__item{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.about-project__item_back{
+  background: #3DDC84;
+}
+.about-project__item_front{
+  background: #303030;
+}
+.about-project__list{
+  margin-bottom: 62px;
+}
+.about-project__list:last-of-type{
+  margin-bottom: 0;
+}
+.about-project__subtitle{
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 118%;
+  text-align: start;
+}
+.about-project__title{
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 123%;
+  letter-spacing: -0.04em;
+  margin-bottom: 18px;
+  text-align: start;
+}
+.about-project__title-wrap{
+  margin-bottom: 60px;
+}
+@media screen and (min-width: 768px){
+  .about-project{
+    margin: 0 50px;
+  }
+  .about-project__container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 30px;
+    margin-bottom: 96px;
+  }
+  .about-project__grid{
+    grid-template-columns: 0.43fr 1.6fr;
+    gap: 14px 0;
+    margin-bottom: 106px;
+  }
+  .about-project__grid-subtitle{
+    font-size: 14px;
+    line-height: 122%;
+  }
+  .about-project__list{
+    margin-bottom: 0;
+  }
+  .about-project__subtitle{
+    font-size: 12px;
+    line-height: 150%;
+  }
+  .about-project__title{
+    margin-bottom: 22px;
+    letter-spacing: 0;
+  }
+  .about-project__title-wrap{
+    margin-bottom: 70px;
+  }
+}
+@media screen and (min-width: 1280px){
+  .about-project{
+    margin: 0 70px;
+  }
+  .about-project__container{
+    gap: 0 40px;
+    margin-bottom: 111px;
+  }
+  .about-project__grid{
+    grid-template-columns: 0.40fr 1.6fr;
+    gap: 15px 0;
+    margin-bottom: 110px;
+  }
+  .about-project__subtitle{
+    font-size: 14px;
+    line-height: 143%;
+  }
+  .about-project__title{
+    font-size: 20px;
+    line-height: 120%;
+    letter-spacing: -0.04em;
+    margin-bottom: 26px;
+  }
+}

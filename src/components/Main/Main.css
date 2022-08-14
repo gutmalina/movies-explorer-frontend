@@ -1,0 +1,17 @@
+.main__title{
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 125%;
+  letter-spacing: -0.04em;
+  margin-bottom: 28px;
+  text-align: start;
+}
+.main__title-wrap{
+  border-bottom: 1px solid #DADADA;
+}
+@media screen and (min-width: 768px){
+  .main__title{
+    font-size: 22px;
+    margin-bottom: 23px;
+  }
+}

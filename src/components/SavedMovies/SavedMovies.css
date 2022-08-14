@@ -1,0 +1,14 @@
+.saved-movies{
+  margin: 4px 10px 169px;
+}
+@media screen and (min-width: 768px){
+  .saved-movies{
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+}
+@media screen and (min-width: 1280px){
+  .saved-movies{
+    margin: 0 70px 257px;
+  }
+}
