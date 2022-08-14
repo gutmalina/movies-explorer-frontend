@@ -17,6 +17,7 @@ function InputFields({ nameForm, nameInput, type, placeholder, textContent, loca
     }
   }, [inputRef.current.value])
 
+  const wrap = `input-wrap ${location === "/profile" ? "input-wrap_type_profile" : ""}`;
   const container = `input__container container ${location === "/profile" ? "input__container_type_profile" : ""}`;
   const input = `input input__type_form ${
     location === "/profile" && !isInputValue ? "input__type_profile input__invalid" ://если профайл и данные НЕ валидны
@@ -32,7 +33,7 @@ function InputFields({ nameForm, nameInput, type, placeholder, textContent, loca
 
    return(
     <>
-      <div className="input-wrap">
+      <div className={wrap}>
         <div className={container}>
           <p className={subtitle}>{textContent}</p>
           <input

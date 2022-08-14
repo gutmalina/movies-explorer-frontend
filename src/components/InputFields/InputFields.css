@@ -34,11 +34,11 @@
 .input-wrap{
   margin-bottom: 3px;
 }
-.input-wrap:last-of-type .input__container{
- border: none;
- margin-bottom: 4px;
+.input-wrap_type_profile:last-of-type .input__container{
+  border: none;
+  margin-bottom: 4px;
 }
-.input-wrap:last-of-type .input__container:focus-within{
+.input-wrap_type_profile:last-of-type .input__container:focus-within{
   border-bottom: 1px solid #4285F4;
   margin-bottom: 3px;
  }
