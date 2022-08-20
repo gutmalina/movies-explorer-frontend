@@ -1,7 +1,15 @@
 import FormRegister from '../FormRegister/FormRegister';
 import CaptionForm from '../CaptionForm/CaptionForm';
 
-function Register({title, location, handleRegister, isErrorServer, setIsErrorServer, isDisabledButton, setIsDisabledButton}){
+function Register({
+  title,
+  location,
+  handleRegister,
+  onError,
+  setIsError,
+  isDisabledButton,
+  setIsDisabledButton
+}){
   return (
     <section className="register">
       <h2 className="register__title title title__type_form">{title}</h2>
@@ -11,8 +19,8 @@ function Register({title, location, handleRegister, isErrorServer, setIsErrorSer
         minLength="2"
         maxLength="30"
         handleRegister={handleRegister}
-        isErrorServer={isErrorServer}
-        setIsErrorServer={setIsErrorServer}
+        onError={onError}
+        setIsError={setIsError}
         isDisabledButton={isDisabledButton}
         setIsDisabledButton={setIsDisabledButton}
       />

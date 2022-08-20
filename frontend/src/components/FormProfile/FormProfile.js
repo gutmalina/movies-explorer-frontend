@@ -2,7 +2,21 @@ import {useState, useEffect} from "react";
 import InputFields from '../InputFields/InputFields';
 import Button from "../Button/Button";
 
-function FormProfile({nameForm, location, minLength, maxLength, onDisabled, data, handleUpdateUser, isErrorServer, setIsErrorServer, isDisabledButton, setIsDisabledButton, isDisabledInput, setIsDisabledInput}) {
+function FormProfile({
+  nameForm,
+  location,
+  minLength,
+  maxLength,
+  onDisabled,
+  data,
+  handleUpdateUser,
+  onError,
+  setIsError,
+  isDisabledButton,
+  setIsDisabledButton,
+  isDisabledInput,
+  setIsDisabledInput
+}) {
   const [isContentButton, setIsContentButton] = useState('Сохранить');
   const [clickedButton, setClickedButton] = useState("profile-edit");
   const [isDate, setIsDate] = useState({
@@ -30,7 +44,7 @@ function FormProfile({nameForm, location, minLength, maxLength, onDisabled, data
   const handleSubmit = (evt)=>{
     evt.preventDefault();
     if(clickedButton === "profile-save"){
-      setIsErrorServer('');
+      setIsError('');
       renderLoading(true);
       handleUpdateUser({
         name,
@@ -55,7 +69,7 @@ function FormProfile({nameForm, location, minLength, maxLength, onDisabled, data
   };
 
   /** показать ошибку от сервера */
-  const errorMessage = `profile__span_subtitle subtitle ${isErrorServer ? "profile__span_subtitle_invalid" : ""}`;
+  const errorMessage = `profile__span_subtitle subtitle ${onError ? "profile__span_subtitle_invalid" : ""}`;
 
   return(
     <form name="profile-form"
@@ -92,7 +106,7 @@ function FormProfile({nameForm, location, minLength, maxLength, onDisabled, data
           setIsDate={setIsDate}
         />
       </fieldset>
-      <p className={errorMessage}>{isErrorServer}</p>
+      <p className={errorMessage}>{onError}</p>
       { !isDisabledInput ?
         <Button
           name="profile-save"

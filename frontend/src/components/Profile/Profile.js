@@ -2,7 +2,17 @@ import {useState} from "react";
 import FormProfile from "../FormProfile/FormProfile";
 import CaptionForm from "../CaptionForm/CaptionForm";
 
-function Profile({data, title, location, handleUpdateUser, isErrorServer, setIsErrorServer, isDisabledButton, setIsDisabledButton, signOut}){
+function Profile({
+  data,
+  title,
+  location,
+  handleUpdateUser,
+  onError,
+  setIsError,
+  isDisabledButton,
+  setIsDisabledButton,
+  signOut
+}){
   const [isDisabledInput, setIsDisabledInput] = useState(true);
 
   return(
@@ -17,8 +27,8 @@ function Profile({data, title, location, handleUpdateUser, isErrorServer, setIsE
           onDisabled={isDisabledInput}
           data={data}
           handleUpdateUser={handleUpdateUser}
-          isErrorServer={isErrorServer}
-          setIsErrorServer={setIsErrorServer}
+          onError={onError}
+          setIsError={setIsError}
           isDisabledButton={isDisabledButton}
           setIsDisabledButton={setIsDisabledButton}
           setIsDisabledInput={setIsDisabledInput}

@@ -2,7 +2,17 @@ import {useState, useEffect} from "react";
 import InputFields from "../InputFields/InputFields";
 import Button from '../Button/Button';
 
-function FormRegister({ nameForm, location, minLength, maxLength, handleRegister, isErrorServer, setIsErrorServer, isDisabledButton, setIsDisabledButton}){
+function FormRegister({
+  nameForm,
+  location,
+  minLength,
+  maxLength,
+  handleRegister,
+  onError,
+  setIsError,
+  isDisabledButton,
+  setIsDisabledButton
+}){
   const [isContentButton, setIsContentButton] = useState('Зарегистрироваться');
   const [isDisabledInput] = useState(false);
   const [isDate, setIsDate] = useState({
@@ -31,7 +41,7 @@ function FormRegister({ nameForm, location, minLength, maxLength, handleRegister
   /** Submit */
   const handleSubmit = (evt)=>{
     evt.preventDefault();
-    setIsErrorServer('');
+    setIsError('');
     renderLoading(true);
     handleRegister({
       email,
@@ -49,7 +59,7 @@ function FormRegister({ nameForm, location, minLength, maxLength, handleRegister
   };
 
   /** показать ошибку от сервера */
-  const errorMessage = `register__span_subtitle subtitle ${isErrorServer ? "register__span_subtitle_invalid" : ""}`;
+  const errorMessage = `register__span_subtitle subtitle ${onError ? "register__span_subtitle_invalid" : ""}`;
 
   return (
     <form name="register-form"
@@ -93,7 +103,7 @@ function FormRegister({ nameForm, location, minLength, maxLength, handleRegister
           setIsDate={setIsDate}
         />
       </fieldset>
-      <p className={errorMessage}>{isErrorServer}</p>
+      <p className={errorMessage}>{onError}</p>
       <Button
         name="register"
         type="submit"

@@ -1,7 +1,14 @@
 import FormLogin from '../FormLogin/FormLogin';
 import CaptionForm from '../CaptionForm/CaptionForm';
 
-function Login({title, location, handleLogin, isErrorServer, setIsErrorServer, isDisabledButton, setIsDisabledButton}){
+function Login({
+  title,
+  location,
+  handleLogin,
+  onError,
+  setIsError,
+  isDisabledButton,
+  setIsDisabledButton}){
   return(
     <section className="login">
       <h2 className="login__title title title__type_form">{title}</h2>
@@ -10,8 +17,8 @@ function Login({title, location, handleLogin, isErrorServer, setIsErrorServer, i
         minLength="2"
         maxLength="30"
         handleLogin={handleLogin}
-        isErrorServer={isErrorServer}
-        setIsErrorServer={setIsErrorServer}
+        onError={onError}
+        setIsError={setIsError}
         isDisabledButton={isDisabledButton}
         setIsDisabledButton={setIsDisabledButton}
       />

@@ -16,20 +16,26 @@ import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
 import { moviesURL } from '../../utils/constants';
+import { MESSAGE_FILTER_NORESULT } from '../../utils/constants';
+import { MESSAGE_FILTER_ERROR } from '../../utils/constants';
+
 
 function App() {
   const [isScreenWidth] = useState(window.screen.width);
   const { pathname } = useLocation();
   const history = useHistory();
   const [currentUser, setCurrentUser] = useState({});
-  const [isErrorServer, setIsErrorServer] = useState('');
+  const [isError, setIsError] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
   const [isMoviesRender, setIsMoviesRender] = useState([]);
   const [isMoviesSaved, setIsMoviesSaved] = useState([]);
+  const [isLocalMovies, setIsLocalMovies] = useState([]);
   const [isInitialCount, setIsInitialCount] = useState('');
   const [isDisabledButton, setIsDisabledButton] = useState(true);
   const [isKeyword, setIsKeyword] = useState('');
   const [isShortMovie, setIsShortMovie] = useState(false);
+  const [isPreloader, setIsPreloader] = useState(false);
+  const [isInactivButtonElse, setIsInactivButtonElse] = useState(false);
 
   /** зависимость ширины экрана и количества фильмов для render */
   const initialCount = ()=>{
@@ -42,16 +48,16 @@ function App() {
     }
   };
 
-    /** зависимость ширины экрана и количества фильмов для render */
-    const elseCount = ()=>{
-      if(isScreenWidth >= 1280){
-        return 4
-      }else if(isScreenWidth < 1280 && isScreenWidth >= 768){
-        return 2
-      }else{
-        return 1
-      }
-    };
+  /** зависимость ширины экрана и количества фильмов для render */
+  const elseCount = ()=>{
+    if(isScreenWidth >= 1280){
+      return 4
+    }else if(isScreenWidth < 1280 && isScreenWidth >= 768){
+      return 2
+    }else{
+      return 1
+    }
+  };
 
   /** изменить количество фильмов для render при изменении экрана*/
   useEffect(()=>{
@@ -69,8 +75,9 @@ function App() {
       Promise
         .all([mainApi.getProfile(), moviesApi.getMovies(), mainApi.getMovies()])
         .then(([user, movies, savedMovies]) => {
+          setIsError('');
           setCurrentUser(user);
-          localStorage.setItem('mowiesAll', JSON.stringify(movies.map((movie)=>{
+          localStorage.setItem('moviesAll', JSON.stringify(movies.map((movie)=>{
             return {
               country: movie.country,
               director: movie.director,
@@ -88,14 +95,24 @@ function App() {
           const ownerMovies = savedOwnerMovies(savedMovies, user);
           setIsMoviesSaved(ownerMovies);
           setIsInitialCount(initialCount());
+
         })
         .catch((error)=>{
-          setIsErrorServer(error.message);
+          setIsError(MESSAGE_FILTER_ERROR);
         })
     }
   }, [loggedIn]);
 
-  /** найти фильм в списке сохраненных */
+  /** отобрать фильмы сохраненные пользователем */
+  const savedOwnerMovies =(movies, user)=> {
+    return movies.filter((movie)=>{
+      if(movie.owner === user._id){
+        return movie
+      }
+    })
+  };
+
+  /** найти фильм в списке сохраненных для like/deslike*/
   const findMovieInSavedMovie = (id)=>{
     return isMoviesSaved.find((movie) => movie.movieId === id)
   };
@@ -116,7 +133,6 @@ function App() {
 
   /** найти фильм по ключевому слову */
   const findKeywordMovie = (keyword, movies)=>{
-    // eslint-disable-next-line array-callback-return
     return movies.filter((movie) => {
       if (movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())) {
         return movie
@@ -124,11 +140,11 @@ function App() {
     })
   };
 
-    /** поиск фильма по ключевому слову и состоянию ckeckbox */
-  const handleFilterMovies= (keyword)=>{
+  /** поиск фильма по ключевому слову и состоянию ckeckbox */
+  const handleFilterMovies = ((data)=>{
     setIsInitialCount(initialCount());
-    const moviesGet = pathname === '/movies' ? JSON.parse(localStorage.getItem('mowiesAll')): isMoviesSaved;
-    if(!keyword){
+    const moviesGet = pathname === '/movies' ? JSON.parse(localStorage.getItem('moviesAll')): isMoviesSaved;
+    if(!data.keyword){
       if(!isShortMovie){
         setIsMoviesRender(moviesGet);
       }else{
@@ -136,34 +152,48 @@ function App() {
       }
     }else{
       if(!isShortMovie){
-        setIsMoviesRender(findKeywordMovie(keyword, moviesGet))
+        setIsMoviesRender(findKeywordMovie(data.keyword, moviesGet))
       }else{
-        setIsMoviesRender(findShortMovie(findKeywordMovie(keyword, moviesGet)))
+        setIsMoviesRender(findShortMovie(findKeywordMovie(data.keyword, moviesGet)))
       };
     };
-    if(pathname === '/movies'){
-      localStorage.setItem('mowies', JSON.stringify(isMoviesRender))
-    }
+    data.onRenderPreloader(false)
+    return isMoviesRender;
+  });
 
-  };
-
-  /**  */
+  /** параметры запроса записать в LocalStorage */
   useEffect(()=>{
     if(pathname === '/movies'){
-      setIsMoviesRender(JSON.parse(localStorage.getItem('mowies')));
-    }else{
+      localStorage.setItem('mowies', JSON.stringify(isMoviesRender));
+      localStorage.setItem('checkbox', JSON.stringify(isShortMovie));
+      localStorage.setItem('word', JSON.stringify(isKeyword));
+    }
+  }, [isMoviesRender])
 
+  /** подставить параметры запроса при возвращении на страницу movies */
+  useEffect(()=>{
+    if(pathname === '/saved-movies'){
+      setIsMoviesRender(isMoviesSaved);
+      setIsShortMovie(false);
+      setIsKeyword('')
+      setIsLocalMovies(JSON.parse(localStorage.getItem('mowies')));
+    }else{
+      setIsMoviesRender(isLocalMovies);
+      setIsShortMovie(JSON.parse(localStorage.getItem('checkbox')))
+      setIsKeyword(JSON.parse(localStorage.getItem('word')))
     }
   }, [pathname]);
 
-  /** отобрать фильмы сохраненные пользователем */
-  const savedOwnerMovies =(movies, user)=> {
-    return movies.filter((movie)=>{
-      if(movie.owner === user._id){
-        return movie
-      }
-    })
-  };
+  /** показать сообщение при обработке запроса */
+  useEffect(()=>{
+    if(isMoviesRender.length === 0){
+      setIsError(MESSAGE_FILTER_NORESULT);
+      setIsInactivButtonElse(true);
+    }else{
+      setIsError('');
+      setIsInactivButtonElse(false);
+    }
+  },[isMoviesRender]);
 
   /** Отправка новых данных профиля на сервер  */
   const handleUpdateUser=(isDate)=>{
@@ -173,7 +203,7 @@ function App() {
         setCurrentUser(user)
       })
       .catch((err)=>{
-        setIsErrorServer(err.message);
+        setIsError(err.message);
       })
       .finally(()=>{
         isDate.onRenderLoading(false)
@@ -189,7 +219,7 @@ function App() {
         history.push('/movies');
       })
       .catch((err)=>{
-        setIsErrorServer(err.message);
+        setIsError(err.message);
       })
       .finally(()=>{
         isDate.onRenderLoading(false)
@@ -207,7 +237,7 @@ function App() {
         }
       })
       .catch((err)=>{
-        setIsErrorServer(err.message);
+        setIsError(err.message);
       })
       .finally(()=>{
         isDate.onRenderLoading(false)
@@ -227,7 +257,7 @@ function App() {
           }
         })
         .catch((err)=>{
-          setIsErrorServer(err.message);
+          setIsError(err.message);
         })
     }
   };
@@ -245,7 +275,7 @@ function App() {
         setIsMoviesSaved([newMovie, ...isMoviesSaved]);
       })
       .catch((err)=>{
-        setIsErrorServer(err.message);
+        setIsError(err.message);
       })
       .finally(()=>{})
   };
@@ -258,22 +288,24 @@ function App() {
         setIsMoviesSaved((movies)=> movies.filter((m)=> m._id !== movie._id));
       })
       .catch((err)=>{
-        setIsErrorServer(err.message);
+        setIsError(err.message);
       })
       .finally(()=>{})
+  };
+
+  /* Установить текущий год дя footer */
+  const getYear=()=>{
+    return new Date().getFullYear();
   };
 
   /**выход */
   const signOut = () => {
     localStorage.removeItem('jwt');
-    localStorage.removeItem('mowies');
+    localStorage.removeItem('movies');
+    localStorage.removeItem('checkbox');
+    localStorage.removeItem('word');
     setLoggedIn(false);
     history.push('/');
-  };
-
-  /* Установить текущий год дя footer */
-  const getYear=()=>{
-  return new Date().getFullYear();
   };
 
   return (
@@ -306,6 +338,10 @@ function App() {
                   findMovieInSavedMovie={findMovieInSavedMovie}
                   isShortMovie={isShortMovie}
                   setIsShortMovie={setIsShortMovie}
+                  onPreloader={isPreloader}
+                  setIsPreloader={setIsPreloader}
+                  onNotFound={isError}
+                  onInactivElse={isInactivButtonElse}
                 />
             </ProtectedRoute>
             <ProtectedRoute
@@ -333,8 +369,8 @@ function App() {
                 data={currentUser}
                 location={pathname}
                 handleUpdateUser={handleUpdateUser}
-                isErrorServer={isErrorServer || ''}
-                setIsErrorServer={setIsErrorServer}
+                onError={isError || ''}
+                setIsError={setIsError}
                 isDisabledButton={isDisabledButton}
                 setIsDisabledButton={setIsDisabledButton}
                 signOut={signOut}
@@ -345,8 +381,8 @@ function App() {
                 title="Добро пожаловать!"
                 location={pathname}
                 handleRegister={handleRegister}
-                isErrorServer={isErrorServer || ''}
-                setIsErrorServer={setIsErrorServer}
+                onError={isError || ''}
+                setIsError={setIsError}
                 isDisabledButton={isDisabledButton}
                 setIsDisabledButton={setIsDisabledButton}
               />
@@ -357,8 +393,8 @@ function App() {
                 title="Рады видеть!"
                 location={pathname}
                 handleLogin={handleLogin}
-                isErrorServer={isErrorServer || ''}
-                setIsErrorServer={setIsErrorServer}
+                onError={isError || ''}
+                setIsError={setIsError}
                 isDisabledButton={isDisabledButton}
                 setIsDisabledButton={setIsDisabledButton}
               />

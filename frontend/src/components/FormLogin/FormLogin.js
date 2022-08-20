@@ -2,7 +2,16 @@ import {useState, useEffect} from "react";
 import InputFields from "../InputFields/InputFields";
 import Button from '../Button/Button';
 
-function FormLogin({nameForm, minLength, maxLength, handleLogin, isErrorServer, setIsErrorServer, isDisabledButton, setIsDisabledButton}){
+function FormLogin({
+  nameForm,
+  minLength,
+  maxLength,
+  handleLogin,
+  onError,
+  setIsError,
+  isDisabledButton,
+  setIsDisabledButton
+}){
   const [isContentButton, setIsContentButton] = useState('Войти');
   const [isDisabledInput] = useState(false);
   const [isDate, setIsDate] = useState({
@@ -29,7 +38,7 @@ function FormLogin({nameForm, minLength, maxLength, handleLogin, isErrorServer, 
   /** Submit */
   const handleSubmit = (evt)=>{
     evt.preventDefault();
-    setIsErrorServer('');
+    setIsError('');
     renderLoading(true);
     handleLogin({
       email,
@@ -46,7 +55,7 @@ function FormLogin({nameForm, minLength, maxLength, handleLogin, isErrorServer, 
   };
 
   /** показать ошибку от сервера */
-  const errorMessage = `login__span_subtitle subtitle ${isErrorServer ? "login__span_subtitle_invalid" : ""}`;
+  const errorMessage = `login__span_subtitle subtitle ${onError ? "login__span_subtitle_invalid" : ""}`;
 
   return (
     <form name="login-form"
@@ -78,7 +87,7 @@ function FormLogin({nameForm, minLength, maxLength, handleLogin, isErrorServer, 
           setIsDate={setIsDate}
         />
       </fieldset>
-      <p className={errorMessage}>{isErrorServer}</p>
+      <p className={errorMessage}>{onError}</p>
       <Button
         name="login"
         type="submit"

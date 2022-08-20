@@ -15,6 +15,10 @@ function Movies({
   findMovieInSavedMovie,
   isShortMovie,
   setIsShortMovie,
+  onPreloader,
+  setIsPreloader,
+  onNotFound,
+  onInactivElse
 }) {
 
   /** увеличить количество фильмов для показа */
@@ -24,6 +28,7 @@ function Movies({
   };
 
   // const theme = `${movies.length <= onCount ? 'else-inactive' : 'else'}`;
+  const theme = `${onInactivElse ? 'else-inactive' : 'else'}`
 
   return (
     <>
@@ -34,6 +39,9 @@ function Movies({
           setIsKeyword={setIsKeyword}
           isShortMovie={isShortMovie}
           setIsShortMovie={setIsShortMovie}
+          onPreloader={onPreloader}
+          setIsPreloader={setIsPreloader}
+          onNotFound={onNotFound}
         />
         <MoviesCardList
           movies={movies || []}
@@ -52,7 +60,7 @@ function Movies({
             name="else"
             type="submit"
             aria-label="Показать ещё фильмы"
-            theme={'else'}
+            theme={theme}
             contentButton="Ещё">
           </Button>
         </form>
