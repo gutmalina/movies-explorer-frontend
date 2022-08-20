@@ -28,16 +28,16 @@ function MoviesCard({
   return (
     <>
       <article className="movies-card">
-        <a
-          className="movies-card__trailer link"
+        {/* <a
+          className="movies-card__trailer"
           href={movie.trailerLink}
           target="_blank"
           alt="Трейлер фильма"
-          rel="noreferrer">
+          rel="noreferrer"> */}
           <img className="movies-card__img"
             src={movie.image}
             alt={movie.nameRU}/>
-        </a>
+        {/* </a> */}
         <FormMoviesCard
           handleCreateMovie={handleCreateMovie}
           handleDeleteMovie={handleDeleteMovie}

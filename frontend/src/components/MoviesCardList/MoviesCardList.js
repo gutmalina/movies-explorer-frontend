@@ -10,7 +10,6 @@ function MoviesCardList({
   likesLoading,
   findMovieInSavedMovie,
   location,
-  onCount,
 }) {
 
   return (
@@ -28,7 +27,7 @@ function MoviesCardList({
               findMovieInSavedMovie={findMovieInSavedMovie}
               location={location}
             />
-          )).slice(0, onCount)
+          ))
         }
         </div>
       </section>

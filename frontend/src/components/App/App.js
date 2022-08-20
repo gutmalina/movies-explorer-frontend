@@ -16,8 +16,10 @@ import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
 import { moviesURL } from '../../utils/constants';
-import { MESSAGE_FILTER_NORESULT } from '../../utils/constants';
-import { MESSAGE_FILTER_ERROR } from '../../utils/constants';
+import {
+  MESSAGE_FILTER_NORESULT,
+  MESSAGE_FILTER_ERROR,
+} from '../../utils/constants';
 
 
 function App() {
@@ -30,44 +32,30 @@ function App() {
   const [isMoviesRender, setIsMoviesRender] = useState([]);
   const [isMoviesSaved, setIsMoviesSaved] = useState([]);
   const [isLocalMovies, setIsLocalMovies] = useState([]);
-  const [isInitialCount, setIsInitialCount] = useState('');
   const [isDisabledButton, setIsDisabledButton] = useState(true);
   const [isKeyword, setIsKeyword] = useState('');
   const [isShortMovie, setIsShortMovie] = useState(false);
   const [isPreloader, setIsPreloader] = useState(false);
   const [isInactivButtonElse, setIsInactivButtonElse] = useState(false);
+  const [isFirstRender, setIsFirstRender] = useState('');
+  const [isNextRender, setIsNextRender] = useState('');
 
-  /** зависимость ширины экрана и количества фильмов для render */
-  const initialCount = ()=>{
-    if(isScreenWidth >= 1280){
-      return 12
-    }else if(isScreenWidth < 1280 && isScreenWidth >= 768){
-      return 8
+  /** установить количество фильмов на отрисовку */
+  useEffect (()=>{
+    if(isScreenWidth >= 1230){
+      setIsFirstRender(12);
+      setIsNextRender(4);
+    }else if(isScreenWidth < 1229 && isScreenWidth >= 930){
+      setIsFirstRender(9);
+      setIsNextRender(3);
+    }else if(isScreenWidth < 929 && isScreenWidth >= 580){
+      setIsFirstRender(8);
+      setIsNextRender(2);
     }else{
-      return 5
+      setIsFirstRender(5);
+      setIsNextRender(2);
     }
-  };
-
-  /** зависимость ширины экрана и количества фильмов для render */
-  const elseCount = ()=>{
-    if(isScreenWidth >= 1280){
-      return 4
-    }else if(isScreenWidth < 1280 && isScreenWidth >= 768){
-      return 2
-    }else{
-      return 1
-    }
-  };
-
-  /** изменить количество фильмов для render при изменении экрана*/
-  useEffect(()=>{
-    setIsInitialCount(initialCount())
-  }, [isScreenWidth])
-
-  /** click ЕЩЕ - установить количество фильмов для render */
-  const handleElse =()=>{
-    setIsInitialCount(prevState=> prevState + elseCount())
-  };
+  }, [isScreenWidth, isMoviesRender]);
 
   /** Получить данные профиля и фильмы */
   useEffect(()=>{
@@ -92,9 +80,8 @@ function App() {
               movieId: movie.id,
             };}))
           );
-          const ownerMovies = savedOwnerMovies(savedMovies, user);
-          setIsMoviesSaved(ownerMovies);
-          setIsInitialCount(initialCount());
+          setIsMoviesSaved(savedOwnerMovies(savedMovies, user));
+          // setIsInitialCount(initialCount());
 
         })
         .catch((error)=>{
@@ -140,9 +127,11 @@ function App() {
     })
   };
 
+  /** получить из LocalStorage */
+
   /** поиск фильма по ключевому слову и состоянию ckeckbox */
   const handleFilterMovies = ((data)=>{
-    setIsInitialCount(initialCount());
+    // setIsInactivButtonElse(false)
     const moviesGet = pathname === '/movies' ? JSON.parse(localStorage.getItem('moviesAll')): isMoviesSaved;
     if(!data.keyword){
       if(!isShortMovie){
@@ -301,9 +290,11 @@ function App() {
   /**выход */
   const signOut = () => {
     localStorage.removeItem('jwt');
+    localStorage.removeItem('moviesAll');
     localStorage.removeItem('movies');
     localStorage.removeItem('checkbox');
     localStorage.removeItem('word');
+    setCurrentUser('')
     setLoggedIn(false);
     history.push('/');
   };
@@ -328,10 +319,8 @@ function App() {
                 <Movies
                   handleFilterMovies={handleFilterMovies}
                   movies={isMoviesRender}
-                  onClickElse={handleElse}
                   handleCreateMovie={handleCreateMovie}
                   handleDeleteMovie={handleDeleteMovie}
-                  onCount={isInitialCount}
                   isKeyword={isKeyword}
                   setIsKeyword={setIsKeyword}
                   likesLoading={likesLoading}
@@ -342,6 +331,10 @@ function App() {
                   setIsPreloader={setIsPreloader}
                   onNotFound={isError}
                   onInactivElse={isInactivButtonElse}
+                  setIsInactivButtonElse={setIsInactivButtonElse}
+                  onFirstRender={isFirstRender}
+                  setIsFirstRender={setIsFirstRender}
+                  onNextRender={isNextRender}
                 />
             </ProtectedRoute>
             <ProtectedRoute
@@ -358,7 +351,9 @@ function App() {
                   location={pathname}
                   isShortMovie={isShortMovie}
                   setIsShortMovie={setIsShortMovie}
-                  onCount={isInitialCount}
+                  onPreloader={isPreloader}
+                  setIsPreloader={setIsPreloader}
+                  onNotFound={isError}
                 />
             </ProtectedRoute>
             <ProtectedRoute

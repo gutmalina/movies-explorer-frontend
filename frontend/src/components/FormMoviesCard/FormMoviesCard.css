@@ -1,4 +1,4 @@
-.movie-card__form{
+.movie-card__fieldset{
   display: flex;
   flex-direction: row;
   justify-content: space-between;

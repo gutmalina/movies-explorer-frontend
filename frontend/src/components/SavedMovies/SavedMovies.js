@@ -12,7 +12,9 @@ function SavedMovies({
   location,
   isShortMovie,
   setIsShortMovie,
-  onCount,
+  onPreloader,
+  setIsPreloader,
+  onNotFound,
 }) {
 
   const objForRender = !isKeyword && ! isShortMovie ? movies : moviesRender;
@@ -27,6 +29,9 @@ function SavedMovies({
           isShortMovie={isShortMovie}
           setIsShortMovie={setIsShortMovie}
           location={location}
+          onPreloader={onPreloader}
+          setIsPreloader={setIsPreloader}
+          onNotFound={onNotFound}
         />
         <MoviesCardList
           movies={objForRender}
@@ -35,7 +40,6 @@ function SavedMovies({
           handleDeleteMovie={handleDeleteMovie}
           likesLoading={likesLoading}
           location={location}
-          onCount={onCount}
         />
       </section>
     </>

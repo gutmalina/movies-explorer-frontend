@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Button from '../Button/Button';
@@ -5,10 +6,8 @@ import Button from '../Button/Button';
 function Movies({
   handleFilterMovies,
   movies,
-  onClickElse,
   handleCreateMovie,
   handleDeleteMovie,
-  onCount,
   isKeyword,
   setIsKeyword,
   likesLoading,
@@ -18,17 +17,36 @@ function Movies({
   onPreloader,
   setIsPreloader,
   onNotFound,
-  onInactivElse
+  onInactivElse,
+  setIsInactivButtonElse,
+  onFirstRender,
+  setIsFirstRender,
+  onNextRender,
 }) {
+
+  const theme = `${onInactivElse ? 'else-inactive' : 'else'}`
+
+  /** скрыть кнопку ЕЩЕ когда отрисуется все фильмы */
+  useEffect(()=>{
+    movies.length <= onFirstRender ? setIsInactivButtonElse(true) : setIsInactivButtonElse(false)
+  }, [onFirstRender])
+
+  /** первая отрисовка массива фильмов */
+  const handleFirstRender =()=>{
+    return movies.slice(0, onFirstRender)
+  }
+
+  /** все следующие отрисовки фильмов */
+  const handleNextRender =()=>{
+    setIsFirstRender(prevState=> prevState + onNextRender)
+  };
 
   /** увеличить количество фильмов для показа */
   const handleElse =(evt)=>{
     evt.preventDefault();
-    onClickElse();
+    handleNextRender()
   };
 
-  // const theme = `${movies.length <= onCount ? 'else-inactive' : 'else'}`;
-  const theme = `${onInactivElse ? 'else-inactive' : 'else'}`
 
   return (
     <>
@@ -44,14 +62,13 @@ function Movies({
           onNotFound={onNotFound}
         />
         <MoviesCardList
-          movies={movies || []}
+          movies={handleFirstRender() || []}
           nameButtonSubmit="like"
           ariaLabel="Поставить лайк"
           handleCreateMovie={handleCreateMovie}
           handleDeleteMovie={handleDeleteMovie}
           likesLoading={likesLoading}
           findMovieInSavedMovie={findMovieInSavedMovie}
-          onCount={onCount}
         />
         <form
           className="movies__form form"
