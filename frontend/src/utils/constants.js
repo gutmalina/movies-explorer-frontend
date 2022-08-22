@@ -10,6 +10,10 @@ const biography = "Я родилась и живу в Москве, имею 2 �
 const moviesURL = 'https://api.nomoreparties.co';
 const MESSAGE_FILTER_NORESULT = "Ни чего не найдено";
 const MESSAGE_FILTER_ERROR = "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз";
+const MESSAGE_SUCCESSFUL_UPDATE = "Данные успешно обновлены";
+const MESSAGE_SERVER_ERROR = "Что-то пошло не так. Попробуйте позже.";
+const MESSAGE_ERROR_CONFLICT = 'Пользователь с указанным email уже существует';
+const MESSAGE_ERROR_CAST = 'Введены некорректные данные';
 
 export {
   githubLink,
@@ -24,4 +28,8 @@ export {
   moviesURL,
   MESSAGE_FILTER_NORESULT,
   MESSAGE_FILTER_ERROR,
+  MESSAGE_SUCCESSFUL_UPDATE,
+  MESSAGE_SERVER_ERROR,
+  MESSAGE_ERROR_CONFLICT,
+  MESSAGE_ERROR_CAST,
 };

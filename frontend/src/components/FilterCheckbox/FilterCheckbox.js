@@ -1,6 +1,6 @@
 function FilterCheckbox({
   isShortMovie,
-  setIsShortMovie,
+  setIsShortMovie
 }) {
 
   /** изменить состояние checkbox */

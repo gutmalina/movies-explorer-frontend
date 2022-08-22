@@ -15,10 +15,10 @@ function SearchForm({
 }) {
   const inputRef = useRef(true);
 
-  /** Получить значение введенное в поле input для последующего submit*/
+  /** Получить значение введенное в поле input */
   const handleChange = useCallback((evt)=>{
     const { value } = evt.target
-    setIsKeyword(prevState=>({...prevState, value}))
+    setIsKeyword(value)
   }, [setIsKeyword]);
 
   /** Submit */
@@ -26,7 +26,7 @@ function SearchForm({
     evt.preventDefault();
     renderPreloader(true)
     handleFilterMovies({
-      keyword: isKeyword.value,
+      keyword: isKeyword,
       onRenderPreloader: ()=>{
         renderPreloader(false)
       }
@@ -54,7 +54,8 @@ function SearchForm({
               placeholder="Фильм"
               autoFocus
               onChange={handleChange}
-              value={isKeyword.value || ''}
+              value={isKeyword || ''}
+              required
             />
             <Button
               name="search"

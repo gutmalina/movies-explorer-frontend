@@ -19,6 +19,10 @@ import { moviesURL } from '../../utils/constants';
 import {
   MESSAGE_FILTER_NORESULT,
   MESSAGE_FILTER_ERROR,
+  MESSAGE_SUCCESSFUL_UPDATE,
+  MESSAGE_SERVER_ERROR,
+  MESSAGE_ERROR_CONFLICT,
+  MESSAGE_ERROR_CAST,
 } from '../../utils/constants';
 
 
@@ -28,6 +32,8 @@ function App() {
   const history = useHistory();
   const [currentUser, setCurrentUser] = useState({});
   const [isError, setIsError] = useState('');
+  const [isErrorNoMovies, setIsErrorNoMovies] = useState('');
+  const [isSuccessfulMessage, setIsSuccessfulMessage] = useState('')
   const [loggedIn, setLoggedIn] = useState(false);
   const [isMoviesRender, setIsMoviesRender] = useState([]);
   const [isMoviesSaved, setIsMoviesSaved] = useState([]);
@@ -63,7 +69,7 @@ function App() {
       Promise
         .all([mainApi.getProfile(), moviesApi.getMovies(), mainApi.getMovies()])
         .then(([user, movies, savedMovies]) => {
-          setIsError('');
+          setIsErrorNoMovies('');
           setCurrentUser(user);
           localStorage.setItem('moviesAll', JSON.stringify(movies.map((movie)=>{
             return {
@@ -81,11 +87,9 @@ function App() {
             };}))
           );
           setIsMoviesSaved(savedOwnerMovies(savedMovies, user));
-          // setIsInitialCount(initialCount());
-
         })
         .catch((error)=>{
-          setIsError(MESSAGE_FILTER_ERROR);
+          setIsErrorNoMovies(MESSAGE_FILTER_ERROR);
         })
     }
   }, [loggedIn]);
@@ -99,7 +103,7 @@ function App() {
     })
   };
 
-  /** найти фильм в списке сохраненных для like/deslike*/
+  /** найти фильм в списке сохраненных для like/dislike*/
   const findMovieInSavedMovie = (id)=>{
     return isMoviesSaved.find((movie) => movie.movieId === id)
   };
@@ -127,25 +131,15 @@ function App() {
     })
   };
 
-  /** получить из LocalStorage */
-
   /** поиск фильма по ключевому слову и состоянию ckeckbox */
   const handleFilterMovies = ((data)=>{
-    // setIsInactivButtonElse(false)
     const moviesGet = pathname === '/movies' ? JSON.parse(localStorage.getItem('moviesAll')): isMoviesSaved;
-    if(!data.keyword){
-      if(!isShortMovie){
-        setIsMoviesRender(moviesGet);
-      }else{
-        setIsMoviesRender(findShortMovie(moviesGet));
-      }
-    }else{
       if(!isShortMovie){
         setIsMoviesRender(findKeywordMovie(data.keyword, moviesGet))
       }else{
         setIsMoviesRender(findShortMovie(findKeywordMovie(data.keyword, moviesGet)))
       };
-    };
+    setIsMoviesRender(findKeywordMovie(data.keyword, moviesGet))
     data.onRenderPreloader(false)
     return isMoviesRender;
   });
@@ -176,10 +170,10 @@ function App() {
   /** показать сообщение при обработке запроса */
   useEffect(()=>{
     if(isMoviesRender.length === 0){
-      setIsError(MESSAGE_FILTER_NORESULT);
+      setIsErrorNoMovies(MESSAGE_FILTER_NORESULT);
       setIsInactivButtonElse(true);
     }else{
-      setIsError('');
+      setIsErrorNoMovies('');
       setIsInactivButtonElse(false);
     }
   },[isMoviesRender]);
@@ -190,14 +184,31 @@ function App() {
       .editProfile(isDate.email, isDate.name)
       .then(user => {
         setCurrentUser(user)
+        setIsSuccessfulMessage(MESSAGE_SUCCESSFUL_UPDATE);
       })
       .catch((err)=>{
-        setIsError(err.message);
+        if (err === 400) {
+          return setIsError(MESSAGE_ERROR_CAST);
+        } else if (err === 409) {
+          return setIsError(MESSAGE_ERROR_CONFLICT);
+        }else if (err === 500) {
+          return setIsError(MESSAGE_SERVER_ERROR);
+        }else{
+          console.log(err)
+        }
       })
       .finally(()=>{
         isDate.onRenderLoading(false)
       })
   };
+
+  /** очистка сообщений об ошибаках profile */
+  useEffect(()=>{
+    if(pathname !== '/profile'){
+      setIsError('')
+      setIsSuccessfulMessage('')
+    }
+  }, [pathname]);
 
   /**Регистрация пользователя */
   const handleRegister =(isDate)=>{
@@ -208,7 +219,11 @@ function App() {
         history.push('/movies');
       })
       .catch((err)=>{
-        setIsError(err.message);
+        if (err.message === 'Validation failed') {
+          return setIsError(MESSAGE_ERROR_CAST);
+        }else{
+          return setIsError(err.message);
+        }
       })
       .finally(()=>{
         isDate.onRenderLoading(false)
@@ -226,7 +241,11 @@ function App() {
         }
       })
       .catch((err)=>{
-        setIsError(err.message);
+        if (err.message === 'Validation failed') {
+          return setIsError(MESSAGE_ERROR_CAST);
+        }else{
+          return setIsError(err.message);
+        }
       })
       .finally(()=>{
         isDate.onRenderLoading(false)
@@ -294,8 +313,13 @@ function App() {
     localStorage.removeItem('movies');
     localStorage.removeItem('checkbox');
     localStorage.removeItem('word');
+    setIsMoviesRender([])
+    setIsLocalMovies([])
     setCurrentUser('')
     setLoggedIn(false);
+    setIsError('')
+    setIsSuccessfulMessage('')
+    setIsErrorNoMovies('')
     history.push('/');
   };
 
@@ -329,7 +353,7 @@ function App() {
                   setIsShortMovie={setIsShortMovie}
                   onPreloader={isPreloader}
                   setIsPreloader={setIsPreloader}
-                  onNotFound={isError}
+                  onNotFound={isErrorNoMovies}
                   onInactivElse={isInactivButtonElse}
                   setIsInactivButtonElse={setIsInactivButtonElse}
                   onFirstRender={isFirstRender}
@@ -353,7 +377,7 @@ function App() {
                   setIsShortMovie={setIsShortMovie}
                   onPreloader={isPreloader}
                   setIsPreloader={setIsPreloader}
-                  onNotFound={isError}
+                  onNotFound={isErrorNoMovies}
                 />
             </ProtectedRoute>
             <ProtectedRoute
@@ -369,6 +393,7 @@ function App() {
                 isDisabledButton={isDisabledButton}
                 setIsDisabledButton={setIsDisabledButton}
                 signOut={signOut}
+                onSuccessfulMessage={isSuccessfulMessage}
               />
             </ProtectedRoute>
             <Route exact path="/signup">

@@ -15,7 +15,8 @@ function FormProfile({
   isDisabledButton,
   setIsDisabledButton,
   isDisabledInput,
-  setIsDisabledInput
+  setIsDisabledInput,
+  onSuccessfulMessage,
 }) {
   const [isContentButton, setIsContentButton] = useState('Сохранить');
   const [clickedButton, setClickedButton] = useState("profile-edit");
@@ -68,8 +69,9 @@ function FormProfile({
     isLoading ? setIsContentButton('Сохранение...') : setIsContentButton('Сохранить');
   };
 
-  /** показать ошибку от сервера */
-  const errorMessage = `profile__span_subtitle subtitle ${onError ? "profile__span_subtitle_invalid" : ""}`;
+  /** показать ответ от сервера */
+  const span = `profile__span_subtitle subtitle ${onError ? "profile__span_error" : onSuccessfulMessage? "profile__span_successful": "profile__span_subtitle_invalid"}`;
+  const contentSpan = `${onSuccessfulMessage ? onSuccessfulMessage : onError}`
 
   return(
     <form name="profile-form"
@@ -106,7 +108,7 @@ function FormProfile({
           setIsDate={setIsDate}
         />
       </fieldset>
-      <p className={errorMessage}>{onError}</p>
+      <p className={span}>{contentSpan}</p>
       { !isDisabledInput ?
         <Button
           name="profile-save"

@@ -1,11 +1,10 @@
-function BurgerMenu({handleMenuOpen, location}){
-  const burgerButton = `burger__button button ${location === "/profile" ? "burger__button_type_profile" : ""}`;
+function BurgerMenu({handleMenuOpen}){
 
  return(
     <>
       <div className="burger">
         <button
-          className={burgerButton}
+          className='burger__button button'
           type="button"
           onClick={handleMenuOpen}>
           <div className="burger__item"></div>

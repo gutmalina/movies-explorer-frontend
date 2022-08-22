@@ -25,19 +25,20 @@ function MoviesCard({
     return h + "ч " + m + "м";
   };
 
+  /** показать трейлер фильма */
+  const handleClickOnVideo = ()=>{
+    window.open(movie.trailerLink)
+  }
+
   return (
     <>
       <article className="movies-card">
-        {/* <a
-          className="movies-card__trailer"
-          href={movie.trailerLink}
+        <img className="movies-card__img"
+          src={movie.image}
+          alt={movie.nameRU}
+          onClick={handleClickOnVideo}
           target="_blank"
-          alt="Трейлер фильма"
-          rel="noreferrer"> */}
-          <img className="movies-card__img"
-            src={movie.image}
-            alt={movie.nameRU}/>
-        {/* </a> */}
+        />
         <FormMoviesCard
           handleCreateMovie={handleCreateMovie}
           handleDeleteMovie={handleDeleteMovie}

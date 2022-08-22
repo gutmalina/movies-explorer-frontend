@@ -59,7 +59,7 @@ function FormRegister({
   };
 
   /** показать ошибку от сервера */
-  const errorMessage = `register__span_subtitle subtitle ${onError ? "register__span_subtitle_invalid" : ""}`;
+  const errorMessage = ` ${onError ? "register__span_subtitle subtitle" : "register__span_subtitle_invalid"}`;
 
   return (
     <form name="register-form"

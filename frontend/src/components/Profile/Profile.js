@@ -11,7 +11,8 @@ function Profile({
   setIsError,
   isDisabledButton,
   setIsDisabledButton,
-  signOut
+  signOut,
+  onSuccessfulMessage,
 }){
   const [isDisabledInput, setIsDisabledInput] = useState(true);
 
@@ -33,6 +34,7 @@ function Profile({
           setIsDisabledButton={setIsDisabledButton}
           setIsDisabledInput={setIsDisabledInput}
           isDisabledInput={isDisabledInput}
+          onSuccessfulMessage={onSuccessfulMessage}
         />
         { isDisabledInput ?
           <CaptionForm

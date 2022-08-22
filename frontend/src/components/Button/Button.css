@@ -26,9 +26,10 @@
   background: #202020;
   font-size: 12px;
   line-height: 125%;
-  margin-bottom: 16px;
   align-items: center;
   color: #FFFFFF;
+  height: 45px;
+  min-width: 100%;
 }
 .button__theme_search{
   background: #4285F4;
@@ -70,7 +71,6 @@
   .button__theme_profile-edit{
     font-size: 13px;
     line-height: 123%;
-    margin: 0 auto 16px;
   }
   .button__form_auth{
     font-size: 14px;

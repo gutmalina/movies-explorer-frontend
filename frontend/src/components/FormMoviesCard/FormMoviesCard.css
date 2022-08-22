@@ -2,8 +2,9 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   height: 46px;
+  margin-bottom: 14px;
 }
 .movie-card__title{
   font-weight: 500;
@@ -13,6 +14,9 @@
   margin-right: 10px;
 }
 @media screen and (min-width: 768px){
+  .movie-card__fieldset{
+    margin-bottom: 13px;
+  }
   .movie-card__title{
     font-size: 13px;
     line-height: 123%;

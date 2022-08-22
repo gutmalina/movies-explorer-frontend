@@ -15,12 +15,12 @@
   font-size: 10px;
   line-height: 120%;
   color: #EE3465;
-  visibility: hidden;
+  visibility: visible;
   min-height: 30px;
   margin: 0 auto;
 }
 .register__span_subtitle_invalid{
-  visibility: visible;
+  visibility: hidden;
 }
 @media screen and (min-width: 768px){
   .register{

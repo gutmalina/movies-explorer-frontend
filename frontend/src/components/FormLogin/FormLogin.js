@@ -55,7 +55,7 @@ function FormLogin({
   };
 
   /** показать ошибку от сервера */
-  const errorMessage = `login__span_subtitle subtitle ${onError ? "login__span_subtitle_invalid" : ""}`;
+  const errorMessage = ` ${onError ? "login__span_subtitle subtitle" : "login__span_subtitle_invalid"}`;
 
   return (
     <form name="login-form"
