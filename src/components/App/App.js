@@ -15,7 +15,7 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
-import { moviesURL } from '../../utils/constants';
+import { MOVIES_URL } from '../../utils/config';
 import {
   MESSAGE_FILTER_NORESULT,
   MESSAGE_FILTER_ERROR,
@@ -78,11 +78,11 @@ function App() {
               duration: movie.duration,
               year: movie.year,
               description: movie.description,
-              image: `${moviesURL}${movie.image.url}`,
+              image: `${MOVIES_URL}${movie.image.url}`,
               trailerLink: movie.trailerLink,
               nameRU: movie.nameRU,
               nameEN: movie.nameEN,
-              thumbnail: `${moviesURL}${movie.image.formats.thumbnail.url}`,
+              thumbnail: `${MOVIES_URL}${movie.image.formats.thumbnail.url}`,
               movieId: movie.id,
             };}))
           );
