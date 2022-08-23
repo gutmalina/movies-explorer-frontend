@@ -1,3 +1,5 @@
+import { BASE_URL } from "./config";
+
 export class Api {
   constructor({baseUrl, headers}) {
     this._headers = headers;
@@ -79,7 +81,7 @@ export class Api {
 }
 
 const mainApi = new Api({
-  baseUrl: `${window.location.protocol}${process.env.REACT_APP_API_URL || '//localhost:3001'}`,
+  baseUrl: `${BASE_URL}`,
   headers: {
     'Content-Type': 'application/json'
   }

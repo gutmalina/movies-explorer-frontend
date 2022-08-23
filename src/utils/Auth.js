@@ -1,4 +1,4 @@
-const BASE_URL = `${window.location.protocol}${process.env.REACT_APP_API_URL || '//localhost:3001'}`;
+import { BASE_URL } from "./config";
 
 /** проверить ответ сервера и получить ошибку*/
 const checkResponse = (res)=>{
