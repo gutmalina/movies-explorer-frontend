@@ -1,4 +1,4 @@
-import { BASE_URL } from "./config";
+import { BASE_URL } from "../utils/config";
 
 export class Api {
   constructor({baseUrl, headers}) {

@@ -15,7 +15,7 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
-import { MOVIES_URL } from '../../utils/config';
+import { MOVIES_URL } from '../../../src/utils/config';
 import {
   MESSAGE_FILTER_NORESULT,
   MESSAGE_FILTER_ERROR,

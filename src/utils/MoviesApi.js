@@ -1,4 +1,4 @@
-import { MOVIES_URL } from "./config";
+import { MOVIES_URL } from "../utils/config";
 
 export class Api {
   constructor({baseUrl, headers}) {
