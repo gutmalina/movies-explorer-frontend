@@ -10,4 +10,3 @@ module.exports = {
   BASE_URL,
   MOVIES_URL,
 };
-  
