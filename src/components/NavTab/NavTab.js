@@ -4,10 +4,13 @@ function NavTab() {
   return (
     <>
       <section className="navtab">
-        <Link to="/#about-project" className="navtab__link">
+        <Link
+          to="/#about-project"
+          className="navtab__link">
           <button
             type="button"
-            className="navtab__button button">Узнать больше
+            className="navtab__button button">
+              Узнать больше
           </button>
         </Link>
       </section>
@@ -15,4 +18,4 @@ function NavTab() {
   );
 }
 
-export default NavTab;
+export default NavTab

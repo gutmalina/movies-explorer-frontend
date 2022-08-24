@@ -1,4 +1,6 @@
-function BurgerMenu({handleMenuOpen}){
+function BurgerMenu({
+  handleMenuOpen
+}){
 
  return(
     <>
@@ -16,4 +18,4 @@ function BurgerMenu({handleMenuOpen}){
   )
 };
 
-export default BurgerMenu;
+export default BurgerMenu

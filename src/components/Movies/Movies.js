@@ -39,14 +39,13 @@ function Movies({
   /** все следующие отрисовки фильмов */
   const handleNextRender =()=>{
     setIsFirstRender(prevState=> prevState + onNextRender)
-  };
+  }
 
   /** увеличить количество фильмов для показа */
   const handleElse =(evt)=>{
     evt.preventDefault();
     handleNextRender()
-  };
-
+  }
 
   return (
     <>
@@ -86,4 +85,4 @@ function Movies({
   );
 }
 
-export default Movies;
+export default Movies

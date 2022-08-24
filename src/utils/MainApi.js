@@ -85,6 +85,6 @@ const mainApi = new Api({
   headers: {
     'Content-Type': 'application/json'
   }
-});
+})
 
-export default mainApi;
+export default mainApi

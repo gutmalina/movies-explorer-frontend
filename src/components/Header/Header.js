@@ -4,35 +4,37 @@ import headerLogo from '../../../src/images/header-logo.svg';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import Navigation from '../Navigation/Navigation';
 
-function Header({onClose, location}){
-  const [isMenuNavigationOpen, setIsMenuNavigationOpen] = useState(false);
+function Header({
+  location
+}){
+  const [isMenuNavigationOpen, setIsMenuNavigationOpen] = useState(false)
 
   /** Открыть меню */
   const handleMenuOpen = ()=>{
     setIsMenuNavigationOpen(true)
-  };
+  }
 
   /** Закрыть меню */
   const handleMenuClose=()=>{
     setIsMenuNavigationOpen(false)
-  };
+  }
 
   const headerMovies = [
     "/movies",
     "/saved-movies"
-  ];
+  ]
 
   const headerTypeSign = [
     "/signup",
     "/signin"
-  ];
+  ]
 
   const classNameHeader = `header ${
     location === "/" ? "header__visible" :
     headerMovies.includes(location) ? "header__type_form_movies header__visible" :
     headerTypeSign.includes(location) ? "header__type_form_sign header__visible" :
     location === "/profile" ? "header__type_form_profile header__visible" : ""
-  }`;
+  }`
 
 
   return(
@@ -47,9 +49,19 @@ function Header({onClose, location}){
       <Switch>
         <Route exact path="/">
           <div className='header__menu'>
-            <Link to="/signup" className="header__menu_link link">Регистрация</Link>
-            <Link to="/signin" className="header__menu_link link">
-              <button type='button'className='header__menu-button button'>Войти</button>
+            <Link
+              to="/signup"
+              className="header__menu_link link">
+                Регистрация
+            </Link>
+            <Link
+              to="/signin"
+              className="header__menu_link link">
+              <button
+                type='button'
+                className='header__menu-button button'>
+                  Войти
+              </button>
             </Link>
           </div>
         </Route>
@@ -68,4 +80,4 @@ function Header({onClose, location}){
   )
 };
 
-export default Header;
+export default Header

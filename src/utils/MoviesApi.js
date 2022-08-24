@@ -26,6 +26,6 @@ const moviesApi = new Api({
   headers: {
     'Content-Type': 'application/json'
   }
-});
+})
 
-export default moviesApi;
+export default moviesApi

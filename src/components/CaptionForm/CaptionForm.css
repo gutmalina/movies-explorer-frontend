@@ -5,10 +5,12 @@
   justify-content: center;
   min-width: 100%;
 }
+
 .caption-form__type_profile{
   display: flex;
   flex-direction: column;
 }
+
 .caption-form__subtitle{
   font-weight: 400;
   font-size: 12px;
@@ -17,6 +19,7 @@
   color: #8B8B8B;
   margin: 0 7px 0 0;
 }
+
 .caption-form__link{
   font-weight: 400;
   font-size: 12px;
@@ -24,32 +27,40 @@
   text-align: center;
   color: #4285F4;
 }
+
 .caption-form__link__type_register{
   color: #FFFFFF;
 }
+
 .caption-form__link__type_out{
   color: #EE3465;
 }
+
 @media screen and (min-width: 768px){
   .caption-form{
     margin-bottom: 233px;
   }
+  
   .caption-form__type_profile{
     margin-bottom: 268px;
   }
+  
   .caption-form__subtitle{
       font-size: 14px;
       line-height: 121%;
   }
+  
   .caption-form__link{
     font-size: 14px;
     line-height: 121%;
   }
+  
   .caption-form__link__type_out{
     font-size: 13px;
     line-height: 123%;
   }
 }
+
 @media screen and (min-width: 1280px){
   caption-form{
     margin-bottom: 69px;

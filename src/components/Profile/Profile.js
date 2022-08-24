@@ -14,12 +14,14 @@ function Profile({
   signOut,
   onSuccessfulMessage,
 }){
-  const [isDisabledInput, setIsDisabledInput] = useState(true);
+  const [isDisabledInput, setIsDisabledInput] = useState(true)
 
   return(
     <>
       <section className="profile">
-        <h2 className="profile__title title title__type_form title__type_profile">{title}</h2>
+        <h2 className="profile__title title title__type_form title__type_profile">
+          {title}
+        </h2>
         <FormProfile
           nameForm="profile"
           location={location}
@@ -48,4 +50,4 @@ function Profile({
   )
 };
 
-export default Profile;
+export default Profile

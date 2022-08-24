@@ -15,15 +15,21 @@ function Navigation({isOpen, handleMenuClose}) {
         <Link
           to="/"
           className="navigation__list_item list link"
-          onClick={handleMenuClose}>Главная</Link>
+          onClick={handleMenuClose}>
+            Главная
+          </Link>
         <Link
           to="/movies"
           className="navigation__list_item list link"
-          onClick={handleMenuClose}>Фильмы</Link>
+          onClick={handleMenuClose}>
+            Фильмы
+          </Link>
         <Link
           to="/saved-movies"
           className="navigation__list_item list link"
-          onClick={handleMenuClose}>Сохранённые фильмы</Link>
+          onClick={handleMenuClose}>
+            Сохранённые фильмы
+          </Link>
       </ul>
       <Account
         handleMenuClose={handleMenuClose}
@@ -32,4 +38,4 @@ function Navigation({isOpen, handleMenuClose}) {
   );
 }
 
-export default Navigation;
+export default Navigation

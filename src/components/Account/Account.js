@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 
-function Account({handleMenuClose}){
+function Account({
+  handleMenuClose
+}){
   return(
     <div className="account">
       <Link
@@ -8,7 +10,9 @@ function Account({handleMenuClose}){
         className='account__link link'
         onClick={handleMenuClose}>
         <div className="account__container container">
-          <p className="account__subtitle subtitle">Аккаунт</p>
+          <p className="account__subtitle subtitle">
+            Аккаунт
+          </p>
           <div className="account__icon"></div>
         </div>
       </Link>
@@ -16,4 +20,4 @@ function Account({handleMenuClose}){
   )
 };
 
-export default Account;
+export default Account

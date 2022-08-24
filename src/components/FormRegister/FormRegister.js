@@ -13,17 +13,17 @@ function FormRegister({
   isDisabledButton,
   setIsDisabledButton
 }){
-  const [isContentButton, setIsContentButton] = useState('Зарегистрироваться');
-  const [isDisabledInput] = useState(false);
+  const [isContentButton, setIsContentButton] = useState('Зарегистрироваться')
+  const [isDisabledInput] = useState(false)
   const [isDate, setIsDate] = useState({
     email: '',
     password: '',
     name: ''
-  });
-  const {email, password, name} = isDate;
-  const [isInputEmailValid, setIsInputEmailValid] = useState(true);
-  const [isInputPasswordValid, setIsInputPasswordValid] = useState(true);
-  const [isInputNameValid, setIsInputNameValid] = useState(true);
+  })
+  const {email, password, name} = isDate
+  const [isInputEmailValid, setIsInputEmailValid] = useState(true)
+  const [isInputPasswordValid, setIsInputPasswordValid] = useState(true)
+  const [isInputNameValid, setIsInputNameValid] = useState(true)
 
   /** установить disabled button */
   useEffect(()=>{
@@ -55,11 +55,11 @@ function FormRegister({
 
   /** Изменение текста кнопки при ожидании ответа от сервера */
   const renderLoading = (isLoading)=>{
-    isLoading ? setIsContentButton('Регистрация...') : setIsContentButton('Зарегистрироваться');
+    isLoading ? setIsContentButton('Регистрация...') : setIsContentButton('Зарегистрироваться')
   };
 
   /** показать ошибку от сервера */
-  const errorMessage = ` ${onError ? "register__span_subtitle subtitle" : "register__span_subtitle_invalid"}`;
+  const errorMessage = ` ${onError ? "register__span_subtitle subtitle" : "register__span_subtitle_invalid"}`
 
   return (
     <form name="register-form"
@@ -103,7 +103,9 @@ function FormRegister({
           setIsDate={setIsDate}
         />
       </fieldset>
-      <p className={errorMessage}>{onError}</p>
+      <p className={errorMessage}>
+        {onError}
+      </p>
       <Button
         name="register"
         type="submit"
@@ -116,4 +118,4 @@ function FormRegister({
   )
 }
 
-export default FormRegister;
+export default FormRegister

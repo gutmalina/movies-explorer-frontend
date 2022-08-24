@@ -7,7 +7,9 @@ function Button({
   isDisabledButton,
   isLikes
 }) {
-  const button = `button button__${name} button__theme_${theme} ${isDisabledButton ? "button__type_disabled" : ""} ${isLikes ? `button__${name}_inactive` : `button__${name}_active`}`;
+  const button = `button button__${name} button__theme_${theme}
+  ${isDisabledButton ? "button__type_disabled" : ""}
+  ${isLikes ? `button__${name}_inactive` : `button__${name}_active`}`
 
   return (
     <>
@@ -23,4 +25,4 @@ function Button({
   );
 };
 
-export default Button;
+export default Button

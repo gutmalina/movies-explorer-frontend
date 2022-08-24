@@ -12,15 +12,15 @@ function FormLogin({
   isDisabledButton,
   setIsDisabledButton
 }){
-  const [isContentButton, setIsContentButton] = useState('Войти');
-  const [isDisabledInput] = useState(false);
+  const [isContentButton, setIsContentButton] = useState('Войти')
+  const [isDisabledInput] = useState(false)
   const [isDate, setIsDate] = useState({
     email: '',
     password: ''
-  });
-  const {email, password} = isDate;
-  const [isInputEmailValid, setIsInputEmailValid] = useState(true);
-  const [isInputPasswordValid, setIsInputPasswordValid] = useState(true);
+  })
+  const {email, password} = isDate
+  const [isInputEmailValid, setIsInputEmailValid] = useState(true)
+  const [isInputPasswordValid, setIsInputPasswordValid] = useState(true)
 
   /** установить disabled button */
   useEffect(()=>{
@@ -47,15 +47,15 @@ function FormLogin({
         renderLoading(false)
       }
     });
-  };
+  }
 
   /** Изменение текста кнопки при ожидании ответа от сервера */
   const renderLoading = (isLoading)=>{
     isLoading ? setIsContentButton('Вход...') : setIsContentButton('Войти');
-  };
+  }
 
   /** показать ошибку от сервера */
-  const errorMessage = ` ${onError ? "login__span_subtitle subtitle" : "login__span_subtitle_invalid"}`;
+  const errorMessage = ` ${onError ? "login__span_subtitle subtitle" : "login__span_subtitle_invalid"}`
 
   return (
     <form name="login-form"
@@ -100,4 +100,4 @@ function FormLogin({
   )
 }
 
-export default FormLogin;
+export default FormLogin

@@ -23,28 +23,45 @@ import {
   MESSAGE_SERVER_ERROR,
   MESSAGE_ERROR_CONFLICT,
   MESSAGE_ERROR_CAST,
+  STATUS_CODE_CAST,
+  STATUS_CODE_CONFLICT,
+  STATUS_CODE_SERVER,
+  SHORT_MOVIES,
 } from '../../utils/constants';
 
 
 function App() {
-  const [isScreenWidth] = useState(window.screen.width);
-  const { pathname } = useLocation();
-  const history = useHistory();
-  const [currentUser, setCurrentUser] = useState({});
-  const [isError, setIsError] = useState('');
+  const [isScreenWidth] = useState(window.screen.width)
+  const { pathname } = useLocation()
+  const history = useHistory()
+
+  const [currentUser, setCurrentUser] = useState({})
+
+  /** ошибки при обработке данных */
+  const [isError, setIsError] = useState('')
   const [isErrorNoMovies, setIsErrorNoMovies] = useState('');
   const [isSuccessfulMessage, setIsSuccessfulMessage] = useState('')
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [isMoviesRender, setIsMoviesRender] = useState([]);
-  const [isMoviesSaved, setIsMoviesSaved] = useState([]);
-  const [isLocalMovies, setIsLocalMovies] = useState([]);
-  const [isDisabledButton, setIsDisabledButton] = useState(true);
-  const [isKeyword, setIsKeyword] = useState('');
-  const [isShortMovie, setIsShortMovie] = useState(false);
-  const [isPreloader, setIsPreloader] = useState(false);
-  const [isInactivButtonElse, setIsInactivButtonElse] = useState(false);
-  const [isFirstRender, setIsFirstRender] = useState('');
-  const [isNextRender, setIsNextRender] = useState('');
+
+  /** состояние авторизации, загрузки данных */
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [isPreloader, setIsPreloader] = useState(false)
+
+  /** массивы карточек - для отрисовки, сохраненные, в локальном хранилище */
+  const [isMoviesRender, setIsMoviesRender] = useState([])
+  const [isMoviesSaved, setIsMoviesSaved] = useState([])
+  const [isLocalMovies, setIsLocalMovies] = useState([])
+
+  /** состояние кнопок */
+  const [isDisabledButton, setIsDisabledButton] = useState(true)
+  const [isInactivButtonElse, setIsInactivButtonElse] = useState(false)
+
+  /** фильтр - ключевое слово, чекбокс короткометражек  */
+  const [isKeyword, setIsKeyword] = useState('')
+  const [isShortMovie, setIsShortMovie] = useState(false)
+
+  /** количество карт на отрисовку */
+  const [isFirstRender, setIsFirstRender] = useState('')
+  const [isNextRender, setIsNextRender] = useState('')
 
   /** установить количество фильмов на отрисовку */
   useEffect (()=>{
@@ -61,7 +78,7 @@ function App() {
       setIsFirstRender(5);
       setIsNextRender(2);
     }
-  }, [isScreenWidth, isMoviesRender]);
+  }, [isScreenWidth, isMoviesRender])
 
   /** Получить данные профиля и фильмы */
   useEffect(()=>{
@@ -92,7 +109,7 @@ function App() {
           setIsErrorNoMovies(MESSAGE_FILTER_ERROR);
         })
     }
-  }, [loggedIn]);
+  }, [loggedIn])
 
   /** отобрать фильмы сохраненные пользователем */
   const savedOwnerMovies =(movies, user)=> {
@@ -101,12 +118,12 @@ function App() {
         return movie
       }
     })
-  };
+  }
 
   /** найти фильм в списке сохраненных для like/dislike*/
   const findMovieInSavedMovie = (id)=>{
     return isMoviesSaved.find((movie) => movie.movieId === id)
-  };
+  }
 
   /** присвоить булево значение результату поиска фильма в массиве сохраненных */
   const likesLoading = (id)=>{
@@ -115,12 +132,12 @@ function App() {
     }else{
       return false
     }
-  };
+  }
 
   /** найти короткометражный фильм*/
   const findShortMovie = (movies)=>{
-    return movies.filter((movie) => movie.duration <= 40)
-  };
+    return movies.filter((movie) => movie.duration <= SHORT_MOVIES)
+  }
 
   /** найти фильм по ключевому слову */
   const findKeywordMovie = (keyword, movies)=>{
@@ -129,7 +146,7 @@ function App() {
         return movie
       }
     })
-  };
+  }
 
   /** поиск фильма по ключевому слову и состоянию ckeckbox */
   const handleFilterMovies = ((data)=>{
@@ -139,10 +156,9 @@ function App() {
       }else{
         setIsMoviesRender(findShortMovie(findKeywordMovie(data.keyword, moviesGet)))
       };
-    setIsMoviesRender(findKeywordMovie(data.keyword, moviesGet))
     data.onRenderPreloader(false)
     return isMoviesRender;
-  });
+  })
 
   /** параметры запроса записать в LocalStorage */
   useEffect(()=>{
@@ -165,7 +181,7 @@ function App() {
       setIsShortMovie(JSON.parse(localStorage.getItem('checkbox')))
       setIsKeyword(JSON.parse(localStorage.getItem('word')))
     }
-  }, [pathname]);
+  }, [pathname])
 
   /** показать сообщение при обработке запроса */
   useEffect(()=>{
@@ -176,7 +192,7 @@ function App() {
       setIsErrorNoMovies('');
       setIsInactivButtonElse(false);
     }
-  },[isMoviesRender]);
+  },[isMoviesRender])
 
   /** Отправка новых данных профиля на сервер  */
   const handleUpdateUser=(isDate)=>{
@@ -187,11 +203,11 @@ function App() {
         setIsSuccessfulMessage(MESSAGE_SUCCESSFUL_UPDATE);
       })
       .catch((err)=>{
-        if (err === 400) {
+        if (err === STATUS_CODE_CAST) {
           return setIsError(MESSAGE_ERROR_CAST);
-        } else if (err === 409) {
+        } else if (err === STATUS_CODE_CONFLICT) {
           return setIsError(MESSAGE_ERROR_CONFLICT);
-        }else if (err === 500) {
+        }else if (err === STATUS_CODE_SERVER) {
           return setIsError(MESSAGE_SERVER_ERROR);
         }else{
           console.log(err)
@@ -200,7 +216,7 @@ function App() {
       .finally(()=>{
         isDate.onRenderLoading(false)
       })
-  };
+  }
 
   /** очистка сообщений об ошибаках profile */
   useEffect(()=>{
@@ -208,7 +224,7 @@ function App() {
       setIsError('')
       setIsSuccessfulMessage('')
     }
-  }, [pathname]);
+  }, [pathname])
 
   /**Регистрация пользователя */
   const handleRegister =(isDate)=>{
@@ -228,7 +244,7 @@ function App() {
       .finally(()=>{
         isDate.onRenderLoading(false)
       })
-  };
+  }
 
   /**Авторизация пользователя */
   const handleLogin = (isDate)=>{
@@ -250,7 +266,7 @@ function App() {
       .finally(()=>{
         isDate.onRenderLoading(false)
       })
-  };
+  }
 
   /** получение токена */
   const tokenCheck = () => {
@@ -268,12 +284,12 @@ function App() {
           setIsError(err.message);
         })
     }
-  };
+  }
 
   /**использование токена при возврате на сайт */
   useEffect(() => {
     tokenCheck();
-  }, []);
+  }, [])
 
   /** сохранение фильма на сервере */
   const handleCreateMovie=(movie)=>{
@@ -286,25 +302,25 @@ function App() {
         setIsError(err.message);
       })
       .finally(()=>{})
-  };
+  }
 
   /** Удалить фильм на сервере */
   const handleDeleteMovie=(movie)=>{
     mainApi
       .deleteMovie(movie._id)
       .then(res => {
-        setIsMoviesSaved((movies)=> movies.filter((m)=> m._id !== movie._id));
+        setIsMoviesSaved((movies) => movies.filter((m)=> m._id !== movie._id));
       })
       .catch((err)=>{
         setIsError(err.message);
       })
       .finally(()=>{})
-  };
+  }
 
   /* Установить текущий год дя footer */
   const getYear=()=>{
     return new Date().getFullYear();
-  };
+  }
 
   /**выход */
   const signOut = () => {
@@ -321,7 +337,7 @@ function App() {
     setIsSuccessfulMessage('')
     setIsErrorNoMovies('')
     history.push('/');
-  };
+  }
 
   return (
     <div className="body">
@@ -433,4 +449,4 @@ function App() {
   );
 };
 
-export default App;
+export default App

@@ -27,7 +27,7 @@ export const register = (email, password, name) => {
     })
   })
   .then(checkResponse);
-};
+}
 
 /**Авторизация пользователя */
 export const authorize = (email, password) => {
@@ -43,7 +43,7 @@ export const authorize = (email, password) => {
     })
   })
   .then(checkResponse)
-};
+}
 
 /**проверка тонкена */
 export const getContent = (token) => {

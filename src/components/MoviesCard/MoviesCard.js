@@ -11,19 +11,19 @@ function MoviesCard({
   location,
   ...movie
 }) {
-  const [isLikes, setIsLikes] = useState(false);
+  const [isLikes, setIsLikes] = useState(false)
 
   /** установить лайк или дизлайк карточке */
   useEffect(()=>{
     likesLoading(movie.movieId) ? setIsLikes(true) : setIsLikes (false)
-  }, [movie]);
+  }, [movie])
 
   /** перевести минуты в часы и минуты */
   const toTime = (time) => {
     const h = Math.trunc(time / 60);
     const m = time - (h * 60)
     return h + "ч " + m + "м";
-  };
+  }
 
   /** показать трейлер фильма */
   const handleClickOnVideo = ()=>{
@@ -60,4 +60,4 @@ function MoviesCard({
   );
 }
 
-export default MoviesCard;
+export default MoviesCard

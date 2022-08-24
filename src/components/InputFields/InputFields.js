@@ -5,7 +5,7 @@ function InputFields({
   nameInput,
   type,
   placeholder,
-  textContent, 
+  textContent,
   minLength,
   maxLength,
   onDisabled,
@@ -14,28 +14,28 @@ function InputFields({
   setIsInputValid,
   setIsDate,
 }){
-  const inputRef = useRef(true);
+  const inputRef = useRef(true)
 
-  const container = `input__container input__container_theme_${nameForm} container`;
-  const input = `input input__type_form input__type_${nameForm} ${!isInputValid ? "input__invalid" : ""}`;
-  const subtitle = `input__subtitle subtitle input__subtitle_type_${nameForm}`;
-  const spanWrap = `span-wrap span-wrap_type_${nameForm}`;;
-  const span = `span ${!isInputValid ? 'span__invalid' : ''}`;
-  const spanMessage = `${!isInputValid ? inputRef.current.validationMessage : ''}`;
-  const wrap = `input-wrap input-wrap_type_${nameForm}`;
+  const container = `input__container input__container_theme_${nameForm} container`
+  const input = `input input__type_form input__type_${nameForm} ${!isInputValid ? "input__invalid" : ""}`
+  const subtitle = `input__subtitle subtitle input__subtitle_type_${nameForm}`
+  const spanWrap = `span-wrap span-wrap_type_${nameForm}`
+  const span = `span ${!isInputValid ? 'span__invalid' : ''}`
+  const spanMessage = `${!isInputValid ? inputRef.current.validationMessage : ''}`
+  const wrap = `input-wrap input-wrap_type_${nameForm}`
 
   /** проверить валидность поля input */
   useEffect(()=>{
     if(inputRef.current.value !== ''){
       setIsInputValid(inputRef.current.validity.valid);
     }
-  }, [inputRef.current.value]);
+  }, [inputRef.current.value])
 
   /** Получить значение введенное в поле input для последующего submit*/
   const handleChange = useCallback((evt)=>{
     const { name, value } = evt.target
     setIsDate(prevState=>({...prevState, [name]: value}))
-  }, [setIsDate]);
+  }, [setIsDate])
 
   return(
     <>
@@ -60,11 +60,13 @@ function InputFields({
         </div>
         <div className={spanWrap}>
           <span
-            className={span}>{spanMessage}</span>
+            className={span}>
+              {spanMessage}
+          </span>
         </div>
       </div>
     </>
   )
 };
 
-export default InputFields;
+export default InputFields

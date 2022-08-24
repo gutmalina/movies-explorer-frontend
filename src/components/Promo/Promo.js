@@ -1,4 +1,8 @@
 import promoLogo from '../../../src/images/Promo-logo.svg';
+import {
+  PROMO_TITLE,
+  PROMO_SUBTITLE,
+} from '../../utils/constants'
 
 function Promo(){
   return (
@@ -10,12 +14,16 @@ function Promo(){
           alt="Географическая карта. Глобус"
         />
         <div className='promo__container'>
-          <h1 className="promo__title title">Учебный проект студента факультета Веб-разработки.</h1>
-          <p className="promo__subtitle subtitle">Листайте ниже, чтобы узнать больше про этот проект и его создателя.</p>
+          <h1 className="promo__title title">
+            {PROMO_TITLE}
+          </h1>
+          <p className="promo__subtitle subtitle">
+            {PROMO_SUBTITLE}
+          </p>
         </div>
       </section>
     </>
   );
 }
 
-export default Promo;
+export default Promo

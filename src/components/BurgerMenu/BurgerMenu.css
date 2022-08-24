@@ -6,6 +6,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .burger__button{
   background: #202020;
 }
@@ -16,20 +17,24 @@
   background: #FFFFFF;
   margin-bottom: 6.5px;
 }
+
 .burger__item:last-of-type{
   margin-bottom: 0;
 }
+
 @media screen and (min-width: 768px){
   .burger{
     width: 44px;
     height: 44px;
   }
+  
   .burger__item{
     width: 28px;
     height: 3px;
     margin-bottom: 7px;
   }
 }
+
 @media screen and (min-width: 1280px){
   .burger{
     display: none;

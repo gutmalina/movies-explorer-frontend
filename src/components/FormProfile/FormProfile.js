@@ -18,15 +18,15 @@ function FormProfile({
   setIsDisabledInput,
   onSuccessfulMessage,
 }) {
-  const [isContentButton, setIsContentButton] = useState('Сохранить');
-  const [clickedButton, setClickedButton] = useState("profile-edit");
+  const [isContentButton, setIsContentButton] = useState('Сохранить')
+  const [clickedButton, setClickedButton] = useState("profile-edit")
   const [isDate, setIsDate] = useState({
     name: data.name || '',
     email: data.email || ''
-  });
-  const {name, email} = isDate;
-  const [isInputEmailValid, setIsInputEmailValid] = useState(true);
-  const [isInputNameValid, setIsInputNameValid] = useState(true);
+  })
+  const {name, email} = isDate
+  const [isInputEmailValid, setIsInputEmailValid] = useState(true)
+  const [isInputNameValid, setIsInputNameValid] = useState(true)
 
   /** установить disabled button */
   useEffect(()=>{
@@ -70,7 +70,10 @@ function FormProfile({
   };
 
   /** показать ответ от сервера */
-  const span = `profile__span_subtitle subtitle ${onError ? "profile__span_error" : onSuccessfulMessage? "profile__span_successful": "profile__span_subtitle_invalid"}`;
+  const span = `profile__span_subtitle subtitle
+  ${onError ? "profile__span_error" :
+  onSuccessfulMessage? "profile__span_successful": "profile__span_subtitle_invalid"}`
+
   const contentSpan = `${onSuccessfulMessage ? onSuccessfulMessage : onError}`
 
   return(
@@ -132,4 +135,4 @@ function FormProfile({
   )
 }
 
-export default FormProfile;
+export default FormProfile

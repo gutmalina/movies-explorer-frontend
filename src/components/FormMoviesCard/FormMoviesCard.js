@@ -46,7 +46,9 @@ function FormMoviesCard({
       onClick={handleSubmit}
       >
       <fieldset className="movie-card__fieldset fieldset">
-        <h2 className="movie-card__title title">{movie.nameRU}</h2>
+        <h2 className="movie-card__title title">
+          {movie.nameRU}
+        </h2>
         <Button
           name={nameButton}
           type="submit"
@@ -60,4 +62,4 @@ function FormMoviesCard({
   )
 };
 
-export default FormMoviesCard;
+export default FormMoviesCard

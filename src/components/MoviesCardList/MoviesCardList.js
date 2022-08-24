@@ -35,5 +35,5 @@ function MoviesCardList({
   );
 }
 
-export default MoviesCardList;
+export default MoviesCardList
 

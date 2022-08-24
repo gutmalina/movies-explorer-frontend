@@ -9,9 +9,12 @@ function Login({
   setIsError,
   isDisabledButton,
   setIsDisabledButton}){
+
   return(
     <section className="login">
-      <h2 className="login__title title title__type_form">{title}</h2>
+      <h2 className="login__title title title__type_form">
+        {title}
+      </h2>
       <FormLogin
         nameForm="login"
         minLength="2"
@@ -31,4 +34,4 @@ function Login({
   )
 };
 
-export default Login;
+export default Login

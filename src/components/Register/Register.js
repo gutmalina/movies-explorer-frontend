@@ -10,9 +10,12 @@ function Register({
   isDisabledButton,
   setIsDisabledButton
 }){
+
   return (
     <section className="register">
-      <h2 className="register__title title title__type_form">{title}</h2>
+      <h2 className="register__title title title__type_form">
+        {title}
+      </h2>
       <FormRegister
         nameForm="register"
         location={location}
@@ -33,4 +36,4 @@ function Register({
   )
 };
 
-export default Register;
+export default Register

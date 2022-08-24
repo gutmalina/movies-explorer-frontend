@@ -13,13 +13,14 @@ function SearchForm({
   setIsPreloader,
   onNotFound,
 }) {
-  const inputRef = useRef(true);
+
+  const inputRef = useRef(true)
 
   /** Получить значение введенное в поле input */
   const handleChange = useCallback((evt)=>{
     const { value } = evt.target
     setIsKeyword(value)
-  }, [setIsKeyword]);
+  }, [setIsKeyword])
 
   /** Submit */
   const handleSubmit = (evt)=>{
@@ -36,7 +37,7 @@ function SearchForm({
   /** показать preloader во время выволнения запроса */
   const renderPreloader = (isLoading)=>{
     isLoading ? setIsPreloader(true) : setIsPreloader(false);
-  };
+  }
 
   return (
     <>
@@ -76,7 +77,9 @@ function SearchForm({
         disabled={onPreloader}
       />
       <div className="search__container_message container">
-        <p className="search__subtitle subtitle">{onNotFound}</p>
+        <p className="search__subtitle subtitle">
+          {onNotFound}
+        </p>
       </div>
     </>
   );

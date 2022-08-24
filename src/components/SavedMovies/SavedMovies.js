@@ -17,7 +17,7 @@ function SavedMovies({
   onNotFound,
 }) {
 
-  const objForRender = !isKeyword && ! isShortMovie ? movies : moviesRender;
+  const objForRender = !isKeyword && ! isShortMovie ? movies : moviesRender
 
   return (
     <>
@@ -46,4 +46,4 @@ function SavedMovies({
   );
 }
 
-export default SavedMovies;
+export default SavedMovies

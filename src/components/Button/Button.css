@@ -9,6 +9,7 @@
   line-height: 125%;
   margin-bottom: 15px;
 }
+
 .button__theme_else{
   background: #2F2F2F;
   border-radius: 6px;
@@ -19,9 +20,11 @@
   margin: 0 30px;
   color: #FFFFFF;
 }
+
 .button__theme_else-inactive{
   display: none;
 }
+
 .button__theme_profile-edit{
   background: #202020;
   font-size: 12px;
@@ -31,6 +34,7 @@
   height: 45px;
   min-width: 100%;
 }
+
 .button__theme_search{
   background: #4285F4;
   width: 58px;
@@ -42,6 +46,7 @@
   margin-right: 19px;
   color: #FFFFFF;
 }
+
 .button__theme_movie-card{
   background: #313131;
   border-radius: 36px;
@@ -51,32 +56,40 @@
   background-size: 10px 8.5px;
   background-position: center;
 }
+
 .button__like_active{
   background-image: url(../../../src/images/Card-like-active.svg);
 }
+
 .button__like_inactive{
   background-image: url(../../../src/images/Card-like-inactive.svg);
 }
+
 .button__delete{
   background-image: url(../../../src/images/Card-delete.svg);
 }
+
 .button__type_disabled{
   background: #F8F8F8;
   color: #C2C2C2;
 }
+
 @media screen and (min-width: 768px){
   .button__theme_search{
     margin-right: 19px;
   }
+  
   .button__theme_profile-edit{
     font-size: 13px;
     line-height: 123%;
   }
+  
   .button__form_auth{
     font-size: 14px;
     line-height: 121%;
     margin-bottom: 17px;
   }
+  
   .button__theme_else{
     min-width: calc(100% - 388px);
     margin: 0 194px;
