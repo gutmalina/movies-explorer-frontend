@@ -2,7 +2,7 @@
 
 ### ***Дипломная работа посвещена созданию сервиса, в котором можно найти фильмы по запросу и сохранить в личном кабинете.***
 
-* Пул реквест: [https://github.com/gutmalina/movies-explorer-frontend/compare/main...level-3](https://github.com/gutmalina/movies-explorer-frontend/compare/main...level-3)
+* Пул реквест: [https://github.com/gutmalina/movies-explorer-frontend/pull/2](https://github.com/gutmalina/movies-explorer-frontend/pull/2)
 * Публичный IPv4 сервера: [http://51.250.77.19](http://51.250.77.19)
 * Ссылка на Frontend проекта: [https://webdiploma.nomoredomains.xyz](https://webdiploma.nomoredomains.xyz)
 
