@@ -3,7 +3,6 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
 function SavedMovies({
   handleFilterMovies,
-  movies,
   moviesRender,
   isKeyword,
   setIsKeyword,
@@ -16,8 +15,6 @@ function SavedMovies({
   setIsPreloader,
   onNotFound,
 }) {
-
-  const objForRender = !isKeyword && ! isShortMovie ? movies : moviesRender
 
   return (
     <>
@@ -34,7 +31,7 @@ function SavedMovies({
           onNotFound={onNotFound}
         />
         <MoviesCardList
-          movies={objForRender}
+          movies={moviesRender}
           nameButtonSubmit="delete"
           ariaLabel="Удалить фильм из сохраненных"
           handleDeleteMovie={handleDeleteMovie}

@@ -46,10 +46,11 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false)
   const [isPreloader, setIsPreloader] = useState(false)
 
-  /** массивы карточек - для отрисовки, сохраненные, в локальном хранилище */
-  const [isMoviesRender, setIsMoviesRender] = useState([])
-  const [isMoviesSaved, setIsMoviesSaved] = useState([])
+  /** массивы карточек - для отрисовки, сохраненные, в локальном хранилище, некороткометражные */
+  const [isRenderMovies, setIsRenderMovies] = useState([])
+  const [isSavedMovies, setIsSavedMovies] = useState([])
   const [isLocalMovies, setIsLocalMovies] = useState([])
+  const [isNoShortMovies, setIsNoShortMovies] = useState([])
 
   /** состояние кнопок */
   const [isDisabledButton, setIsDisabledButton] = useState(true)
@@ -78,7 +79,7 @@ function App() {
       setIsFirstRender(5);
       setIsNextRender(2);
     }
-  }, [isScreenWidth, isMoviesRender])
+  }, [isScreenWidth, isRenderMovies])
 
   /** Получить данные профиля и фильмы */
   useEffect(()=>{
@@ -103,7 +104,7 @@ function App() {
               movieId: movie.id,
             };}))
           );
-          setIsMoviesSaved(savedOwnerMovies(savedMovies, user));
+          setIsSavedMovies(savedOwnerMovies(savedMovies, user));
         })
         .catch((error)=>{
           setIsErrorNoMovies(MESSAGE_FILTER_ERROR);
@@ -122,7 +123,7 @@ function App() {
 
   /** найти фильм в списке сохраненных для like/dislike*/
   const findMovieInSavedMovie = (id)=>{
-    return isMoviesSaved.find((movie) => movie.movieId === id)
+    return isSavedMovies.find((movie) => movie.movieId === id)
   }
 
   /** присвоить булево значение результату поиска фильма в массиве сохраненных */
@@ -134,65 +135,75 @@ function App() {
     }
   }
 
-  /** найти короткометражный фильм*/
-  const findShortMovie = (movies)=>{
+  /** поиск фильма */
+    const handleFilterMovies = ((data )=>{
+      const { keyword } = data;
+      const moviesGet = pathname === '/movies' ? JSON.parse(localStorage.getItem('moviesAll')): isSavedMovies;
+      const filterMovies = moviesGet.filter((movie)=>{
+        return movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())
+      })
+      if(isShortMovie){
+        setIsRenderMovies(handleShortMovies(filterMovies))
+      }else{
+        setIsRenderMovies(filterMovies)
+      }
+      data.onRenderPreloader(false)
+      return isRenderMovies
+    })
+
+  /** поиск короткометражного фильма */
+  const handleShortMovies = (movies)=>{
     return movies.filter((movie) => movie.duration <= SHORT_MOVIES)
   }
 
-  /** найти фильм по ключевому слову */
-  const findKeywordMovie = (keyword, movies)=>{
-    return movies.filter((movie) => {
-      if (movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())) {
-        return movie
-      }
-    })
-  }
-
-  /** поиск фильма по ключевому слову и состоянию ckeckbox */
-  const handleFilterMovies = ((data)=>{
-    const moviesGet = pathname === '/movies' ? JSON.parse(localStorage.getItem('moviesAll')): isMoviesSaved;
-      if(!isShortMovie){
-        setIsMoviesRender(findKeywordMovie(data.keyword, moviesGet))
+  /** отрисовка фильмов по состоянию checkbox */
+  useEffect(()=>{
+    if(isShortMovie){
+      setIsNoShortMovies(isRenderMovies)
+      setIsRenderMovies(handleShortMovies(isRenderMovies))
+    }else{
+      if(pathname === '/movies'){
+        setIsRenderMovies(isNoShortMovies)
       }else{
-        setIsMoviesRender(findShortMovie(findKeywordMovie(data.keyword, moviesGet)))
-      };
-    data.onRenderPreloader(false)
-    return isMoviesRender;
-  })
+        setIsRenderMovies(isSavedMovies)
+      }
+    }
+  }, [isShortMovie])
 
   /** параметры запроса записать в LocalStorage */
   useEffect(()=>{
     if(pathname === '/movies'){
-      localStorage.setItem('mowies', JSON.stringify(isMoviesRender));
+      localStorage.setItem('mowies', JSON.stringify(isRenderMovies));
       localStorage.setItem('checkbox', JSON.stringify(isShortMovie));
       localStorage.setItem('word', JSON.stringify(isKeyword));
     }
-  }, [isMoviesRender])
+  }, [isRenderMovies])
 
   /** подставить параметры запроса при возвращении на страницу movies */
   useEffect(()=>{
-    if(pathname === '/saved-movies'){
-      setIsMoviesRender(isMoviesSaved);
+    if(pathname === '/movies'){
+      setIsRenderMovies(isLocalMovies);
+      setIsShortMovie(JSON.parse(localStorage.getItem('checkbox')))
+      setIsKeyword(JSON.parse(localStorage.getItem('word')))
+    }else if(pathname === '/saved-movies'){
+
       setIsShortMovie(false);
       setIsKeyword('')
       setIsLocalMovies(JSON.parse(localStorage.getItem('mowies')));
-    }else{
-      setIsMoviesRender(isLocalMovies);
-      setIsShortMovie(JSON.parse(localStorage.getItem('checkbox')))
-      setIsKeyword(JSON.parse(localStorage.getItem('word')))
+      setIsRenderMovies(isSavedMovies)
     }
   }, [pathname])
 
   /** показать сообщение при обработке запроса */
   useEffect(()=>{
-    if(isMoviesRender.length === 0){
+    if(isRenderMovies.length === 0){
       setIsErrorNoMovies(MESSAGE_FILTER_NORESULT);
       setIsInactivButtonElse(true);
     }else{
       setIsErrorNoMovies('');
       setIsInactivButtonElse(false);
     }
-  },[isMoviesRender])
+  },[isRenderMovies])
 
   /** Отправка новых данных профиля на сервер  */
   const handleUpdateUser=(isDate)=>{
@@ -296,7 +307,7 @@ function App() {
     mainApi
       .createMovie(movie)
       .then(newMovie => {
-        setIsMoviesSaved([newMovie, ...isMoviesSaved]);
+        setIsSavedMovies([newMovie, ...isSavedMovies]);
       })
       .catch((err)=>{
         setIsError(err.message);
@@ -309,7 +320,7 @@ function App() {
     mainApi
       .deleteMovie(movie._id)
       .then(res => {
-        setIsMoviesSaved((movies) => movies.filter((m)=> m._id !== movie._id));
+        setIsSavedMovies((movies) => movies.filter((m)=> m._id !== movie._id));
       })
       .catch((err)=>{
         setIsError(err.message);
@@ -329,8 +340,9 @@ function App() {
     localStorage.removeItem('movies');
     localStorage.removeItem('checkbox');
     localStorage.removeItem('word');
-    setIsMoviesRender([])
+    setIsRenderMovies([])
     setIsLocalMovies([])
+    setIsNoShortMovies([])
     setCurrentUser('')
     setLoggedIn(false);
     setIsError('')
@@ -358,7 +370,7 @@ function App() {
               loggedIn={loggedIn}>
                 <Movies
                   handleFilterMovies={handleFilterMovies}
-                  movies={isMoviesRender}
+                  movies={isRenderMovies}
                   handleCreateMovie={handleCreateMovie}
                   handleDeleteMovie={handleDeleteMovie}
                   isKeyword={isKeyword}
@@ -382,8 +394,7 @@ function App() {
               loggedIn={loggedIn}>
                 <SavedMovies
                   handleFilterMovies={handleFilterMovies}
-                  movies={isMoviesSaved}
-                  moviesRender={isMoviesRender}
+                  moviesRender={isRenderMovies}
                   isKeyword={isKeyword}
                   setIsKeyword={setIsKeyword}
                   handleDeleteMovie={handleDeleteMovie}
