@@ -44,12 +44,11 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false)
   const [isPreloader, setIsPreloader] = useState(false)
 
-  /** массивы карточек - для отрисовки, сохраненные, в локальном хранилище, некороткометражные */
-  const [isRenderMovies, setIsRenderMovies] = useState([])/** карты на отрисовку */
-  const [isSavedMovies, setIsSavedMovies] = useState([])/** то что сохранено */
+  /** массивы карточек - для отрисовки, сохраненные, все, найденные */
+  const [isRenderMovies, setIsRenderMovies] = useState([])
+  const [isSavedMovies, setIsSavedMovies] = useState([])
   const [isAllMovies, setIsAllMovies] = useState([])
-  const [isFilterMovies, setIsFilterMovies] = useState([])/** массив в котором ищется карта */
-  const [isLocalMovies, setIsLocalMovies] = useState([])/** */
+  const [isFilterMovies, setIsFilterMovies] = useState([])
   const [isGetResAllMovies, setIsGetResAllMovies] = useState(false)
 
   /** состояние кнопок */
@@ -87,12 +86,11 @@ function App() {
       Promise
         .all([mainApi.getProfile(), mainApi.getMovies()])
         .then(([user, savedMovies]) => {
-          // setIsErrorNoMovies('');
           setCurrentUser(user);
           setIsSavedMovies(savedOwnerMovies(savedMovies, user));
         })
         .catch((error)=>{
-          // setIsErrorNoMovies(MESSAGE_FILTER_ERROR);
+          setIsErrorNoMovies(MESSAGE_FILTER_ERROR);
           console.log(error)
         })
     }
@@ -150,14 +148,13 @@ function App() {
     return isGetResAllMovies
   }
 
-
   /** поиск по keyword */
   const handleFilterMovies = ((data )=>{
     const { keyword } = data;
     if(!isGetResAllMovies && pathname === '/movies'){
       handleGetAllMovies()
     }
-    const objMovies = pathname === '/movies' ? '' : isSavedMovies
+    const objMovies = pathname === '/movies' ? isAllMovies : isSavedMovies
     const filterMovies = objMovies.filter((movie)=>{
       return movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())
     })
@@ -176,12 +173,9 @@ function App() {
     }
   }, [isShortMovie])
 
-  /**  */
+  /** обновить данные для страницы saved-movies */
   useEffect(()=>{
-    if(pathname === '/movies'){
-      // setIsRenderMovies([])
-      // setIsFilterMovies(isAllMovies)
-    }else if(pathname === '/saved-movies'){
+    if(pathname === '/saved-movies'){
       setIsRenderMovies(isSavedMovies)
       setIsFilterMovies(isSavedMovies)
       setIsKeyword('')
@@ -189,25 +183,42 @@ function App() {
     }
   }, [pathname, isSavedMovies])
 
-  // /** параметры запроса записать в LocalStorage */
-  // useEffect(()=>{
-  //   if(pathname === '/movies'){
-  //     localStorage.setItem('mowies', JSON.stringify(isRenderMovies));
-  //     localStorage.setItem('checkbox', JSON.stringify(isShortMovie));
-  //     localStorage.setItem('word', JSON.stringify(isKeyword));
-  //   }
-  // }, [isRenderMovies])
+  /** получить параметры запроса из хранилища */
+  useEffect(()=>{
+    if(pathname === '/movies'){
+      if(isGetResAllMovies){
+        setIsRenderMovies(JSON.parse(localStorage.getItem('movies')))
+        setIsShortMovie(JSON.parse(localStorage.getItem('checkbox')))
+        setIsKeyword(JSON.parse(localStorage.getItem('word')))
+      }else{
+        setIsRenderMovies([])
+      }
+    }
+  }, [pathname])
 
-  // /** показать сообщение при обработке запроса */
-  // useEffect(()=>{
-  //   if(isRenderMovies.length === 0){
-  //     setIsErrorNoMovies(MESSAGE_FILTER_NORESULT);
-  //     setIsInactivButtonElse(true);
-  //   }else{
-  //     setIsErrorNoMovies('');
-  //     setIsInactivButtonElse(false);
-  //   }
-  // },[isRenderMovies])
+  /** записать параметры запроса в хранилище */
+  useEffect(()=>{
+    if(pathname === '/movies'){
+      localStorage.setItem('movies', JSON.stringify(isRenderMovies));
+      localStorage.setItem('checkbox', JSON.stringify(isShortMovie));
+      localStorage.setItem('word', JSON.stringify(isKeyword));
+    }
+  }, [isRenderMovies, isShortMovie, isKeyword])
+
+  /** показать сообщение при обработке запроса */
+  useEffect(()=>{
+    if(isRenderMovies.length === 0){
+      setIsInactivButtonElse(true);
+      if(isGetResAllMovies){
+        setIsErrorNoMovies(MESSAGE_FILTER_NORESULT);
+      }else{
+        setIsErrorNoMovies('')
+      }
+    }else{
+      setIsErrorNoMovies('');
+      setIsInactivButtonElse(false);
+    }
+  },[isRenderMovies])
 
   /** Отправка новых данных профиля на сервер  */
   const handleUpdateUser=(isDate)=>{
@@ -336,18 +347,17 @@ function App() {
     return new Date().getFullYear();
   }
 
-  /**выход */
+  /** выход */
   const signOut = () => {
     localStorage.removeItem('jwt');
     localStorage.removeItem('moviesAll');
-    // localStorage.removeItem('movies');
-    // localStorage.removeItem('checkbox');
-    // localStorage.removeItem('word');
+    localStorage.removeItem('movies');
+    localStorage.removeItem('checkbox');
+    localStorage.removeItem('word');
     setIsRenderMovies([])
     setIsAllMovies([])
     setIsSavedMovies([])
     setIsFilterMovies([])
-    setIsLocalMovies([])
     setIsGetResAllMovies(false)
     setCurrentUser('')
     setLoggedIn(false);

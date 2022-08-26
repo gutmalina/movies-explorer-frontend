@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useEffect, useState } from "react";
 import Button from "../Button/Button";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import Preloader from "../Preloader/Preloader";
@@ -15,6 +15,14 @@ function SearchForm({
 }) {
 
   const inputRef = useRef(true)
+  const [isInputValid, setIsInputValid] = useState(false)
+
+  /** проверить валидность поля input */
+  useEffect(()=>{
+    if(inputRef.current.value !== ''){
+      setIsInputValid(inputRef.current.validity.valid);
+    }
+  }, [inputRef.current.value])
 
   /** Получить значение введенное в поле input */
   const handleChange = useCallback((evt)=>{
@@ -56,7 +64,7 @@ function SearchForm({
               autoFocus
               onChange={handleChange}
               value={isKeyword || ''}
-              required
+              minLength="1"
             />
             <Button
               name="search"

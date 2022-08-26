@@ -31,6 +31,7 @@ const MESSAGE_SUCCESSFUL_UPDATE = "Данные успешно обновлен�
 const MESSAGE_SERVER_ERROR = "Что-то пошло не так. Попробуйте позже."
 const MESSAGE_ERROR_CONFLICT = 'Пользователь с указанным email уже существует'
 const MESSAGE_ERROR_CAST = 'Введены некорректные данные'
+const MESSAGE_ERROR_NOWORD = 'Нужно ввести ключевое слово'
 const STATUS_CODE_CAST = 400
 const STATUS_CODE_CONFLICT = 409
 const STATUS_CODE_SERVER = 500
@@ -70,6 +71,7 @@ export {
   MESSAGE_SERVER_ERROR,
   MESSAGE_ERROR_CONFLICT,
   MESSAGE_ERROR_CAST,
+  MESSAGE_ERROR_NOWORD,
   STATUS_CODE_CAST,
   STATUS_CODE_CONFLICT,
   STATUS_CODE_SERVER,
