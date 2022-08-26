@@ -1,6 +1,7 @@
-import {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import InputFields from '../InputFields/InputFields';
 import Button from "../Button/Button";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function FormProfile({
   nameForm,
@@ -18,6 +19,7 @@ function FormProfile({
   setIsDisabledInput,
   onSuccessfulMessage,
 }) {
+  const currentUser = React.useContext(CurrentUserContext)
   const [isContentButton, setIsContentButton] = useState('Сохранить')
   const [clickedButton, setClickedButton] = useState("profile-edit")
   const [isDate, setIsDate] = useState({
@@ -30,7 +32,7 @@ function FormProfile({
 
   /** установить disabled button */
   useEffect(()=>{
-    if(email !== '' && name !== ''){
+    if((email !== '' && name !== '') && (name !== currentUser.name || email !== currentUser.email)){
       if(isInputEmailValid && isInputNameValid){
         setIsDisabledButton(false);
       }else{
@@ -56,10 +58,6 @@ function FormProfile({
       })
     }else if(clickedButton === "profile-edit"){
       setIsDisabledInput(false)
-      setIsDate({
-        name: '',
-        email: ''
-      })
       setClickedButton("profile-save")
     }
   };

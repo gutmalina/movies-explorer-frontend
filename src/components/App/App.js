@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, useLocation, useHistory } from 'react-router-dom';
+import { Route, Switch, useLocation, Redirect } from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import *as auth from '../../utils/Auth';
 import mainApi from '../../utils/MainApi';
@@ -29,11 +29,9 @@ import {
   SHORT_MOVIES,
 } from '../../utils/constants';
 
-
 function App() {
   const [isScreenWidth] = useState(window.screen.width)
   const { pathname } = useLocation()
-  const history = useHistory()
 
   const [currentUser, setCurrentUser] = useState({})
 
@@ -47,10 +45,12 @@ function App() {
   const [isPreloader, setIsPreloader] = useState(false)
 
   /** массивы карточек - для отрисовки, сохраненные, в локальном хранилище, некороткометражные */
-  const [isRenderMovies, setIsRenderMovies] = useState([])
-  const [isSavedMovies, setIsSavedMovies] = useState([])
-  const [isLocalMovies, setIsLocalMovies] = useState([])
-  const [isNoShortMovies, setIsNoShortMovies] = useState([])
+  const [isRenderMovies, setIsRenderMovies] = useState([])/** карты на отрисовку */
+  const [isSavedMovies, setIsSavedMovies] = useState([])/** то что сохранено */
+  const [isAllMovies, setIsAllMovies] = useState([])
+  const [isFilterMovies, setIsFilterMovies] = useState([])/** массив в котором ищется карта */
+  const [isLocalMovies, setIsLocalMovies] = useState([])/** */
+  const [isGetResAllMovies, setIsGetResAllMovies] = useState(false)
 
   /** состояние кнопок */
   const [isDisabledButton, setIsDisabledButton] = useState(true)
@@ -85,29 +85,15 @@ function App() {
   useEffect(()=>{
     if(loggedIn){
       Promise
-        .all([mainApi.getProfile(), moviesApi.getMovies(), mainApi.getMovies()])
-        .then(([user, movies, savedMovies]) => {
-          setIsErrorNoMovies('');
+        .all([mainApi.getProfile(), mainApi.getMovies()])
+        .then(([user, savedMovies]) => {
+          // setIsErrorNoMovies('');
           setCurrentUser(user);
-          localStorage.setItem('moviesAll', JSON.stringify(movies.map((movie)=>{
-            return {
-              country: movie.country,
-              director: movie.director,
-              duration: movie.duration,
-              year: movie.year,
-              description: movie.description,
-              image: `${MOVIES_URL}${movie.image.url}`,
-              trailerLink: movie.trailerLink,
-              nameRU: movie.nameRU,
-              nameEN: movie.nameEN,
-              thumbnail: `${MOVIES_URL}${movie.image.formats.thumbnail.url}`,
-              movieId: movie.id,
-            };}))
-          );
           setIsSavedMovies(savedOwnerMovies(savedMovies, user));
         })
         .catch((error)=>{
-          setIsErrorNoMovies(MESSAGE_FILTER_ERROR);
+          // setIsErrorNoMovies(MESSAGE_FILTER_ERROR);
+          console.log(error)
         })
     }
   }, [loggedIn])
@@ -135,75 +121,93 @@ function App() {
     }
   }
 
-  /** поиск фильма */
-    const handleFilterMovies = ((data )=>{
-      const { keyword } = data;
-      const moviesGet = pathname === '/movies' ? JSON.parse(localStorage.getItem('moviesAll')): isSavedMovies;
-      const filterMovies = moviesGet.filter((movie)=>{
-        return movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())
+  /** получить все фильмы */
+  const handleGetAllMovies=()=>{
+    moviesApi
+     .getMovies()
+      .then((movies)=>{
+        localStorage.setItem('moviesAll', JSON.stringify(movies.map((movie)=>{
+          return {
+            country: movie.country,
+            director: movie.director,
+            duration: movie.duration,
+            year: movie.year,
+            description: movie.description,
+            image: `${MOVIES_URL}${movie.image.url}`,
+            trailerLink: movie.trailerLink,
+            nameRU: movie.nameRU,
+            nameEN: movie.nameEN,
+            thumbnail: `${MOVIES_URL}${movie.image.formats.thumbnail.url}`,
+            movieId: movie.id,
+          };}))
+        );
+        setIsAllMovies(JSON.parse(localStorage.getItem('moviesAll')))
       })
-      if(isShortMovie){
-        setIsRenderMovies(handleShortMovies(filterMovies))
-      }else{
-        setIsRenderMovies(filterMovies)
-      }
-      data.onRenderPreloader(false)
-      return isRenderMovies
-    })
-
-  /** поиск короткометражного фильма */
-  const handleShortMovies = (movies)=>{
-    return movies.filter((movie) => movie.duration <= SHORT_MOVIES)
+      .catch((error)=>{
+        console.log(error)
+      })
+    setIsGetResAllMovies(true)
+    return isGetResAllMovies
   }
 
-  /** отрисовка фильмов по состоянию checkbox */
+
+  /** поиск по keyword */
+  const handleFilterMovies = ((data )=>{
+    const { keyword } = data;
+    if(!isGetResAllMovies && pathname === '/movies'){
+      handleGetAllMovies()
+    }
+    const objMovies = pathname === '/movies' ? '' : isSavedMovies
+    const filterMovies = objMovies.filter((movie)=>{
+      return movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())
+    })
+    data.onRenderPreloader(false)
+    setIsFilterMovies(filterMovies)
+    setIsRenderMovies(filterMovies)
+    return isRenderMovies
+  })
+
+  /** поиск по checkbox */
   useEffect(()=>{
     if(isShortMovie){
-      setIsNoShortMovies(isRenderMovies)
-      setIsRenderMovies(handleShortMovies(isRenderMovies))
+      setIsRenderMovies(isFilterMovies.filter((movie) => movie.duration <= SHORT_MOVIES))
     }else{
-      if(pathname === '/movies'){
-        setIsRenderMovies(isNoShortMovies)
-      }else{
-        setIsRenderMovies(isSavedMovies)
-      }
+      setIsRenderMovies(isFilterMovies)
     }
   }, [isShortMovie])
 
-  /** параметры запроса записать в LocalStorage */
+  /**  */
   useEffect(()=>{
     if(pathname === '/movies'){
-      localStorage.setItem('mowies', JSON.stringify(isRenderMovies));
-      localStorage.setItem('checkbox', JSON.stringify(isShortMovie));
-      localStorage.setItem('word', JSON.stringify(isKeyword));
-    }
-  }, [isRenderMovies])
-
-  /** подставить параметры запроса при возвращении на страницу movies */
-  useEffect(()=>{
-    if(pathname === '/movies'){
-      setIsRenderMovies(isLocalMovies);
-      setIsShortMovie(JSON.parse(localStorage.getItem('checkbox')))
-      setIsKeyword(JSON.parse(localStorage.getItem('word')))
+      // setIsRenderMovies([])
+      // setIsFilterMovies(isAllMovies)
     }else if(pathname === '/saved-movies'){
-
-      setIsShortMovie(false);
-      setIsKeyword('')
-      setIsLocalMovies(JSON.parse(localStorage.getItem('mowies')));
       setIsRenderMovies(isSavedMovies)
+      setIsFilterMovies(isSavedMovies)
+      setIsKeyword('')
+      setIsShortMovie(false)
     }
-  }, [pathname])
+  }, [pathname, isSavedMovies])
 
-  /** показать сообщение при обработке запроса */
-  useEffect(()=>{
-    if(isRenderMovies.length === 0){
-      setIsErrorNoMovies(MESSAGE_FILTER_NORESULT);
-      setIsInactivButtonElse(true);
-    }else{
-      setIsErrorNoMovies('');
-      setIsInactivButtonElse(false);
-    }
-  },[isRenderMovies])
+  // /** параметры запроса записать в LocalStorage */
+  // useEffect(()=>{
+  //   if(pathname === '/movies'){
+  //     localStorage.setItem('mowies', JSON.stringify(isRenderMovies));
+  //     localStorage.setItem('checkbox', JSON.stringify(isShortMovie));
+  //     localStorage.setItem('word', JSON.stringify(isKeyword));
+  //   }
+  // }, [isRenderMovies])
+
+  // /** показать сообщение при обработке запроса */
+  // useEffect(()=>{
+  //   if(isRenderMovies.length === 0){
+  //     setIsErrorNoMovies(MESSAGE_FILTER_NORESULT);
+  //     setIsInactivButtonElse(true);
+  //   }else{
+  //     setIsErrorNoMovies('');
+  //     setIsInactivButtonElse(false);
+  //   }
+  // },[isRenderMovies])
 
   /** Отправка новых данных профиля на сервер  */
   const handleUpdateUser=(isDate)=>{
@@ -243,7 +247,6 @@ function App() {
       .register(isDate.email, isDate.password, isDate.name)
       .then((user)=>{
         handleLogin(isDate);
-        history.push('/movies');
       })
       .catch((err)=>{
         if (err.message === 'Validation failed') {
@@ -288,7 +291,6 @@ function App() {
         .then((res) => {
           if (res){
             setLoggedIn(true);
-            history.push('/movies')
           }
         })
         .catch((err)=>{
@@ -304,6 +306,7 @@ function App() {
 
   /** сохранение фильма на сервере */
   const handleCreateMovie=(movie)=>{
+    console.log(movie)
     mainApi
       .createMovie(movie)
       .then(newMovie => {
@@ -337,18 +340,20 @@ function App() {
   const signOut = () => {
     localStorage.removeItem('jwt');
     localStorage.removeItem('moviesAll');
-    localStorage.removeItem('movies');
-    localStorage.removeItem('checkbox');
-    localStorage.removeItem('word');
+    // localStorage.removeItem('movies');
+    // localStorage.removeItem('checkbox');
+    // localStorage.removeItem('word');
     setIsRenderMovies([])
+    setIsAllMovies([])
+    setIsSavedMovies([])
+    setIsFilterMovies([])
     setIsLocalMovies([])
-    setIsNoShortMovies([])
+    setIsGetResAllMovies(false)
     setCurrentUser('')
     setLoggedIn(false);
     setIsError('')
     setIsSuccessfulMessage('')
     setIsErrorNoMovies('')
-    history.push('/');
   }
 
   return (
@@ -358,6 +363,7 @@ function App() {
           value={currentUser}>
           <Header
             location={pathname}
+            loggedIn={loggedIn}
           />
           <Switch>
             <Route exact path="/">
@@ -424,19 +430,26 @@ function App() {
               />
             </ProtectedRoute>
             <Route exact path="/signup">
-              <Register
-                title="Добро пожаловать!"
-                location={pathname}
-                handleRegister={handleRegister}
-                onError={isError || ''}
-                setIsError={setIsError}
-                isDisabledButton={isDisabledButton}
-                setIsDisabledButton={setIsDisabledButton}
-              />
+              {loggedIn ?
+                <Redirect to='/movies'/>
+                :
+                <Register
+                  title="Добро пожаловать!"
+                  location={pathname}
+                  handleRegister={handleRegister}
+                  onError={isError || ''}
+                  setIsError={setIsError}
+                  isDisabledButton={isDisabledButton}
+                  setIsDisabledButton={setIsDisabledButton}
+                />
+              }
             </Route>
             <Route exact path="/signin">
-              <Login
-              signOut={signOut}
+              {loggedIn ?
+                <Redirect to='/movies'/>
+                :
+                <Login
+                signOut={signOut}
                 title="Рады видеть!"
                 location={pathname}
                 handleLogin={handleLogin}
@@ -444,7 +457,8 @@ function App() {
                 setIsError={setIsError}
                 isDisabledButton={isDisabledButton}
                 setIsDisabledButton={setIsDisabledButton}
-              />
+                />
+              }
             </Route>
             <Route exact path="*">
               <NotFound/>

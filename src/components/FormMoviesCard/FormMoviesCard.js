@@ -14,6 +14,7 @@ function FormMoviesCard({
 
   /** поставить лайк, сохранить фильм */
   const addLike = ()=>{
+
     handleCreateMovie(movie);
     setIsLikes(true);
   }

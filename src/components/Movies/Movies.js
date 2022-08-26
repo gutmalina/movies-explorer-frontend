@@ -28,12 +28,14 @@ function Movies({
 
   /** скрыть кнопку ЕЩЕ когда отрисуется все фильмы */
   useEffect(()=>{
-    movies.length <= onFirstRender ? setIsInactivButtonElse(true) : setIsInactivButtonElse(false)
+    setIsInactivButtonElse(false)
+    // movies.length <= onFirstRender ? setIsInactivButtonElse(true) : setIsInactivButtonElse(false)
   }, [onFirstRender])
 
   /** первая отрисовка массива фильмов */
   const handleFirstRender =()=>{
-    return movies.slice(0, onFirstRender)
+    return movies
+    // return movies.slice(0, onFirstRender)
   }
 
   /** все следующие отрисовки фильмов */

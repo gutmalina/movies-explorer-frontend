@@ -5,7 +5,8 @@ import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import Navigation from '../Navigation/Navigation';
 
 function Header({
-  location
+  location,
+  loggedIn,
 }){
   const [isMenuNavigationOpen, setIsMenuNavigationOpen] = useState(false)
 
@@ -47,34 +48,37 @@ function Header({
         />
       </Link>
       <Switch>
-        <Route exact path="/">
-          <div className='header__menu'>
-            <Link
-              to="/signup"
-              className="header__menu_link link">
-                Регистрация
-            </Link>
-            <Link
-              to="/signin"
-              className="header__menu_link link">
-              <button
-                type='button'
-                className='header__menu-button button'>
-                  Войти
-              </button>
-            </Link>
-          </div>
-        </Route>
-        <Route path={["/movies", "/saved-movies", "/profile"]}>
-          <BurgerMenu
-            handleMenuOpen={handleMenuOpen}
-            location={location}
-          />
-          <Navigation
-            isOpen={isMenuNavigationOpen}
-            handleMenuClose={handleMenuClose}
-          />
-        </Route>
+        {!loggedIn ?
+          <Route exact path="/">
+            <div className='header__menu'>
+              <Link
+                to="/signup"
+                className="header__menu_link link">
+                  Регистрация
+              </Link>
+              <Link
+                to="/signin"
+                className="header__menu_link link">
+                <button
+                  type='button'
+                  className='header__menu-button button'>
+                    Войти
+                </button>
+              </Link>
+            </div>
+          </Route>
+          :
+          <Route path={["/", "/movies", "/saved-movies", "/profile"]}>
+            <BurgerMenu
+              handleMenuOpen={handleMenuOpen}
+              location={location}
+            />
+            <Navigation
+              isOpen={isMenuNavigationOpen}
+              handleMenuClose={handleMenuClose}
+            />
+          </Route>
+        }
       </Switch>
     </header>
   )

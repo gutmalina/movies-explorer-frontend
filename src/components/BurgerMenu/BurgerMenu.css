@@ -11,6 +11,10 @@
   background: #202020;
 }
 
+.burger__button_teme_main{
+  background: #073042;
+}
+
 .burger__item{
   width: 22px;
   height: 2.5px;
@@ -27,7 +31,7 @@
     width: 44px;
     height: 44px;
   }
-  
+
   .burger__item{
     width: 28px;
     height: 3px;
