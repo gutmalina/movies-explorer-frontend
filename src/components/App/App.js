@@ -106,41 +106,82 @@ function App() {
   }
 
   /** получить все фильмы */
-  const handleGetAllMovies=()=>{
+  // const handleGetAllMovies=()=>{
+  //   moviesApi
+  //    .getMovies()
+  //     .then((movies)=>{
+  //       localStorage.setItem('moviesAll', JSON.stringify(movies.map((movie)=>{
+  //         return {
+  //           country: movie.country,
+  //           director: movie.director,
+  //           duration: movie.duration,
+  //           year: movie.year,
+  //           description: movie.description,
+  //           image: `${MOVIES_URL}${movie.image.url}`,
+  //           trailerLink: movie.trailerLink,
+  //           nameRU: movie.nameRU,
+  //           nameEN: movie.nameEN,
+  //           thumbnail: `${MOVIES_URL}${movie.image.formats.thumbnail.url}`,
+  //           movieId: movie.id,
+  //         };}))
+  //       );
+  //       setIsAllMovies(JSON.parse(localStorage.getItem('moviesAll')))
+  //     })
+  //     .catch((error)=>{
+  //       console.log(error)
+  //     })
+  //   setIsGetResAllMovies(true)
+  //   return isGetResAllMovies
+  // }
+
+  /** поиск по keyword */
+  // const handleFilterMovies = ((data )=>{
+  //   const { keyword } = data;
+  //   if(!isGetResAllMovies && pathname === '/movies'){
+  //     handleGetAllMovies()
+  //   }
+  //   const objMovies = pathname === '/movies' ? isAllMovies : isSavedMovies
+  //   const filterMovies = objMovies.filter((movie)=>{
+  //     return movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())
+  //   })
+  //   data.onRenderPreloader(false)
+  //   setIsFilterMovies(filterMovies)
+  //   setIsRenderMovies(filterMovies)
+  //   if(pathname === '/movies'){
+  //     localStorage.setItem('word', JSON.stringify(keyword));
+  //   }
+  //   return isRenderMovies
+  // })
+
+  useEffect(()=>{
     moviesApi
-     .getMovies()
-      .then((movies)=>{
-        localStorage.setItem('moviesAll', JSON.stringify(movies.map((movie)=>{
-          return {
-            country: movie.country,
-            director: movie.director,
-            duration: movie.duration,
-            year: movie.year,
-            description: movie.description,
-            image: `${MOVIES_URL}${movie.image.url}`,
-            trailerLink: movie.trailerLink,
-            nameRU: movie.nameRU,
-            nameEN: movie.nameEN,
-            thumbnail: `${MOVIES_URL}${movie.image.formats.thumbnail.url}`,
-            movieId: movie.id,
-          };}))
-        );
-        setIsAllMovies(JSON.parse(localStorage.getItem('moviesAll')))
-      })
-      .catch((error)=>{
-        console.log(error)
-      })
-    setIsGetResAllMovies(true)
-    return isGetResAllMovies
-  }
+      .getMovies()
+       .then((movies)=>{
+         localStorage.setItem('moviesAll', JSON.stringify(movies.map((movie)=>{
+         return {
+           country: movie.country,
+           director: movie.director,
+           duration: movie.duration,
+           year: movie.year,
+           description: movie.description,
+           image: `${MOVIES_URL}${movie.image.url}`,
+           trailerLink: movie.trailerLink,
+           nameRU: movie.nameRU,
+           nameEN: movie.nameEN,
+           thumbnail: `${MOVIES_URL}${movie.image.formats.thumbnail.url}`,
+           movieId: movie.id,
+         };}))
+         );
+       })
+       .catch((error)=>{
+         console.log(error)
+       })
+  }, [])
 
   /** поиск по keyword */
   const handleFilterMovies = ((data )=>{
     const { keyword } = data;
-    if(!isGetResAllMovies && pathname === '/movies'){
-      handleGetAllMovies()
-    }
-    const objMovies = pathname === '/movies' ? isAllMovies : isSavedMovies
+    const objMovies = pathname === '/movies' ? JSON.parse(localStorage.getItem('moviesAll')) : isSavedMovies
     const filterMovies = objMovies.filter((movie)=>{
       return movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())
     })
