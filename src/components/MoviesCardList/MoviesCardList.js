@@ -1,4 +1,3 @@
-
 import MoviesCard from "../MoviesCard/MoviesCard";
 
 function MoviesCardList({
@@ -13,25 +12,23 @@ function MoviesCardList({
 }) {
 
   return (
-    <>
-      <section className="movies-card-list">
-        <div className="movies-card-list__group">
-        {
-          movies.map((movie) => (
-            <MoviesCard {...movie} key={movie.movieId}
-              nameButtonSubmit={nameButtonSubmit}
-              ariaLabel={ariaLabel}
-              handleCreateMovie={handleCreateMovie}
-              handleDeleteMovie={handleDeleteMovie}
-              likesLoading={likesLoading}
-              findMovieInSavedMovie={findMovieInSavedMovie}
-              location={location}
-            />
-          ))
-        }
-        </div>
-      </section>
-    </>
+    <section className="movies-card-list">
+      <div className="movies-card-list__group">
+      {
+        movies.map((movie) => (
+          <MoviesCard {...movie} key={movie.movieId}
+            nameButtonSubmit={nameButtonSubmit}
+            ariaLabel={ariaLabel}
+            handleCreateMovie={handleCreateMovie}
+            handleDeleteMovie={handleDeleteMovie}
+            likesLoading={likesLoading}
+            findMovieInSavedMovie={findMovieInSavedMovie}
+            location={location}
+          />
+        ))
+      }
+      </div>
+    </section>
   );
 }
 

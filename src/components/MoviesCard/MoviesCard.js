@@ -31,32 +31,30 @@ function MoviesCard({
   }
 
   return (
-    <>
-      <article className="movies-card">
-        <img className="movies-card__img"
-          src={movie.image}
-          alt={movie.nameRU}
-          onClick={handleClickOnVideo}
-          target="_blank"
-        />
-        <FormMoviesCard
-          handleCreateMovie={handleCreateMovie}
-          handleDeleteMovie={handleDeleteMovie}
-          movie={movie}
-          nameButton={nameButtonSubmit}
-          ariaLabel={ariaLabel}
-          isLikes={isLikes}
-          setIsLikes={setIsLikes}
-          findMovieInSavedMovie={findMovieInSavedMovie}
-          location={location}
-        />
-        <div className="movies-card__duration">
-          {
-            toTime(movie.duration)
-          }
-        </div>
-      </article>
-    </>
+    <article className="movies-card">
+      <img className="movies-card__img"
+        src={movie.image}
+        alt={movie.nameRU}
+        onClick={handleClickOnVideo}
+        target="_blank"
+      />
+      <FormMoviesCard
+        handleCreateMovie={handleCreateMovie}
+        handleDeleteMovie={handleDeleteMovie}
+        movie={movie}
+        nameButton={nameButtonSubmit}
+        ariaLabel={ariaLabel}
+        isLikes={isLikes}
+        setIsLikes={setIsLikes}
+        findMovieInSavedMovie={findMovieInSavedMovie}
+        location={location}
+      />
+      <div className="movies-card__duration">
+        {
+          toTime(movie.duration)
+        }
+      </div>
+    </article>
   );
 }
 

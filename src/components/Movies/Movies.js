@@ -19,28 +19,26 @@ function Movies({
   onNotFound,
   onInactivElse,
   setIsInactivButtonElse,
-  onFirstRender,
-  setIsFirstRender,
-  onNextRender,
+  isFirstRenderCount,
+  setIsFirstRenderCount,
+  isNextRenderCount,
 }) {
 
   const theme = `${onInactivElse ? 'else-inactive' : 'else'}`
 
   /** скрыть кнопку ЕЩЕ когда отрисуется все фильмы */
   useEffect(()=>{
-    setIsInactivButtonElse(false)
-    // movies.length <= onFirstRender ? setIsInactivButtonElse(true) : setIsInactivButtonElse(false)
-  }, [onFirstRender])
+    movies.length <= isFirstRenderCount ? setIsInactivButtonElse(true) : setIsInactivButtonElse(false)
+  }, [isFirstRenderCount])
 
   /** первая отрисовка массива фильмов */
   const handleFirstRender =()=>{
-    return movies
-    // return movies.slice(0, onFirstRender)
+    return movies.slice(0, isFirstRenderCount)
   }
 
   /** все следующие отрисовки фильмов */
   const handleNextRender =()=>{
-    setIsFirstRender(prevState=> prevState + onNextRender)
+    setIsFirstRenderCount(prevState=> prevState + isNextRenderCount)
   }
 
   /** увеличить количество фильмов для показа */
@@ -50,40 +48,39 @@ function Movies({
   }
 
   return (
-    <>
-      <section className="movies">
-        <SearchForm
-          handleFilterMovies={handleFilterMovies}
-          isKeyword={isKeyword}
-          setIsKeyword={setIsKeyword}
-          isShortMovie={isShortMovie}
-          setIsShortMovie={setIsShortMovie}
-          onPreloader={onPreloader}
-          setIsPreloader={setIsPreloader}
-          onNotFound={onNotFound}
-        />
-        <MoviesCardList
-          movies={handleFirstRender() || []}
-          nameButtonSubmit="like"
-          ariaLabel="Поставить лайк"
-          handleCreateMovie={handleCreateMovie}
-          handleDeleteMovie={handleDeleteMovie}
-          likesLoading={likesLoading}
-          findMovieInSavedMovie={findMovieInSavedMovie}
-        />
-        <form
-          className="movies__form form"
-          onSubmit={handleElse}>
-          <Button
-            name="else"
-            type="submit"
-            aria-label="Показать ещё фильмы"
-            theme={theme}
-            contentButton="Ещё">
-          </Button>
-        </form>
-      </section>
-    </>
+    <section className="movies">
+      <SearchForm
+        handleFilterMovies={handleFilterMovies}
+        isKeyword={isKeyword}
+        setIsKeyword={setIsKeyword}
+        isShortMovie={isShortMovie}
+        setIsShortMovie={setIsShortMovie}
+        onPreloader={onPreloader}
+        setIsPreloader={setIsPreloader}
+        onNotFound={onNotFound}
+      />
+      <MoviesCardList
+        movies={handleFirstRender() || []}
+        nameButtonSubmit="like"
+        ariaLabel="Поставить лайк"
+        handleCreateMovie={handleCreateMovie}
+        handleDeleteMovie={handleDeleteMovie}
+        likesLoading={likesLoading}
+        findMovieInSavedMovie={findMovieInSavedMovie}
+        isFirstRenderCount={isFirstRenderCount}
+      />
+      <form
+        className="movies__form form"
+        onSubmit={handleElse}>
+        <Button
+          name="else"
+          type="submit"
+          aria-label="Показать ещё фильмы"
+          theme={theme}
+          contentButton="Ещё">
+        </Button>
+      </form>
+    </section>
   );
 }
 

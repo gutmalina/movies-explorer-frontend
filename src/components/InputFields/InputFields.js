@@ -38,34 +38,32 @@ function InputFields({
   }, [setIsDate])
 
   return(
-    <>
-      <div className={wrap}>
-        <div className={container}>
-          <p className={subtitle}>{textContent}</p>
-          <input
-            id={`${nameForm}-${nameInput}`}
-            type={type}
-            name={nameInput}
-            className={input}
-            placeholder={placeholder}
-            required
-            autoComplete={`new-${nameInput}`}
-            minLength={minLength || ''}
-            maxLength={maxLength || ''}
-            ref={inputRef}
-            onChange={handleChange}
-            disabled={onDisabled}
-            value={value}
-          />
-        </div>
-        <div className={spanWrap}>
-          <span
-            className={span}>
-              {spanMessage}
-          </span>
-        </div>
+    <div className={wrap}>
+      <div className={container}>
+        <p className={subtitle}>{textContent}</p>
+        <input
+          id={`${nameForm}-${nameInput}`}
+          type={type}
+          name={nameInput}
+          className={input}
+          placeholder={placeholder}
+          required
+          autoComplete={`new-${nameInput}`}
+          minLength={minLength || ''}
+          maxLength={maxLength || ''}
+          ref={inputRef}
+          onChange={handleChange}
+          disabled={onDisabled}
+          value={value}
+        />
       </div>
-    </>
+      <div className={spanWrap}>
+        <span
+          className={span}>
+            {spanMessage}
+        </span>
+      </div>
+    </div>
   )
 };
 

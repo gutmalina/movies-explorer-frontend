@@ -12,16 +12,14 @@ function Button({
   ${isLikes ? `button__${name}_inactive` : `button__${name}_active`}`
 
   return (
-    <>
-      <button
-        type={type}
-        name={name}
-        className={button}
-        aria-label={ariaLabel}
-        disabled={isDisabledButton}>
-          {contentButton || ''}
-      </button>
-    </>
+    <button
+      type={type}
+      name={name}
+      className={button}
+      aria-label={ariaLabel}
+      disabled={isDisabledButton}>
+        {contentButton || ''}
+    </button>
   );
 };
 

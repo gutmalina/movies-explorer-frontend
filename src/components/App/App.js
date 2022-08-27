@@ -6,6 +6,8 @@ import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
 import { CurrentUserContext } from '../../../src/contexts/CurrentUserContext';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import { useCurrentWidth } from '../Hooks/useCurrentWidth';
+import { setFirstRender, setNextRender } from '../Hooks/setNumberRender';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
@@ -30,10 +32,9 @@ import {
 } from '../../utils/constants';
 
 function App() {
-  const [isScreenWidth] = useState(window.screen.width)
-  const { pathname } = useLocation()
+    const [currentUser, setCurrentUser] = useState({})
 
-  const [currentUser, setCurrentUser] = useState({})
+    const { pathname } = useLocation()
 
   /** ошибки при обработке данных */
   const [isError, setIsError] = useState('')
@@ -60,25 +61,9 @@ function App() {
   const [isShortMovie, setIsShortMovie] = useState(false)
 
   /** количество карт на отрисовку */
-  const [isFirstRender, setIsFirstRender] = useState('')
-  const [isNextRender, setIsNextRender] = useState('')
-
-  /** установить количество фильмов на отрисовку */
-  useEffect (()=>{
-    if(isScreenWidth >= 1230){
-      setIsFirstRender(12);
-      setIsNextRender(4);
-    }else if(isScreenWidth < 1229 && isScreenWidth >= 930){
-      setIsFirstRender(9);
-      setIsNextRender(3);
-    }else if(isScreenWidth < 929 && isScreenWidth >= 580){
-      setIsFirstRender(8);
-      setIsNextRender(2);
-    }else{
-      setIsFirstRender(5);
-      setIsNextRender(2);
-    }
-  }, [isScreenWidth, isRenderMovies])
+  const width = useCurrentWidth()
+  const [isFirstRenderCount, setIsFirstRenderCount] = useState(setFirstRender(width))
+  const isNextRenderCount = setNextRender(width)
 
   /** Получить данные профиля и фильмы */
   useEffect(()=>{
@@ -400,9 +385,9 @@ function App() {
                   onNotFound={isErrorNoMovies}
                   onInactivElse={isInactivButtonElse}
                   setIsInactivButtonElse={setIsInactivButtonElse}
-                  onFirstRender={isFirstRender}
-                  setIsFirstRender={setIsFirstRender}
-                  onNextRender={isNextRender}
+                  isFirstRenderCount={isFirstRenderCount}
+                  setIsFirstRenderCount={setIsFirstRenderCount}
+                  isNextRenderCount={isNextRenderCount}
                 />
             </ProtectedRoute>
             <ProtectedRoute

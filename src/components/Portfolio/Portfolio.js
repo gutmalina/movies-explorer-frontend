@@ -9,51 +9,49 @@ import {
 
 function Portfolio() {
   return (
-    <>
-      <section className="portfolio">
-        <h2 className="portfolio__title title">
-          Портфолио
-        </h2>
-        <ul className="portfolio__container container">
-          <li className="portfolio__list list">
-            <a
-              className="portfolio__link link"
-              href={LINK_SITE_STATIC}
-              target="_blank"
-              rel="noreferrer">
-              <p className="portfolio__subtitle subtitle">
-                {NAME_SITE_STATIC}
-              </p>
-              <div className="portfolio__img"></div>
-            </a>
-          </li>
-          <li className="portfolio__list list">
-            <a
-              className="portfolio__link link"
-              href={LINK_SITE_ADAPTIVE}
-              target="_blank"
-              rel="noreferrer">
-              <p className="portfolio__subtitle subtitle">
-                {NAME_SITE_ADAPTIVE}
-              </p>
-              <div className="portfolio__img"></div>
-            </a>
-          </li>
-          <li className="portfolio__list list">
-            <a
-              className="portfolio__link link"
-              href={LINK_SITE_ONE_PAGE}
-              target="_blank"
-              rel="noreferrer">
-              <p className="portfolio__subtitle subtitle">
-                {NAME_SITE_ONE_PAGE}
-              </p>
-              <div className="portfolio__img"></div>
-            </a>
-          </li>
-        </ul>
-      </section>
-    </>
+    <section className="portfolio">
+      <h2 className="portfolio__title title">
+        Портфолио
+      </h2>
+      <ul className="portfolio__container container">
+        <li className="portfolio__list list">
+          <a
+            className="portfolio__link link"
+            href={LINK_SITE_STATIC}
+            target="_blank"
+            rel="noreferrer">
+            <p className="portfolio__subtitle subtitle">
+              {NAME_SITE_STATIC}
+            </p>
+            <div className="portfolio__img"></div>
+          </a>
+        </li>
+        <li className="portfolio__list list">
+          <a
+            className="portfolio__link link"
+            href={LINK_SITE_ADAPTIVE}
+            target="_blank"
+            rel="noreferrer">
+            <p className="portfolio__subtitle subtitle">
+              {NAME_SITE_ADAPTIVE}
+            </p>
+            <div className="portfolio__img"></div>
+          </a>
+        </li>
+        <li className="portfolio__list list">
+          <a
+            className="portfolio__link link"
+            href={LINK_SITE_ONE_PAGE}
+            target="_blank"
+            rel="noreferrer">
+            <p className="portfolio__subtitle subtitle">
+              {NAME_SITE_ONE_PAGE}
+            </p>
+            <div className="portfolio__img"></div>
+          </a>
+        </li>
+      </ul>
+    </section>
   );
 }
 

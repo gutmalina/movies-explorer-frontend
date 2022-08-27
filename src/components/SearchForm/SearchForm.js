@@ -1,7 +1,8 @@
-import { useCallback, useRef, useEffect, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Button from "../Button/Button";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import Preloader from "../Preloader/Preloader";
+import { MESSAGE_ERROR_NOWORD } from "../../utils/constants";
 
 function SearchForm({
   handleFilterMovies,
@@ -15,14 +16,8 @@ function SearchForm({
 }) {
 
   const inputRef = useRef(true)
-  const [isInputValid, setIsInputValid] = useState(false)
-
-  /** проверить валидность поля input */
-  useEffect(()=>{
-    if(inputRef.current.value !== ''){
-      setIsInputValid(inputRef.current.validity.valid);
-    }
-  }, [inputRef.current.value])
+  const [isInputValid, setIsInputValid] = useState(true)
+  const error = `${!isInputValid ? MESSAGE_ERROR_NOWORD : onNotFound}`
 
   /** Получить значение введенное в поле input */
   const handleChange = useCallback((evt)=>{
@@ -33,6 +28,10 @@ function SearchForm({
   /** Submit */
   const handleSubmit = (evt)=>{
     evt.preventDefault();
+    setIsInputValid(true)
+    if(isKeyword === ''){
+      return setIsInputValid(false)
+    }
     renderPreloader(true)
     handleFilterMovies({
       keyword: isKeyword,
@@ -64,7 +63,6 @@ function SearchForm({
               autoFocus
               onChange={handleChange}
               value={isKeyword || ''}
-              minLength="1"
             />
             <Button
               name="search"
@@ -86,7 +84,7 @@ function SearchForm({
       />
       <div className="search__container_message container">
         <p className="search__subtitle subtitle">
-          {onNotFound}
+          {error}
         </p>
       </div>
     </>
