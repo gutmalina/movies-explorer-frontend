@@ -154,6 +154,7 @@ function App() {
   // })
 
   useEffect(()=>{
+    setIsPreloader(true)
     moviesApi
       .getMovies()
        .then((movies)=>{
@@ -176,11 +177,15 @@ function App() {
        .catch((error)=>{
          console.log(error)
        })
+       .finally(()=>{
+        setIsPreloader(false)
+      })
   }, [])
 
   /** поиск по keyword */
   const handleFilterMovies = ((data )=>{
     const { keyword } = data;
+    
     const objMovies = pathname === '/movies' ? JSON.parse(localStorage.getItem('moviesAll')) : isSavedMovies
     const filterMovies = objMovies.filter((movie)=>{
       return movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())
