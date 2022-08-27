@@ -52,7 +52,6 @@ function Movies({
       <SearchForm
         handleFilterMovies={handleFilterMovies}
         isKeyword={isKeyword}
-        setIsKeyword={setIsKeyword}
         isShortMovie={isShortMovie}
         setIsShortMovie={setIsShortMovie}
         onPreloader={onPreloader}
@@ -77,7 +76,7 @@ function Movies({
           type="submit"
           aria-label="Показать ещё фильмы"
           theme={theme}
-          contentButton="Ещё">
+          content="Ещё">
         </Button>
       </form>
     </section>

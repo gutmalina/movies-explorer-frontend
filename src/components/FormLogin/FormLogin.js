@@ -1,37 +1,39 @@
 import {useState, useEffect} from "react";
 import InputFields from "../InputFields/InputFields";
 import Button from '../Button/Button';
+import { useFormWithValidation } from "../Hooks/useForm";
 
 function FormLogin({
   nameForm,
-  minLength,
-  maxLength,
   handleLogin,
   onError,
   setIsError,
-  isDisabledButton,
-  setIsDisabledButton
 }){
-  const [isContentButton, setIsContentButton] = useState('Войти')
-  const [isDisabledInput] = useState(false)
-  const [isDate, setIsDate] = useState({
-    email: '',
-    password: ''
+  // const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation()
+  const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation({
+    email: (value) =>{
+      const emailRegex = /\S+@\S+\.\S+/;
+      if (!emailRegex.test(email)) {
+        return 'Введите адрес электронной почты';
+      }
+      return ''
+    }
   })
-  const {email, password} = isDate
-  const [isInputEmailValid, setIsInputEmailValid] = useState(true)
-  const [isInputPasswordValid, setIsInputPasswordValid] = useState(true)
+  const [DisabledButton, setDisabledButton] = useState(true)
+  const [ContentButton, setContentButton] = useState('Войти')
+
+  const { email, password} = values;
 
   /** установить disabled button */
   useEffect(()=>{
     if(email !== '' && password !== ''){
-      if(isInputEmailValid && isInputPasswordValid){
-        setIsDisabledButton(false);
+      if(isValid){
+        setDisabledButton(false);
       }else{
-        setIsDisabledButton(true);
+        setDisabledButton(true);
       }
     }else{
-      setIsDisabledButton(true);
+      setDisabledButton(true);
     }
   }, [email, password])
 
@@ -47,11 +49,12 @@ function FormLogin({
         renderLoading(false)
       }
     });
+    resetForm()
   }
 
   /** Изменение текста кнопки при ожидании ответа от сервера */
   const renderLoading = (isLoading)=>{
-    isLoading ? setIsContentButton('Вход...') : setIsContentButton('Войти');
+    isLoading ? setContentButton('Вход...') : setContentButton('Войти');
   }
 
   /** показать ошибку от сервера */
@@ -68,12 +71,9 @@ function FormLogin({
           type="email"
           placeholder=""
           textContent="E-mail"
-          minLength={minLength}
-          maxLength={maxLength}
-          onDisabled={isDisabledInput}
-          isInputValid={isInputEmailValid}
-          setIsInputValid={setIsInputEmailValid}
-          setIsDate={setIsDate}
+          value={values.email || ''}
+          onChange={handleChange}
+          error={errors.email}
         />
         <InputFields
           nameForm={nameForm}
@@ -81,10 +81,10 @@ function FormLogin({
           type="password"
           placeholder=""
           textContent="Пароль"
-          onDisabled={isDisabledInput}
-          isInputValid={isInputPasswordValid}
-          setIsInputValid={setIsInputPasswordValid}
-          setIsDate={setIsDate}
+          minLength='1'
+          value={values.password || ''}
+          onChange={handleChange}
+          error={errors.password}
         />
       </fieldset>
       <p className={errorMessage}>{onError}</p>
@@ -93,8 +93,8 @@ function FormLogin({
         type="submit"
         aria-label="Авторизация пользователя"
         theme="auth"
-        contentButton={isContentButton}
-        isDisabledButton={isDisabledButton}
+        content={ContentButton}
+        disabled={DisabledButton}
       />
     </form>
   )

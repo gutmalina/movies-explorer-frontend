@@ -52,9 +52,10 @@ function App() {
   const [isFilterMovies, setIsFilterMovies] = useState([])
   const [isGetResAllMovies, setIsGetResAllMovies] = useState(false)
 
-  /** состояние кнопок */
+  /** состояние кнопок, инпутов */
   const [isDisabledButton, setIsDisabledButton] = useState(true)
   const [isInactivButtonElse, setIsInactivButtonElse] = useState(false)
+  const [disabledInput, setDisabledInput] = useState(true)
 
   /** фильтр - ключевое слово, чекбокс короткометражек  */
   const [isKeyword, setIsKeyword] = useState('')
@@ -146,6 +147,9 @@ function App() {
     data.onRenderPreloader(false)
     setIsFilterMovies(filterMovies)
     setIsRenderMovies(filterMovies)
+    if(pathname === '/movies'){
+      localStorage.setItem('word', JSON.stringify(keyword));
+    }
     return isRenderMovies
   })
 
@@ -186,9 +190,8 @@ function App() {
     if(pathname === '/movies'){
       localStorage.setItem('movies', JSON.stringify(isRenderMovies));
       localStorage.setItem('checkbox', JSON.stringify(isShortMovie));
-      localStorage.setItem('word', JSON.stringify(isKeyword));
     }
-  }, [isRenderMovies, isShortMovie, isKeyword])
+  }, [isRenderMovies, isShortMovie])
 
   /** показать сообщение при обработке запроса */
   useEffect(()=>{
@@ -422,6 +425,8 @@ function App() {
                 setIsDisabledButton={setIsDisabledButton}
                 signOut={signOut}
                 onSuccessfulMessage={isSuccessfulMessage}
+                disabledInput={disabledInput}
+                setDisabledInput={setDisabledInput}
               />
             </ProtectedRoute>
             <Route exact path="/signup">
@@ -434,8 +439,6 @@ function App() {
                   handleRegister={handleRegister}
                   onError={isError || ''}
                   setIsError={setIsError}
-                  isDisabledButton={isDisabledButton}
-                  setIsDisabledButton={setIsDisabledButton}
                 />
               }
             </Route>
@@ -450,8 +453,6 @@ function App() {
                 handleLogin={handleLogin}
                 onError={isError || ''}
                 setIsError={setIsError}
-                isDisabledButton={isDisabledButton}
-                setIsDisabledButton={setIsDisabledButton}
                 />
               }
             </Route>

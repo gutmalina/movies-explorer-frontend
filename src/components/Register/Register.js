@@ -7,8 +7,6 @@ function Register({
   handleRegister,
   onError,
   setIsError,
-  isDisabledButton,
-  setIsDisabledButton
 }){
 
   return (
@@ -18,14 +16,9 @@ function Register({
       </h2>
       <FormRegister
         nameForm="register"
-        location={location}
-        minLength="2"
-        maxLength="30"
         handleRegister={handleRegister}
         onError={onError}
         setIsError={setIsError}
-        isDisabledButton={isDisabledButton}
-        setIsDisabledButton={setIsDisabledButton}
       />
       <CaptionForm
         nameForm="register"

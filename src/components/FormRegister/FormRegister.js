@@ -1,40 +1,38 @@
 import {useState, useEffect} from "react";
+import { useFormWithValidation } from "../Hooks/useForm";
 import InputFields from "../InputFields/InputFields";
 import Button from '../Button/Button';
 
 function FormRegister({
   nameForm,
-  location,
-  minLength,
-  maxLength,
   handleRegister,
   onError,
   setIsError,
-  isDisabledButton,
-  setIsDisabledButton
 }){
-  const [isContentButton, setIsContentButton] = useState('Зарегистрироваться')
-  const [isDisabledInput] = useState(false)
-  const [isDate, setIsDate] = useState({
-    email: '',
-    password: '',
-    name: ''
+  const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation({
+    email: (value) =>{
+      const emailRegex = /\S+@\S+\.\S+/;
+      if (!emailRegex.test(email)) {
+        return 'Введите адрес электронной почты';
+      }
+      return ''
+    }
   })
-  const {email, password, name} = isDate
-  const [isInputEmailValid, setIsInputEmailValid] = useState(true)
-  const [isInputPasswordValid, setIsInputPasswordValid] = useState(true)
-  const [isInputNameValid, setIsInputNameValid] = useState(true)
+  const [DisabledButton, setDisabledButton] = useState(true)
+  const [ContentButton, setContentButton] = useState('Зарегистрироваться')
+
+  const {email, password, name} = values;
 
   /** установить disabled button */
   useEffect(()=>{
     if(email !== '' && password !== '' && name !== ''){
-      if(isInputEmailValid && isInputPasswordValid && isInputNameValid){
-        setIsDisabledButton(false);
+      if(isValid){
+        setDisabledButton(false);
       }else{
-        setIsDisabledButton(true);
+        setDisabledButton(true);
       }
     }else{
-      setIsDisabledButton(true);
+      setDisabledButton(true);
     }
   }, [email, password, name]);
 
@@ -51,11 +49,12 @@ function FormRegister({
         renderLoading(false)
       }
     });
+    resetForm()
   };
 
   /** Изменение текста кнопки при ожидании ответа от сервера */
   const renderLoading = (isLoading)=>{
-    isLoading ? setIsContentButton('Регистрация...') : setIsContentButton('Зарегистрироваться')
+    isLoading ? setContentButton('Регистрация...') : setContentButton('Зарегистрироваться')
   };
 
   /** показать ошибку от сервера */
@@ -72,13 +71,11 @@ function FormRegister({
           type="text"
           placeholder=""
           textContent="Имя"
-          location={location}
-          minLength={minLength}
-          maxLength={maxLength}
-          onDisabled={isDisabledInput}
-          isInputValid={isInputNameValid}
-          setIsInputValid={setIsInputNameValid}
-          setIsDate={setIsDate}
+          minLength='2'
+          maxLength='30'
+          value={values.name || ''}
+          onChange={handleChange}
+          error={errors.name}
         />
         <InputFields
           nameForm={nameForm}
@@ -86,10 +83,9 @@ function FormRegister({
           type="email"
           placeholder=""
           textContent="E-mail"
-          onDisabled={isDisabledInput}
-          isInputValid={isInputEmailValid}
-          setIsInputValid={setIsInputEmailValid}
-          setIsDate={setIsDate}
+          value={values.email || ''}
+          onChange={handleChange}
+          error={errors.email}
         />
         <InputFields
           nameForm={nameForm}
@@ -97,10 +93,10 @@ function FormRegister({
           type="password"
           placeholder=""
           textContent="Пароль"
-          onDisabled={isDisabledInput}
-          isInputValid={isInputPasswordValid}
-          setIsInputValid={setIsInputPasswordValid}
-          setIsDate={setIsDate}
+          minLength='5'
+          value={values.password || ''}
+          onChange={handleChange}
+          error={errors.password}
         />
       </fieldset>
       <p className={errorMessage}>
@@ -111,8 +107,8 @@ function FormRegister({
         type="submit"
         aria-label="Зарегистрироваться"
         theme="auth"
-        contentButton={isContentButton}
-        isDisabledButton={isDisabledButton}
+        content={ContentButton}
+        disabled={DisabledButton}
       />
     </form>
   )

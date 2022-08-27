@@ -1,40 +1,34 @@
-import { useCallback, useRef, useState } from "react";
+import { useFormWithValidation } from "../Hooks/useForm";
 import Button from "../Button/Button";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import Preloader from "../Preloader/Preloader";
 import { MESSAGE_ERROR_NOWORD } from "../../utils/constants";
+import { useState } from "react";
 
 function SearchForm({
   handleFilterMovies,
   isKeyword,
-  setIsKeyword,
   isShortMovie,
   setIsShortMovie,
   onPreloader,
   setIsPreloader,
   onNotFound,
 }) {
-
-  const inputRef = useRef(true)
-  const [isInputValid, setIsInputValid] = useState(true)
-  const error = `${!isInputValid ? MESSAGE_ERROR_NOWORD : onNotFound}`
-
-  /** Получить значение введенное в поле input */
-  const handleChange = useCallback((evt)=>{
-    const { value } = evt.target
-    setIsKeyword(value)
-  }, [setIsKeyword])
+  const { values, handleChange} = useFormWithValidation({})
+  const [inputValid, setInputValid] = useState(true)
+  const {word} = values
+  const error = `${!inputValid ? MESSAGE_ERROR_NOWORD  : onNotFound}`
 
   /** Submit */
   const handleSubmit = (evt)=>{
     evt.preventDefault();
-    setIsInputValid(true)
-    if(isKeyword === ''){
-      return setIsInputValid(false)
+    setInputValid(true)
+    if(word === ''){
+      return setInputValid(false)
     }
     renderPreloader(true)
     handleFilterMovies({
-      keyword: isKeyword,
+      keyword: word,
       onRenderPreloader: ()=>{
         renderPreloader(false)
       }
@@ -56,20 +50,21 @@ function SearchForm({
             <div className="search__img"></div>
             <input
               id="search"
-              ref={inputRef}
+              name="word"
               type="text"
               className="search__input input"
               placeholder="Фильм"
               autoFocus
+              minLength='1'
               onChange={handleChange}
-              value={isKeyword || ''}
+              value={values.word || isKeyword}
             />
             <Button
               name="search"
               type="submit"
               aria-label="Найти фильм"
               theme="search"
-              contentButton="Найти"
+              content="Найти"
             />
             <div className="search__decor"></div>
           </form>

@@ -6,9 +6,7 @@ function Login({
   location,
   handleLogin,
   onError,
-  setIsError,
-  isDisabledButton,
-  setIsDisabledButton}){
+  setIsError,}){
 
   return(
     <section className="login">
@@ -17,13 +15,9 @@ function Login({
       </h2>
       <FormLogin
         nameForm="login"
-        minLength="2"
-        maxLength="30"
         handleLogin={handleLogin}
         onError={onError}
         setIsError={setIsError}
-        isDisabledButton={isDisabledButton}
-        setIsDisabledButton={setIsDisabledButton}
       />
       <CaptionForm
         nameForm="login"

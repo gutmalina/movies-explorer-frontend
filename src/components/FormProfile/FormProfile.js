@@ -1,45 +1,44 @@
 import React, {useState, useEffect} from "react";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { useFormWithValidation } from "../Hooks/useForm";
 import InputFields from '../InputFields/InputFields';
 import Button from "../Button/Button";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function FormProfile({
   nameForm,
-  location,
-  minLength,
-  maxLength,
-  onDisabled,
-  data,
   handleUpdateUser,
   onError,
   setIsError,
-  isDisabledButton,
-  setIsDisabledButton,
-  isDisabledInput,
-  setIsDisabledInput,
+  disabledInput,
+  setDisabledInput,
   onSuccessfulMessage,
 }) {
   const currentUser = React.useContext(CurrentUserContext)
-  const [isContentButton, setIsContentButton] = useState('Сохранить')
-  const [clickedButton, setClickedButton] = useState("profile-edit")
-  const [isDate, setIsDate] = useState({
-    name: data.name || '',
-    email: data.email || ''
+  const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation({
+    email: (value) =>{
+      const emailRegex = /\S+@\S+\.\S+/;
+      if (!emailRegex.test(email)) {
+        return 'Введите адрес электронной почты';
+      }
+      return ''
+    }
   })
-  const {name, email} = isDate
-  const [isInputEmailValid, setIsInputEmailValid] = useState(true)
-  const [isInputNameValid, setIsInputNameValid] = useState(true)
+  const {name, email} = values;
+  const [DisabledButton, setDisabledButton] = useState(true)
+  const [ContentButton, setContentButton] = useState('Сохранить')
+  const [clickedButton, setClickedButton] = useState("profile-edit")
+
 
   /** установить disabled button */
   useEffect(()=>{
     if((email !== '' && name !== '') && (name !== currentUser.name || email !== currentUser.email)){
-      if(isInputEmailValid && isInputNameValid){
-        setIsDisabledButton(false);
+      if(isValid){
+        setDisabledButton(false);
       }else{
-        setIsDisabledButton(true);
+        setDisabledButton(true);
       }
     }else{
-      setIsDisabledButton(true);
+      setDisabledButton(true);
     }
   }, [email, name]);
 
@@ -57,14 +56,15 @@ function FormProfile({
         }
       })
     }else if(clickedButton === "profile-edit"){
-      setIsDisabledInput(false)
+      setDisabledInput(false)
       setClickedButton("profile-save")
     }
+    resetForm()
   };
 
   /** Изменение текста кнопки при ожидании ответа от сервера */
   const renderLoading = (isLoading)=>{
-    isLoading ? setIsContentButton('Сохранение...') : setIsContentButton('Сохранить');
+    isLoading ? setContentButton('Сохранение...') : setContentButton('Сохранить');
   };
 
   /** показать ответ от сервера */
@@ -85,15 +85,12 @@ function FormProfile({
           type="text"
           placeholder=""
           textContent="Имя"
-          location={location}
-          minLength={minLength}
-          maxLength={maxLength}
-          onDisabled={onDisabled}
-          value={name}
-          isInputValid={isInputNameValid}
-          setIsInputValid={setIsInputNameValid}
-          setIsDate={setIsDate}
-
+          minLength='2'
+          maxLength='30'
+          value={values.name || currentUser.name}
+          onChange={handleChange}
+          error={errors.name}
+          disabledInput={disabledInput}
         />
         <InputFields
           nameForm={nameForm}
@@ -101,23 +98,21 @@ function FormProfile({
           type="email"
           placeholder=""
           textContent="E-mail"
-          location={location}
-          onDisabled={onDisabled}
-          value={email}
-          isInputValid={isInputEmailValid}
-          setIsInputValid={setIsInputEmailValid}
-          setIsDate={setIsDate}
+          value={values.email || currentUser.email}
+          onChange={handleChange}
+          error={errors.email}
+          disabledInput={disabledInput}
         />
       </fieldset>
       <p className={span}>{contentSpan}</p>
-      { !isDisabledInput ?
+      { !disabledInput ?
         <Button
           name="profile-save"
           type="submit"
           aria-label="Сохранить изменненные данные"
           theme="auth"
-          contentButton={isContentButton}
-          isDisabledButton={isDisabledButton}
+          content={ContentButton}
+          disabled={DisabledButton}
         />
         :
         <Button
@@ -125,7 +120,7 @@ function FormProfile({
           type="submit"
           aria-label="Редактировать данные"
           theme="profile-edit"
-          contentButton="Редактировать"
+          content="Редактировать"
           >
         </Button>
       }

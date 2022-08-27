@@ -21,7 +21,6 @@ function SavedMovies({
       <SearchForm
         handleFilterMovies={handleFilterMovies}
         isKeyword={isKeyword}
-        setIsKeyword={setIsKeyword}
         isShortMovie={isShortMovie}
         setIsShortMovie={setIsShortMovie}
         location={location}

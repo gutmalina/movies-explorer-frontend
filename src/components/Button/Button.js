@@ -1,14 +1,14 @@
 function Button({
-  contentButton,
+  content,
   name,
   type,
   ariaLabel,
   theme,
-  isDisabledButton,
+  disabled,
   isLikes
 }) {
   const button = `button button__${name} button__theme_${theme}
-  ${isDisabledButton ? "button__type_disabled" : ""}
+  ${disabled ? "button__type_disabled" : ""}
   ${isLikes ? `button__${name}_inactive` : `button__${name}_active`}`
 
   return (
@@ -17,8 +17,8 @@ function Button({
       name={name}
       className={button}
       aria-label={ariaLabel}
-      disabled={isDisabledButton}>
-        {contentButton || ''}
+      disabled={disabled}>
+        {content || ''}
     </button>
   );
 };
