@@ -15,7 +15,6 @@ function Movies({
   isShortMovie,
   setIsShortMovie,
   onPreloader,
-  setIsPreloader,
   onNotFound,
   onInactivElse,
   setIsInactivButtonElse,
@@ -52,10 +51,10 @@ function Movies({
       <SearchForm
         handleFilterMovies={handleFilterMovies}
         isKeyword={isKeyword}
+        setIsKeyword={setIsKeyword}
         isShortMovie={isShortMovie}
         setIsShortMovie={setIsShortMovie}
         onPreloader={onPreloader}
-        setIsPreloader={setIsPreloader}
         onNotFound={onNotFound}
       />
       <MoviesCardList

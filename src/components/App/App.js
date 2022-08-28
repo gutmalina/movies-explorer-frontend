@@ -32,9 +32,9 @@ import {
 } from '../../utils/constants';
 
 function App() {
-    const [currentUser, setCurrentUser] = useState({})
+  const [currentUser, setCurrentUser] = useState({})
 
-    const { pathname } = useLocation()
+  const { pathname } = useLocation()
 
   /** ошибки при обработке данных */
   const [isError, setIsError] = useState('')
@@ -48,8 +48,6 @@ function App() {
   /** массивы карточек - для отрисовки, сохраненные, все, найденные */
   const [isRenderMovies, setIsRenderMovies] = useState([])
   const [isSavedMovies, setIsSavedMovies] = useState([])
-  const [isAllMovies, setIsAllMovies] = useState([])
-  const [isFilterMovies, setIsFilterMovies] = useState([])
   const [isGetResAllMovies, setIsGetResAllMovies] = useState(false)
 
   /** состояние кнопок, инпутов */
@@ -106,53 +104,6 @@ function App() {
   }
 
   /** получить все фильмы */
-  // const handleGetAllMovies=()=>{
-  //   moviesApi
-  //    .getMovies()
-  //     .then((movies)=>{
-  //       localStorage.setItem('moviesAll', JSON.stringify(movies.map((movie)=>{
-  //         return {
-  //           country: movie.country,
-  //           director: movie.director,
-  //           duration: movie.duration,
-  //           year: movie.year,
-  //           description: movie.description,
-  //           image: `${MOVIES_URL}${movie.image.url}`,
-  //           trailerLink: movie.trailerLink,
-  //           nameRU: movie.nameRU,
-  //           nameEN: movie.nameEN,
-  //           thumbnail: `${MOVIES_URL}${movie.image.formats.thumbnail.url}`,
-  //           movieId: movie.id,
-  //         };}))
-  //       );
-  //       setIsAllMovies(JSON.parse(localStorage.getItem('moviesAll')))
-  //     })
-  //     .catch((error)=>{
-  //       console.log(error)
-  //     })
-  //   setIsGetResAllMovies(true)
-  //   return isGetResAllMovies
-  // }
-
-  /** поиск по keyword */
-  // const handleFilterMovies = ((data )=>{
-  //   const { keyword } = data;
-  //   if(!isGetResAllMovies && pathname === '/movies'){
-  //     handleGetAllMovies()
-  //   }
-  //   const objMovies = pathname === '/movies' ? isAllMovies : isSavedMovies
-  //   const filterMovies = objMovies.filter((movie)=>{
-  //     return movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())
-  //   })
-  //   data.onRenderPreloader(false)
-  //   setIsFilterMovies(filterMovies)
-  //   setIsRenderMovies(filterMovies)
-  //   if(pathname === '/movies'){
-  //     localStorage.setItem('word', JSON.stringify(keyword));
-  //   }
-  //   return isRenderMovies
-  // })
-
   useEffect(()=>{
     setIsPreloader(true)
     moviesApi
@@ -180,45 +131,52 @@ function App() {
        .finally(()=>{
         setIsPreloader(false)
       })
-  }, [])
+  }, [isGetResAllMovies])
 
   /** поиск по keyword */
-  const handleFilterMovies = ((data )=>{
-    const { keyword } = data;
-    
-    const objMovies = pathname === '/movies' ? JSON.parse(localStorage.getItem('moviesAll')) : isSavedMovies
-    const filterMovies = objMovies.filter((movie)=>{
+  const handleFilterMovies = ((keyword )=>{
+    setIsGetResAllMovies(true)
+    const allMovies = JSON.parse(localStorage.getItem('moviesAll'))
+    const movies = pathname === '/movies' ? allMovies : isSavedMovies
+    const filterMovies = movies.filter((movie)=>{
       return movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())
     })
-    data.onRenderPreloader(false)
-    setIsFilterMovies(filterMovies)
-    setIsRenderMovies(filterMovies)
     if(pathname === '/movies'){
       localStorage.setItem('word', JSON.stringify(keyword));
+      localStorage.setItem('checkbox', JSON.stringify(isShortMovie));
+      localStorage.setItem('movies', JSON.stringify(filterMovies));
     }
-    return isRenderMovies
+    setIsRenderMovies(filterMovies)
   })
 
   /** поиск по checkbox */
   useEffect(()=>{
     if(isShortMovie){
-      setIsRenderMovies(isFilterMovies.filter((movie) => movie.duration <= SHORT_MOVIES))
+      if(pathname === '/movies' && isGetResAllMovies){
+        const movies = isRenderMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
+        setIsRenderMovies(movies)
+        localStorage.setItem('checkbox', JSON.stringify(isShortMovie));
+        localStorage.setItem('movies', JSON.stringify(movies));
+      }else if(pathname === '/saved-movies' && isKeyword === ''){
+        const movies = isSavedMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
+        setIsRenderMovies(movies)
+      }else if(pathname === '/saved-movies' && isKeyword !== ''){
+        const movies = isRenderMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
+        setIsRenderMovies(movies)
+      }
     }else{
-      setIsRenderMovies(isFilterMovies)
+      if(pathname === '/movies'){
+        handleFilterMovies(isKeyword)
+      }else if(pathname === '/saved-movies' && isKeyword === ''){
+        setIsRenderMovies(isSavedMovies)
+      }else if(pathname === '/saved-movies' && isKeyword !== ''){
+        handleFilterMovies(isKeyword)
+      }
     }
   }, [isShortMovie])
 
-  /** обновить данные для страницы saved-movies */
-  useEffect(()=>{
-    if(pathname === '/saved-movies'){
-      setIsRenderMovies(isSavedMovies)
-      setIsFilterMovies(isSavedMovies)
-      setIsKeyword('')
-      setIsShortMovie(false)
-    }
-  }, [pathname, isSavedMovies])
 
-  /** получить параметры запроса из хранилища */
+  /** установить параметры запроса при изменении страницы*/
   useEffect(()=>{
     if(pathname === '/movies'){
       if(isGetResAllMovies){
@@ -227,17 +185,15 @@ function App() {
         setIsKeyword(JSON.parse(localStorage.getItem('word')))
       }else{
         setIsRenderMovies([])
+        setIsShortMovie(false)
+        setIsKeyword('')
       }
+    }else if(pathname === '/saved-movies'){
+      setIsRenderMovies(isSavedMovies)
+      setIsShortMovie(false)
+      setIsKeyword('')
     }
   }, [pathname])
-
-  /** записать параметры запроса в хранилище */
-  useEffect(()=>{
-    if(pathname === '/movies'){
-      localStorage.setItem('movies', JSON.stringify(isRenderMovies));
-      localStorage.setItem('checkbox', JSON.stringify(isShortMovie));
-    }
-  }, [isRenderMovies, isShortMovie])
 
   /** показать сообщение при обработке запроса */
   useEffect(()=>{
@@ -254,7 +210,7 @@ function App() {
     }
   },[isRenderMovies])
 
-  /** Отправка новых данных профиля на сервер  */
+  /** обновление данных профиля */
   const handleUpdateUser=(isDate)=>{
     mainApi
       .editProfile(isDate.email, isDate.name)
@@ -389,9 +345,7 @@ function App() {
     localStorage.removeItem('checkbox');
     localStorage.removeItem('word');
     setIsRenderMovies([])
-    setIsAllMovies([])
     setIsSavedMovies([])
-    setIsFilterMovies([])
     setIsGetResAllMovies(false)
     setCurrentUser('')
     setLoggedIn(false);
@@ -430,7 +384,6 @@ function App() {
                   isShortMovie={isShortMovie}
                   setIsShortMovie={setIsShortMovie}
                   onPreloader={isPreloader}
-                  setIsPreloader={setIsPreloader}
                   onNotFound={isErrorNoMovies}
                   onInactivElse={isInactivButtonElse}
                   setIsInactivButtonElse={setIsInactivButtonElse}
@@ -453,7 +406,6 @@ function App() {
                   isShortMovie={isShortMovie}
                   setIsShortMovie={setIsShortMovie}
                   onPreloader={isPreloader}
-                  setIsPreloader={setIsPreloader}
                   onNotFound={isErrorNoMovies}
                 />
             </ProtectedRoute>

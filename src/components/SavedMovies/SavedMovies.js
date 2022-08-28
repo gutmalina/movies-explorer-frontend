@@ -12,7 +12,6 @@ function SavedMovies({
   isShortMovie,
   setIsShortMovie,
   onPreloader,
-  setIsPreloader,
   onNotFound,
 }) {
 
@@ -21,11 +20,11 @@ function SavedMovies({
       <SearchForm
         handleFilterMovies={handleFilterMovies}
         isKeyword={isKeyword}
+        setIsKeyword={setIsKeyword}
         isShortMovie={isShortMovie}
         setIsShortMovie={setIsShortMovie}
         location={location}
         onPreloader={onPreloader}
-        setIsPreloader={setIsPreloader}
         onNotFound={onNotFound}
       />
       <MoviesCardList

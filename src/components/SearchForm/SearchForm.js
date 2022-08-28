@@ -1,4 +1,5 @@
-import { useFormWithValidation } from "../Hooks/useForm";
+// import { useFormWithValidation } from "../Hooks/useForm";
+import { useRef, useCallback } from "react";
 import Button from "../Button/Button";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import Preloader from "../Preloader/Preloader";
@@ -8,36 +9,30 @@ import { useState } from "react";
 function SearchForm({
   handleFilterMovies,
   isKeyword,
+  setIsKeyword,
   isShortMovie,
   setIsShortMovie,
   onPreloader,
-  setIsPreloader,
   onNotFound,
 }) {
-  const { values, handleChange} = useFormWithValidation({})
+  const inputRef = useRef(true)
   const [inputValid, setInputValid] = useState(true)
-  const {word} = values
   const error = `${!inputValid ? MESSAGE_ERROR_NOWORD  : onNotFound}`
+
+  /** Получить значение введенное в поле input */
+  const handleChange = useCallback((evt)=>{
+    const { value } = evt.target
+    setIsKeyword(value)
+  }, [setIsKeyword])
 
   /** Submit */
   const handleSubmit = (evt)=>{
     evt.preventDefault();
     setInputValid(true)
-    if(word === ''){
+    if(isKeyword === ''){
       return setInputValid(false)
     }
-    renderPreloader(true)
-    handleFilterMovies({
-      keyword: word,
-      onRenderPreloader: ()=>{
-        renderPreloader(false)
-      }
-    });
-  }
-
-  /** показать preloader во время выволнения запроса */
-  const renderPreloader = (isLoading)=>{
-    isLoading ? setIsPreloader(true) : setIsPreloader(false);
+    handleFilterMovies(isKeyword);
   }
 
   return (
@@ -57,7 +52,8 @@ function SearchForm({
               autoFocus
               minLength='1'
               onChange={handleChange}
-              value={values.word || isKeyword}
+              value={isKeyword || ''}
+              ref={inputRef}
             />
             <Button
               name="search"
