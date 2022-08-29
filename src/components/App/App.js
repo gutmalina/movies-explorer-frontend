@@ -105,12 +105,13 @@ function App() {
   }
 
   /** получить все фильмы */
-  useEffect(()=>{
-    setPreloader(true)
-    moviesApi
-      .getMovies()
-       .then((movies)=>{
-         localStorage.setItem('moviesAll', JSON.stringify(movies.map((movie)=>{
+  async function handleGetAllMovies(keyword){
+    if(!getResAllMovies){
+      setPreloader(true)
+      await moviesApi
+        .getMovies()
+         .then((movies)=>{
+           localStorage.setItem('moviesAll', JSON.stringify(movies.map((movie)=>{
           const country = movie.country ? movie.country : 'none'
           const name = movie.nameEN ? movie.nameEN : movie.nameRU
           return {
@@ -126,19 +127,22 @@ function App() {
             thumbnail: `${MOVIES_URL}${movie.image.formats.thumbnail.url}`,
             movieId: movie.id,
           };}))
-         );
-       })
-       .catch((error)=>{
-         console.log(error)
-       })
-       .finally(()=>{
-        setPreloader(false)
-      })
-  }, [getResAllMovies])
+           );
+           setGetResAllMovies(true)
+         })
+         .catch((error)=>{
+           console.log(error)
+           setGetResAllMovies(false)
+         })
+         .finally(()=>{
+          setPreloader(false)
+        })
+    }
+    handleFilterMovies(keyword)
+  }
 
   /** поиск по keyword */
   const handleFilterMovies = ((keyword )=>{
-    setGetResAllMovies(true)
     const allMovies = JSON.parse(localStorage.getItem('moviesAll'))
     const movies = pathname === '/movies' ? allMovies : savedMovies
     const filterMovies = movies.filter((movie)=>{
@@ -400,7 +404,8 @@ function App() {
                   setInactivButtonElse={setInactivButtonElse}
                   handleCreateMovie={handleCreateMovie}
                   handleDeleteMovie={handleDeleteMovie}
-                  handleFilterMovies={handleFilterMovies}
+                  // handleFilterMovies={handleFilterMovies}
+                  handleFilterMovies={handleGetAllMovies}
                   findMovieInSavedMovie={findMovieInSavedMovie}
                 />
             </ProtectedRoute>
