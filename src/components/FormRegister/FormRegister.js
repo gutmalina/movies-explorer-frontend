@@ -16,7 +16,7 @@ function FormRegister({
     email: (value) =>{
       const emailRegex = /\S+@\S+\.\S+/;
       if (!emailRegex.test(email)) {
-        return {MESSAGE_ERROR_EMAIL};
+        return MESSAGE_ERROR_EMAIL;
       }
       return ''
     }

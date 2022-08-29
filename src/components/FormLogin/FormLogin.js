@@ -13,11 +13,11 @@ function FormLogin({
   handleLogin,
 }){
 
-  const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation({
+  const { values, handleChange, errors, isValid} = useFormWithValidation({
     email: (value) =>{
       const emailRegex = /\S+@\S+\.\S+/;
       if (!emailRegex.test(email)) {
-        return {MESSAGE_ERROR_EMAIL};
+        return MESSAGE_ERROR_EMAIL;
       }
       return ''
     }
@@ -50,7 +50,6 @@ function FormLogin({
         renderLoading(false)
       }
     });
-    resetForm()
   }
 
   /** Изменение текста кнопки при ожидании ответа от сервера */

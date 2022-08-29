@@ -70,9 +70,9 @@ function App() {
     if(loggedIn){
       Promise
         .all([mainApi.getProfile(), mainApi.getMovies()])
-        .then(([user, savedMovies]) => {
+        .then(([user, movies]) => {
           setCurrentUser(user);
-          setSavedMovies(savedOwnerMovies(savedMovies, user));
+          setSavedMovies(savedOwnerMovies(movies, user));
         })
         .catch((error)=>{
           setErrorNoMovies(MESSAGE_FILTER_ERROR);
@@ -153,19 +153,20 @@ function App() {
   })
 
   /** поиск по checkbox */
+  const handleFilterCheckbox = (movies)=>{
+    return renderMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
+  }
+
   useEffect(()=>{
     if(checkbox){
       if(pathname === '/movies' && getResAllMovies){
-        const movies = renderMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
-        setRenderMovies(movies)
+        setRenderMovies(handleFilterCheckbox(renderMovies))
         localStorage.setItem('checkbox', JSON.stringify(checkbox));
-        localStorage.setItem('movies', JSON.stringify(movies));
+        localStorage.setItem('movies', JSON.stringify(handleFilterCheckbox(renderMovies)));
       }else if(pathname === '/saved-movies' && keyword === ''){
-        const movies = savedMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
-        setRenderMovies(movies)
+        setRenderMovies(handleFilterCheckbox(savedMovies))
       }else if(pathname === '/saved-movies' && keyword !== ''){
-        const movies = renderMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
-        setRenderMovies(movies)
+        setRenderMovies(handleFilterCheckbox(renderMovies))
       }
     }else{
       if(pathname === '/movies'){
@@ -176,8 +177,7 @@ function App() {
         handleFilterMovies(keyword)
       }
     }
-  }, [checkbox, savedMovies])
-
+  }, [checkbox])
 
   /** установить параметры запроса при изменении страницы*/
   useEffect(()=>{
@@ -191,7 +191,7 @@ function App() {
         setCheckbox(false)
         setKeyword('')
       }
-    }else if(pathname === '/saved-movies'){
+    }else{
       setRenderMovies(savedMovies)
       setCheckbox(false)
       setKeyword('')
@@ -322,12 +322,13 @@ function App() {
       .finally(()=>{})
   }
 
-  /** Удалить фильм на сервере */
+  /** удалить фильм на сервере */
   const handleDeleteMovie=(movie)=>{
     mainApi
       .deleteMovie(movie._id)
       .then(res => {
         setSavedMovies((movies) => movies.filter((m)=> m._id !== movie._id));
+        removeRenderMovie(movie._id)
       })
       .catch((err)=>{
         setErrorServer(err.message);
@@ -335,7 +336,15 @@ function App() {
       .finally(()=>{})
   }
 
-  /* Установить текущий год дя footer */
+  /** удалить фильм со страницы */
+  const removeRenderMovie = (id)=>{
+    if(pathname === '/saved-movies'){
+      const newRender = renderMovies.filter((m)=> m._id !== id)
+      setRenderMovies(newRender)
+    }
+  }
+
+  /* установить текущий год для footer */
   const getYear=()=>{
     return new Date().getFullYear();
   }
