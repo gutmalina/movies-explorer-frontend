@@ -82,7 +82,7 @@ function FormLogin({
           type="password"
           placeholder=""
           textContent="Пароль"
-          minLength='1'
+          minLength='5'
           value={values.password || ''}
           onChange={handleChange}
           error={errors.password}
