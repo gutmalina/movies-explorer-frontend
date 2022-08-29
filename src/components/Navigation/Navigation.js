@@ -1,8 +1,11 @@
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import Account from "../Account/Account";
 
-function Navigation({isOpen, handleMenuClose}) {
-  const navigation = `navigation ${isOpen ? 'navigation__opened' : ''}`
+function Navigation({
+  menuNavigationOpen,
+  handleMenuClose
+}) {
+  const navigation = `navigation ${menuNavigationOpen ? 'navigation__opened' : ''}`
 
   return (
     <div className={navigation}>
@@ -12,24 +15,28 @@ function Navigation({isOpen, handleMenuClose}) {
         onClick={handleMenuClose}>
       </button>
       <ul className="navigation__list">
-        <Link
+        <NavLink
+          exact
           to="/"
           className="navigation__list_item list link"
+          activeClassName='navigation__list_item-active'
           onClick={handleMenuClose}>
             Главная
-          </Link>
-        <Link
+          </NavLink>
+        <NavLink
           to="/movies"
           className="navigation__list_item list link"
+          activeClassName='navigation__list_item-active'
           onClick={handleMenuClose}>
             Фильмы
-          </Link>
-        <Link
+          </NavLink>
+        <NavLink
           to="/saved-movies"
           className="navigation__list_item list link"
+          activeClassName='navigation__list_item-active'
           onClick={handleMenuClose}>
             Сохранённые фильмы
-          </Link>
+          </NavLink>
       </ul>
       <Account
         handleMenuClose={handleMenuClose}

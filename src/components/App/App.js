@@ -6,8 +6,8 @@ import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
 import { CurrentUserContext } from '../../../src/contexts/CurrentUserContext';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import { useCurrentWidth } from '../Hooks/useCurrentWidth';
-import { setFirstRender, setNextRender } from '../Hooks/setNumberRender';
+import { useCurrentWidth } from '../../Hooks/useCurrentWidth';
+import { setFirstRender, setNextRender } from '../../Hooks/setNumberRender';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
@@ -19,6 +19,8 @@ import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
 import { MOVIES_URL } from '../../../src/utils/config';
 import {
+  GREETING_SIGNIN,
+  GREETING_SIGNUP,
   MESSAGE_FILTER_NORESULT,
   MESSAGE_FILTER_ERROR,
   MESSAGE_SUCCESSFUL_UPDATE,
@@ -33,36 +35,35 @@ import {
 
 function App() {
   const [currentUser, setCurrentUser] = useState({})
-
   const { pathname } = useLocation()
 
   /** ошибки при обработке данных */
-  const [isError, setIsError] = useState('')
-  const [isErrorNoMovies, setIsErrorNoMovies] = useState('');
-  const [isSuccessfulMessage, setIsSuccessfulMessage] = useState('')
+  const [errorServer, setErrorServer] = useState('')
+  const [errorNoMovies, setErrorNoMovies] = useState('');
+  const [successfulMessage, setSuccessfulMessage] = useState('')
 
   /** состояние авторизации, загрузки данных */
   const [loggedIn, setLoggedIn] = useState(false)
-  const [isPreloader, setIsPreloader] = useState(false)
+  const [preloader, setPreloader] = useState(false)
 
-  /** массивы карточек - для отрисовки, сохраненные, все, найденные */
-  const [isRenderMovies, setIsRenderMovies] = useState([])
-  const [isSavedMovies, setIsSavedMovies] = useState([])
-  const [isGetResAllMovies, setIsGetResAllMovies] = useState(false)
+  /** массивы карточек */
+  const [renderMovies, setRenderMovies] = useState([])
+  const [savedMovies, setSavedMovies] = useState([])
+  const [getResAllMovies, setGetResAllMovies] = useState(false)
 
   /** состояние кнопок, инпутов */
-  const [isDisabledButton, setIsDisabledButton] = useState(true)
-  const [isInactivButtonElse, setIsInactivButtonElse] = useState(false)
+  const [disabledButton, setDisabledButton] = useState(true)
+  const [inactivButtonElse, setInactivButtonElse] = useState(false)
   const [disabledInput, setDisabledInput] = useState(true)
 
-  /** фильтр - ключевое слово, чекбокс короткометражек  */
-  const [isKeyword, setIsKeyword] = useState('')
-  const [isShortMovie, setIsShortMovie] = useState(false)
+  /** фильтр */
+  const [keyword, setKeyword] = useState('')
+  const [checkbox, setCheckbox] = useState(false)
 
-  /** количество карт на отрисовку */
+  /** отрисовка */
   const width = useCurrentWidth()
-  const [isFirstRenderCount, setIsFirstRenderCount] = useState(setFirstRender(width))
-  const isNextRenderCount = setNextRender(width)
+  const [renderCount, setRenderCount] = useState(setFirstRender(width))
+  const nextRenderCount = setNextRender(width)
 
   /** Получить данные профиля и фильмы */
   useEffect(()=>{
@@ -71,10 +72,10 @@ function App() {
         .all([mainApi.getProfile(), mainApi.getMovies()])
         .then(([user, savedMovies]) => {
           setCurrentUser(user);
-          setIsSavedMovies(savedOwnerMovies(savedMovies, user));
+          setSavedMovies(savedOwnerMovies(savedMovies, user));
         })
         .catch((error)=>{
-          setIsErrorNoMovies(MESSAGE_FILTER_ERROR);
+          setErrorNoMovies(MESSAGE_FILTER_ERROR);
           console.log(error)
         })
     }
@@ -91,7 +92,7 @@ function App() {
 
   /** найти фильм в списке сохраненных для like/dislike*/
   const findMovieInSavedMovie = (id)=>{
-    return isSavedMovies.find((movie) => movie.movieId === id)
+    return savedMovies.find((movie) => movie.movieId === id)
   }
 
   /** присвоить булево значение результату поиска фильма в массиве сохраненных */
@@ -105,110 +106,112 @@ function App() {
 
   /** получить все фильмы */
   useEffect(()=>{
-    setIsPreloader(true)
+    setPreloader(true)
     moviesApi
       .getMovies()
        .then((movies)=>{
          localStorage.setItem('moviesAll', JSON.stringify(movies.map((movie)=>{
-         return {
-           country: movie.country,
-           director: movie.director,
-           duration: movie.duration,
-           year: movie.year,
-           description: movie.description,
-           image: `${MOVIES_URL}${movie.image.url}`,
-           trailerLink: movie.trailerLink,
-           nameRU: movie.nameRU,
-           nameEN: movie.nameEN,
-           thumbnail: `${MOVIES_URL}${movie.image.formats.thumbnail.url}`,
-           movieId: movie.id,
-         };}))
+          const country = movie.country ? movie.country : 'none'
+          const name = movie.nameEN ? movie.nameEN : movie.nameRU
+          return {
+            country: country,
+            director: movie.director,
+            duration: movie.duration,
+            year: movie.year,
+            description: movie.description,
+            image: `${MOVIES_URL}${movie.image.url}`,
+            trailerLink: movie.trailerLink,
+            nameRU: movie.nameRU,
+            nameEN: name,
+            thumbnail: `${MOVIES_URL}${movie.image.formats.thumbnail.url}`,
+            movieId: movie.id,
+          };}))
          );
        })
        .catch((error)=>{
          console.log(error)
        })
        .finally(()=>{
-        setIsPreloader(false)
+        setPreloader(false)
       })
-  }, [isGetResAllMovies])
+  }, [getResAllMovies])
 
   /** поиск по keyword */
   const handleFilterMovies = ((keyword )=>{
-    setIsGetResAllMovies(true)
+    setGetResAllMovies(true)
     const allMovies = JSON.parse(localStorage.getItem('moviesAll'))
-    const movies = pathname === '/movies' ? allMovies : isSavedMovies
+    const movies = pathname === '/movies' ? allMovies : savedMovies
     const filterMovies = movies.filter((movie)=>{
       return movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())
     })
     if(pathname === '/movies'){
       localStorage.setItem('word', JSON.stringify(keyword));
-      localStorage.setItem('checkbox', JSON.stringify(isShortMovie));
+      localStorage.setItem('checkbox', JSON.stringify(checkbox));
       localStorage.setItem('movies', JSON.stringify(filterMovies));
     }
-    setIsRenderMovies(filterMovies)
+    setRenderMovies(filterMovies)
   })
 
   /** поиск по checkbox */
   useEffect(()=>{
-    if(isShortMovie){
-      if(pathname === '/movies' && isGetResAllMovies){
-        const movies = isRenderMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
-        setIsRenderMovies(movies)
-        localStorage.setItem('checkbox', JSON.stringify(isShortMovie));
+    if(checkbox){
+      if(pathname === '/movies' && getResAllMovies){
+        const movies = renderMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
+        setRenderMovies(movies)
+        localStorage.setItem('checkbox', JSON.stringify(checkbox));
         localStorage.setItem('movies', JSON.stringify(movies));
-      }else if(pathname === '/saved-movies' && isKeyword === ''){
-        const movies = isSavedMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
-        setIsRenderMovies(movies)
-      }else if(pathname === '/saved-movies' && isKeyword !== ''){
-        const movies = isRenderMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
-        setIsRenderMovies(movies)
+      }else if(pathname === '/saved-movies' && keyword === ''){
+        const movies = savedMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
+        setRenderMovies(movies)
+      }else if(pathname === '/saved-movies' && keyword !== ''){
+        const movies = renderMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
+        setRenderMovies(movies)
       }
     }else{
       if(pathname === '/movies'){
-        handleFilterMovies(isKeyword)
-      }else if(pathname === '/saved-movies' && isKeyword === ''){
-        setIsRenderMovies(isSavedMovies)
-      }else if(pathname === '/saved-movies' && isKeyword !== ''){
-        handleFilterMovies(isKeyword)
+        handleFilterMovies(keyword)
+      }else if(pathname === '/saved-movies' && keyword === ''){
+        setRenderMovies(savedMovies)
+      }else if(pathname === '/saved-movies' && keyword !== ''){
+        handleFilterMovies(keyword)
       }
     }
-  }, [isShortMovie])
+  }, [checkbox, savedMovies])
 
 
   /** установить параметры запроса при изменении страницы*/
   useEffect(()=>{
     if(pathname === '/movies'){
-      if(isGetResAllMovies){
-        setIsRenderMovies(JSON.parse(localStorage.getItem('movies')))
-        setIsShortMovie(JSON.parse(localStorage.getItem('checkbox')))
-        setIsKeyword(JSON.parse(localStorage.getItem('word')))
+      if(getResAllMovies){
+        setRenderMovies(JSON.parse(localStorage.getItem('movies')))
+        setCheckbox(JSON.parse(localStorage.getItem('checkbox')))
+        setKeyword(JSON.parse(localStorage.getItem('word')))
       }else{
-        setIsRenderMovies([])
-        setIsShortMovie(false)
-        setIsKeyword('')
+        setRenderMovies([])
+        setCheckbox(false)
+        setKeyword('')
       }
     }else if(pathname === '/saved-movies'){
-      setIsRenderMovies(isSavedMovies)
-      setIsShortMovie(false)
-      setIsKeyword('')
+      setRenderMovies(savedMovies)
+      setCheckbox(false)
+      setKeyword('')
     }
   }, [pathname])
 
   /** показать сообщение при обработке запроса */
   useEffect(()=>{
-    if(isRenderMovies.length === 0){
-      setIsInactivButtonElse(true);
-      if(isGetResAllMovies){
-        setIsErrorNoMovies(MESSAGE_FILTER_NORESULT);
+    if(renderMovies.length === 0){
+      setInactivButtonElse(true);
+      if(getResAllMovies){
+        setErrorNoMovies(MESSAGE_FILTER_NORESULT);
       }else{
-        setIsErrorNoMovies('')
+        setErrorNoMovies('')
       }
     }else{
-      setIsErrorNoMovies('');
-      setIsInactivButtonElse(false);
+      setErrorNoMovies('');
+      setInactivButtonElse(false);
     }
-  },[isRenderMovies])
+  },[renderMovies])
 
   /** обновление данных профиля */
   const handleUpdateUser=(isDate)=>{
@@ -216,15 +219,15 @@ function App() {
       .editProfile(isDate.email, isDate.name)
       .then(user => {
         setCurrentUser(user)
-        setIsSuccessfulMessage(MESSAGE_SUCCESSFUL_UPDATE);
+        setSuccessfulMessage(MESSAGE_SUCCESSFUL_UPDATE);
       })
       .catch((err)=>{
         if (err === STATUS_CODE_CAST) {
-          return setIsError(MESSAGE_ERROR_CAST);
+          return setErrorServer(MESSAGE_ERROR_CAST);
         } else if (err === STATUS_CODE_CONFLICT) {
-          return setIsError(MESSAGE_ERROR_CONFLICT);
+          return setErrorServer(MESSAGE_ERROR_CONFLICT);
         }else if (err === STATUS_CODE_SERVER) {
-          return setIsError(MESSAGE_SERVER_ERROR);
+          return setErrorServer(MESSAGE_SERVER_ERROR);
         }else{
           console.log(err)
         }
@@ -237,8 +240,9 @@ function App() {
   /** очистка сообщений об ошибаках profile */
   useEffect(()=>{
     if(pathname !== '/profile'){
-      setIsError('')
-      setIsSuccessfulMessage('')
+      setErrorServer('')
+      setSuccessfulMessage('')
+      setDisabledInput(true)
     }
   }, [pathname])
 
@@ -251,9 +255,9 @@ function App() {
       })
       .catch((err)=>{
         if (err.message === 'Validation failed') {
-          return setIsError(MESSAGE_ERROR_CAST);
+          return setErrorServer(MESSAGE_ERROR_CAST);
         }else{
-          return setIsError(err.message);
+          return setErrorServer(err.message);
         }
       })
       .finally(()=>{
@@ -273,9 +277,9 @@ function App() {
       })
       .catch((err)=>{
         if (err.message === 'Validation failed') {
-          return setIsError(MESSAGE_ERROR_CAST);
+          return setErrorServer(MESSAGE_ERROR_CAST);
         }else{
-          return setIsError(err.message);
+          return setErrorServer(err.message);
         }
       })
       .finally(()=>{
@@ -295,7 +299,7 @@ function App() {
           }
         })
         .catch((err)=>{
-          setIsError(err.message);
+          setErrorServer(err.message);
         })
     }
   }
@@ -307,14 +311,13 @@ function App() {
 
   /** сохранение фильма на сервере */
   const handleCreateMovie=(movie)=>{
-    console.log(movie)
     mainApi
       .createMovie(movie)
       .then(newMovie => {
-        setIsSavedMovies([newMovie, ...isSavedMovies]);
+        setSavedMovies([newMovie, ...savedMovies]);
       })
       .catch((err)=>{
-        setIsError(err.message);
+        setErrorServer(err.message);
       })
       .finally(()=>{})
   }
@@ -324,10 +327,10 @@ function App() {
     mainApi
       .deleteMovie(movie._id)
       .then(res => {
-        setIsSavedMovies((movies) => movies.filter((m)=> m._id !== movie._id));
+        setSavedMovies((movies) => movies.filter((m)=> m._id !== movie._id));
       })
       .catch((err)=>{
-        setIsError(err.message);
+        setErrorServer(err.message);
       })
       .finally(()=>{})
   }
@@ -344,14 +347,14 @@ function App() {
     localStorage.removeItem('movies');
     localStorage.removeItem('checkbox');
     localStorage.removeItem('word');
-    setIsRenderMovies([])
-    setIsSavedMovies([])
-    setIsGetResAllMovies(false)
+    setRenderMovies([])
+    setSavedMovies([])
+    setGetResAllMovies(false)
     setCurrentUser('')
     setLoggedIn(false);
-    setIsError('')
-    setIsSuccessfulMessage('')
-    setIsErrorNoMovies('')
+    setErrorServer('')
+    setSuccessfulMessage('')
+    setErrorNoMovies('')
   }
 
   return (
@@ -360,8 +363,8 @@ function App() {
         <CurrentUserContext.Provider
           value={currentUser}>
           <Header
-            location={pathname}
             loggedIn={loggedIn}
+            location={pathname}
           />
           <Switch>
             <Route exact path="/">
@@ -370,91 +373,90 @@ function App() {
               />
             </Route>
             <ProtectedRoute
-              exact path="/movies"
+              path="/movies"
               loggedIn={loggedIn}>
                 <Movies
-                  handleFilterMovies={handleFilterMovies}
-                  movies={isRenderMovies}
+                  movies={renderMovies}
+                  renderCount={renderCount}
+                  setRenderCount={setRenderCount}
+                  nextRenderCount={nextRenderCount}
+                  likesLoading={likesLoading}
+                  keyword={keyword}
+                  setKeyword={setKeyword}
+                  checkbox={checkbox}
+                  setCheckbox={setCheckbox}
+                  preloader={preloader}
+                  errorNoMovies={errorNoMovies}
+                  inactivButtonElse={inactivButtonElse}
+                  setInactivButtonElse={setInactivButtonElse}
                   handleCreateMovie={handleCreateMovie}
                   handleDeleteMovie={handleDeleteMovie}
-                  isKeyword={isKeyword}
-                  setIsKeyword={setIsKeyword}
-                  likesLoading={likesLoading}
+                  handleFilterMovies={handleFilterMovies}
                   findMovieInSavedMovie={findMovieInSavedMovie}
-                  isShortMovie={isShortMovie}
-                  setIsShortMovie={setIsShortMovie}
-                  onPreloader={isPreloader}
-                  onNotFound={isErrorNoMovies}
-                  onInactivElse={isInactivButtonElse}
-                  setIsInactivButtonElse={setIsInactivButtonElse}
-                  isFirstRenderCount={isFirstRenderCount}
-                  setIsFirstRenderCount={setIsFirstRenderCount}
-                  isNextRenderCount={isNextRenderCount}
                 />
             </ProtectedRoute>
             <ProtectedRoute
-              exact path="/saved-movies"
+              path="/saved-movies"
               loggedIn={loggedIn}>
                 <SavedMovies
-                  handleFilterMovies={handleFilterMovies}
-                  moviesRender={isRenderMovies}
-                  isKeyword={isKeyword}
-                  setIsKeyword={setIsKeyword}
-                  handleDeleteMovie={handleDeleteMovie}
+                  movies={renderMovies}
                   likesLoading={likesLoading}
+                  keyword={keyword}
+                  setKeyword={setKeyword}
+                  checkbox={checkbox}
+                  setCheckbox={setCheckbox}
+                  preloader={preloader}
+                  errorNoMovies={errorNoMovies}
+                  handleDeleteMovie={handleDeleteMovie}
+                  handleFilterMovies={handleFilterMovies}
                   location={pathname}
-                  isShortMovie={isShortMovie}
-                  setIsShortMovie={setIsShortMovie}
-                  onPreloader={isPreloader}
-                  onNotFound={isErrorNoMovies}
                 />
             </ProtectedRoute>
             <ProtectedRoute
-              exact path="/profile"
+              path="/profile"
               loggedIn={loggedIn}>
               <Profile
-                title={`Привет, ${currentUser.name}!`}
-                data={currentUser}
-                location={pathname}
-                handleUpdateUser={handleUpdateUser}
-                onError={isError || ''}
-                setIsError={setIsError}
-                isDisabledButton={isDisabledButton}
-                setIsDisabledButton={setIsDisabledButton}
-                signOut={signOut}
-                onSuccessfulMessage={isSuccessfulMessage}
+                onError={errorServer || ''}
+                setErrorServer={setErrorServer}
+                onSuccessfulMessage={successfulMessage}
                 disabledInput={disabledInput}
                 setDisabledInput={setDisabledInput}
+                disabledButton={disabledButton}
+                setDisabledButton={setDisabledButton}
+                signOut={signOut}
+                handleUpdateUser={handleUpdateUser}
               />
             </ProtectedRoute>
-            <Route exact path="/signup">
+            <Route path="/signup">
               {loggedIn ?
                 <Redirect to='/movies'/>
                 :
                 <Register
-                  title="Добро пожаловать!"
-                  location={pathname}
+                  title={GREETING_SIGNUP}
+                  onError={errorServer || ''}
+                  setErrorServer={setErrorServer}
+                  disabledButton={disabledButton}
+                  setDisabledButton={setDisabledButton}
                   handleRegister={handleRegister}
-                  onError={isError || ''}
-                  setIsError={setIsError}
                 />
               }
             </Route>
-            <Route exact path="/signin">
+            <Route path="/signin">
               {loggedIn ?
                 <Redirect to='/movies'/>
                 :
                 <Login
-                signOut={signOut}
-                title="Рады видеть!"
-                location={pathname}
-                handleLogin={handleLogin}
-                onError={isError || ''}
-                setIsError={setIsError}
+                  title={GREETING_SIGNIN}
+                  onError={errorServer || ''}
+                  setErrorServer={setErrorServer}
+                  disabledButton={disabledButton}
+                  setDisabledButton={setDisabledButton}
+                  signOut={signOut}
+                  handleLogin={handleLogin}
                 />
               }
             </Route>
-            <Route exact path="*">
+            <Route path="*">
               <NotFound/>
             </Route>
           </Switch>

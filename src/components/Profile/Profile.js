@@ -1,35 +1,40 @@
+import React from "react";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import FormProfile from "../FormProfile/FormProfile";
 import CaptionForm from "../CaptionForm/CaptionForm";
 
 function Profile({
-  title,
-  location,
-  handleUpdateUser,
   onError,
-  setIsError,
-  signOut,
+  setErrorServer,
   onSuccessfulMessage,
   disabledInput,
   setDisabledInput,
+  disabledButton,
+  setDisabledButton,
+  signOut,
+  handleUpdateUser,
 }){
+  const currentUser = React.useContext(CurrentUserContext)
+
   return(
     <section className="profile">
       <h2 className="profile__title title title__type_form title__type_profile">
-        {title}
+      {`Привет, ${currentUser.name}!`}
       </h2>
       <FormProfile
         nameForm="profile"
-        handleUpdateUser={handleUpdateUser}
         onError={onError}
-        setIsError={setIsError}
+        setErrorServer={setErrorServer}
+        onSuccessfulMessage={onSuccessfulMessage}
         disabledInput={disabledInput}
         setDisabledInput={setDisabledInput}
-        onSuccessfulMessage={onSuccessfulMessage}
+        disabledButton={disabledButton}
+        setDisabledButton={setDisabledButton}
+        handleUpdateUser={handleUpdateUser}
       />
       { disabledInput ?
         <CaptionForm
             nameForm="profile"
-            location={location}
             signOut={signOut}
         />
         : null}

@@ -1,9 +1,10 @@
+import { useLocation } from "react-router-dom"
+
 function BurgerMenu({
   handleMenuOpen,
-  location
 }){
-
-  const burgerButton = `button ${location === '/' ? 'burger__button_teme_main' : 'burger__button'}`
+  const { pathname } = useLocation()
+  const burgerButton = `button ${pathname === '/' ? 'burger__button_teme_main' : 'burger__button'}`
 
  return(
     <div className="burger">

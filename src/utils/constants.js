@@ -25,6 +25,8 @@ const ABOUT_PROJECT_BACKEND = 'Back-end'
 const TECHS = 'Технологии'
 const TECHS_TITLE = '7 технологий'
 const TECHS_DESCRIPTION = 'На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.'
+const GREETING_SIGNIN = 'Рады видеть!'
+const GREETING_SIGNUP = 'Добро пожаловать!'
 const MESSAGE_FILTER_NORESULT = "Ни чего не найдено"
 const MESSAGE_FILTER_ERROR = "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
 const MESSAGE_SUCCESSFUL_UPDATE = "Данные успешно обновлены"
@@ -32,6 +34,7 @@ const MESSAGE_SERVER_ERROR = "Что-то пошло не так. Попробу
 const MESSAGE_ERROR_CONFLICT = 'Пользователь с указанным email уже существует'
 const MESSAGE_ERROR_CAST = 'Введены некорректные данные'
 const MESSAGE_ERROR_NOWORD = 'Нужно ввести ключевое слово'
+const MESSAGE_ERROR_EMAIL = 'Введите адрес электронной почты'
 const STATUS_CODE_CAST = 400
 const STATUS_CODE_CONFLICT = 409
 const STATUS_CODE_SERVER = 500
@@ -65,6 +68,8 @@ export {
   TECHS,
   TECHS_TITLE,
   TECHS_DESCRIPTION,
+  GREETING_SIGNIN,
+  GREETING_SIGNUP,
   MESSAGE_FILTER_NORESULT,
   MESSAGE_FILTER_ERROR,
   MESSAGE_SUCCESSFUL_UPDATE,
@@ -72,6 +77,7 @@ export {
   MESSAGE_ERROR_CONFLICT,
   MESSAGE_ERROR_CAST,
   MESSAGE_ERROR_NOWORD,
+  MESSAGE_ERROR_EMAIL,
   STATUS_CODE_CAST,
   STATUS_CODE_CONFLICT,
   STATUS_CODE_SERVER,

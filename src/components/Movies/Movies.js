@@ -4,40 +4,41 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Button from '../Button/Button';
 
 function Movies({
-  handleFilterMovies,
   movies,
+  renderCount,
+  setRenderCount,
+  nextRenderCount,
+  likesLoading,
+  keyword,
+  setKeyword,
+  checkbox,
+  setCheckbox,
+  preloader,
+  errorNoMovies,
+  inactivButtonElse,
+  setInactivButtonElse,
   handleCreateMovie,
   handleDeleteMovie,
-  isKeyword,
-  setIsKeyword,
-  likesLoading,
+  handleFilterMovies,
   findMovieInSavedMovie,
-  isShortMovie,
-  setIsShortMovie,
-  onPreloader,
-  onNotFound,
-  onInactivElse,
-  setIsInactivButtonElse,
-  isFirstRenderCount,
-  setIsFirstRenderCount,
-  isNextRenderCount,
 }) {
-
-  const theme = `${onInactivElse ? 'else-inactive' : 'else'}`
+  const theme = `${inactivButtonElse ? 'else-inactive' : 'else'}`
 
   /** скрыть кнопку ЕЩЕ когда отрисуется все фильмы */
   useEffect(()=>{
-    movies.length <= isFirstRenderCount ? setIsInactivButtonElse(true) : setIsInactivButtonElse(false)
-  }, [isFirstRenderCount])
+    movies.length <= renderCount ? setInactivButtonElse(true) : setInactivButtonElse(false)
+  }, [movies.length])
+
+
 
   /** первая отрисовка массива фильмов */
   const handleFirstRender =()=>{
-    return movies.slice(0, isFirstRenderCount)
+    return movies.slice(0, renderCount)
   }
 
   /** все следующие отрисовки фильмов */
   const handleNextRender =()=>{
-    setIsFirstRenderCount(prevState=> prevState + isNextRenderCount)
+    setRenderCount(prevState=> prevState + nextRenderCount)
   }
 
   /** увеличить количество фильмов для показа */
@@ -49,23 +50,22 @@ function Movies({
   return (
     <section className="movies">
       <SearchForm
+        keyword={keyword}
+        setKeyword={setKeyword}
+        checkbox={checkbox}
+        setCheckbox={setCheckbox}
+        preloader={preloader}
+        errorNoMovies={errorNoMovies}
         handleFilterMovies={handleFilterMovies}
-        isKeyword={isKeyword}
-        setIsKeyword={setIsKeyword}
-        isShortMovie={isShortMovie}
-        setIsShortMovie={setIsShortMovie}
-        onPreloader={onPreloader}
-        onNotFound={onNotFound}
       />
       <MoviesCardList
         movies={handleFirstRender() || []}
-        nameButtonSubmit="like"
+        likesLoading={likesLoading}
+        nameButton="like"
         ariaLabel="Поставить лайк"
         handleCreateMovie={handleCreateMovie}
         handleDeleteMovie={handleDeleteMovie}
-        likesLoading={likesLoading}
         findMovieInSavedMovie={findMovieInSavedMovie}
-        isFirstRenderCount={isFirstRenderCount}
       />
       <form
         className="movies__form form"

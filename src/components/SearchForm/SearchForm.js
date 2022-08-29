@@ -1,4 +1,3 @@
-// import { useFormWithValidation } from "../Hooks/useForm";
 import { useRef, useCallback } from "react";
 import Button from "../Button/Button";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
@@ -7,32 +6,32 @@ import { MESSAGE_ERROR_NOWORD } from "../../utils/constants";
 import { useState } from "react";
 
 function SearchForm({
+  keyword,
+  setKeyword,
+  checkbox,
+  setCheckbox,
+  preloader,
+  errorNoMovies,
   handleFilterMovies,
-  isKeyword,
-  setIsKeyword,
-  isShortMovie,
-  setIsShortMovie,
-  onPreloader,
-  onNotFound,
 }) {
   const inputRef = useRef(true)
   const [inputValid, setInputValid] = useState(true)
-  const error = `${!inputValid ? MESSAGE_ERROR_NOWORD  : onNotFound}`
+  const error = `${!inputValid ? MESSAGE_ERROR_NOWORD  : errorNoMovies}`
 
   /** Получить значение введенное в поле input */
   const handleChange = useCallback((evt)=>{
     const { value } = evt.target
-    setIsKeyword(value)
-  }, [setIsKeyword])
+    setKeyword(value)
+  }, [setKeyword])
 
   /** Submit */
   const handleSubmit = (evt)=>{
     evt.preventDefault();
     setInputValid(true)
-    if(isKeyword === ''){
+    if(keyword === ''){
       return setInputValid(false)
     }
-    handleFilterMovies(isKeyword);
+    handleFilterMovies(keyword);
   }
 
   return (
@@ -52,7 +51,7 @@ function SearchForm({
               autoFocus
               minLength='1'
               onChange={handleChange}
-              value={isKeyword || ''}
+              value={keyword || ''}
               ref={inputRef}
             />
             <Button
@@ -65,13 +64,13 @@ function SearchForm({
             <div className="search__decor"></div>
           </form>
           <FilterCheckbox
-            isShortMovie={isShortMovie}
-            setIsShortMovie={setIsShortMovie}
+            checkbox={checkbox}
+            setCheckbox={setCheckbox}
           />
         </div>
       </div>
       <Preloader
-        disabled={onPreloader}
+        disabled={preloader}
       />
       <div className="search__container_message container">
         <p className="search__subtitle subtitle">

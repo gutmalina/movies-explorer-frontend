@@ -1,27 +1,28 @@
 import {useState, useEffect} from "react";
-import { useFormWithValidation } from "../Hooks/useForm";
+import { useFormWithValidation } from "../../Hooks/useForm";
 import InputFields from "../InputFields/InputFields";
 import Button from '../Button/Button';
+import { MESSAGE_ERROR_EMAIL } from "../../utils/constants";
 
 function FormRegister({
   nameForm,
-  handleRegister,
   onError,
-  setIsError,
+  setErrorServer,
+  disabledButton,
+  setDisabledButton,
+  handleRegister,
 }){
   const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation({
     email: (value) =>{
       const emailRegex = /\S+@\S+\.\S+/;
       if (!emailRegex.test(email)) {
-        return 'Введите адрес электронной почты';
+        return {MESSAGE_ERROR_EMAIL};
       }
       return ''
     }
   })
-  const [DisabledButton, setDisabledButton] = useState(true)
-  const [ContentButton, setContentButton] = useState('Зарегистрироваться')
-
   const {email, password, name} = values;
+  const [ContentButton, setContentButton] = useState('Зарегистрироваться')
 
   /** установить disabled button */
   useEffect(()=>{
@@ -39,7 +40,7 @@ function FormRegister({
   /** Submit */
   const handleSubmit = (evt)=>{
     evt.preventDefault();
-    setIsError('');
+    setErrorServer('');
     renderLoading(true);
     handleRegister({
       email,
@@ -108,7 +109,7 @@ function FormRegister({
         aria-label="Зарегистрироваться"
         theme="auth"
         content={ContentButton}
-        disabled={DisabledButton}
+        disabled={disabledButton}
       />
     </form>
   )

@@ -1,30 +1,33 @@
 import React, {useState, useEffect} from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import { useFormWithValidation } from "../Hooks/useForm";
+import { useFormWithValidation } from "../../Hooks/useForm";
 import InputFields from '../InputFields/InputFields';
 import Button from "../Button/Button";
+import { MESSAGE_ERROR_EMAIL } from "../../utils/constants";
 
 function FormProfile({
   nameForm,
-  handleUpdateUser,
   onError,
-  setIsError,
+  setErrorServer,
+  onSuccessfulMessage,
   disabledInput,
   setDisabledInput,
-  onSuccessfulMessage,
+  disabledButton,
+  setDisabledButton,
+  handleUpdateUser,
 }) {
   const currentUser = React.useContext(CurrentUserContext)
+
   const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation({
     email: (value) =>{
       const emailRegex = /\S+@\S+\.\S+/;
       if (!emailRegex.test(email)) {
-        return 'Введите адрес электронной почты';
+        return MESSAGE_ERROR_EMAIL;
       }
       return ''
     }
   })
   const {name, email} = values;
-  const [DisabledButton, setDisabledButton] = useState(true)
   const [ContentButton, setContentButton] = useState('Сохранить')
   const [clickedButton, setClickedButton] = useState("profile-edit")
 
@@ -46,7 +49,7 @@ function FormProfile({
   const handleSubmit = (evt)=>{
     evt.preventDefault();
     if(clickedButton === "profile-save"){
-      setIsError('');
+      setErrorServer('');
       renderLoading(true);
       handleUpdateUser({
         name,
@@ -112,7 +115,7 @@ function FormProfile({
           aria-label="Сохранить изменненные данные"
           theme="auth"
           content={ContentButton}
-          disabled={DisabledButton}
+          disabled={disabledButton}
         />
         :
         <Button

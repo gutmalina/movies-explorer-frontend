@@ -3,10 +3,12 @@ import CaptionForm from '../CaptionForm/CaptionForm';
 
 function Login({
   title,
-  location,
-  handleLogin,
   onError,
-  setIsError,}){
+  setErrorServer,
+  disabledButton,
+  setDisabledButton,
+  handleLogin,
+}){
 
   return(
     <section className="login">
@@ -15,14 +17,15 @@ function Login({
       </h2>
       <FormLogin
         nameForm="login"
-        handleLogin={handleLogin}
         onError={onError}
-        setIsError={setIsError}
+        setErrorServer={setErrorServer}
+        disabledButton={disabledButton}
+        setDisabledButton={setDisabledButton}
+        handleLogin={handleLogin}
       />
       <CaptionForm
         nameForm="login"
         subtitle="Ещё не зарегистрированы?"
-        location={location}
       />
     </section>
   )

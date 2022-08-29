@@ -1,11 +1,11 @@
 function FilterCheckbox({
-  isShortMovie,
-  setIsShortMovie
+  checkbox,
+  setCheckbox
 }) {
 
   /** изменить состояние checkbox */
   const handleChange = () => {
-    setIsShortMovie(!isShortMovie);
+    setCheckbox(!checkbox);
   };
 
   return (
@@ -19,7 +19,7 @@ function FilterCheckbox({
             type="checkbox"
             className="filter-checkbox__invisible"
             value="filter-checkbox"
-            checked={isShortMovie}
+            checked={checkbox}
             onChange={handleChange}
           />
           <span

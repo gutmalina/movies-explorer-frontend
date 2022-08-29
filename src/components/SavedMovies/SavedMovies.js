@@ -3,33 +3,33 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
 function SavedMovies({
   handleFilterMovies,
-  moviesRender,
-  isKeyword,
-  setIsKeyword,
+  movies,
+  keyword,
+  setKeyword,
   likesLoading,
   handleDeleteMovie,
   location,
-  isShortMovie,
-  setIsShortMovie,
-  onPreloader,
-  onNotFound,
+  checkbox,
+  setCheckbox,
+  preloader,
+  errorNoMovies,
 }) {
 
   return (
     <section className="saved-movies">
       <SearchForm
         handleFilterMovies={handleFilterMovies}
-        isKeyword={isKeyword}
-        setIsKeyword={setIsKeyword}
-        isShortMovie={isShortMovie}
-        setIsShortMovie={setIsShortMovie}
+        keyword={keyword}
+        setKeyword={setKeyword}
+        checkbox={checkbox}
+        setCheckbox={setCheckbox}
         location={location}
-        onPreloader={onPreloader}
-        onNotFound={onNotFound}
+        preloader={preloader}
+        errorNoMovies={errorNoMovies}
       />
       <MoviesCardList
-        movies={moviesRender}
-        nameButtonSubmit="delete"
+        movies={movies}
+        nameButton="delete"
         ariaLabel="Удалить фильм из сохраненных"
         handleDeleteMovie={handleDeleteMovie}
         likesLoading={likesLoading}

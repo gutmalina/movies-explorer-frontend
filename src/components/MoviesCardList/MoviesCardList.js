@@ -2,13 +2,12 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 
 function MoviesCardList({
   movies,
-  nameButtonSubmit,
+  likesLoading,
+  nameButton,
   ariaLabel,
   handleCreateMovie,
   handleDeleteMovie,
-  likesLoading,
   findMovieInSavedMovie,
-  location,
 }) {
 
   return (
@@ -17,13 +16,12 @@ function MoviesCardList({
       {
         movies.map((movie) => (
           <MoviesCard {...movie} key={movie.movieId}
-            nameButtonSubmit={nameButtonSubmit}
+            likesLoading={likesLoading}
+            nameButton={nameButton}
             ariaLabel={ariaLabel}
             handleCreateMovie={handleCreateMovie}
             handleDeleteMovie={handleDeleteMovie}
-            likesLoading={likesLoading}
             findMovieInSavedMovie={findMovieInSavedMovie}
-            location={location}
           />
         ))
       }

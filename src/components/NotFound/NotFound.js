@@ -7,7 +7,6 @@ function NotFound(){
   const handleGoBack=()=>{
     history.goBack()
   }
-console.log('history', history)
 
   return(
     <div className="notfound">

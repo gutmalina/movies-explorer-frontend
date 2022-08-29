@@ -1,15 +1,16 @@
 import { Route, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function CaptionForm({
   subtitle,
-  location,
   signOut
 }){
+  const { pathname } = useLocation()
   const captionForm = `caption-form
-  ${location === "/profile" ? "caption-form__type_profile" : ""}`
+  ${pathname === "/profile" ? "caption-form__type_profile" : ""}`
 
   const linkProfileOut = `caption-form__link link
-  ${location === "/profile" ? "caption-form__link__type_out" : ""}`
+  ${pathname === "/profile" ? "caption-form__link__type_out" : ""}`
 
   return(
     <div className={captionForm}>

@@ -3,10 +3,11 @@ import CaptionForm from '../CaptionForm/CaptionForm';
 
 function Register({
   title,
-  location,
-  handleRegister,
   onError,
-  setIsError,
+  setErrorServer,
+  disabledButton,
+  setDisabledButton,
+  handleRegister,
 }){
 
   return (
@@ -16,14 +17,15 @@ function Register({
       </h2>
       <FormRegister
         nameForm="register"
-        handleRegister={handleRegister}
         onError={onError}
-        setIsError={setIsError}
+        setErrorServer={setErrorServer}
+        disabledButton={disabledButton}
+        setDisabledButton={setDisabledButton}
+        handleRegister={handleRegister}
       />
       <CaptionForm
         nameForm="register"
         subtitle="Уже зарегистрированы?"
-        location={location}
       />
     </section>
   )

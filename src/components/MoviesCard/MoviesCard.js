@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 import FormMoviesCard from "../FormMoviesCard/FormMoviesCard";
 
 function MoviesCard({
+  likesLoading,
+  nameButton,
+  ariaLabel,
   handleCreateMovie,
   handleDeleteMovie,
-  nameButtonSubmit,
-  ariaLabel,
-  likesLoading,
   findMovieInSavedMovie,
-  location,
   ...movie
 }) {
   const [isLikes, setIsLikes] = useState(false)
@@ -39,15 +38,14 @@ function MoviesCard({
         target="_blank"
       />
       <FormMoviesCard
-        handleCreateMovie={handleCreateMovie}
-        handleDeleteMovie={handleDeleteMovie}
         movie={movie}
-        nameButton={nameButtonSubmit}
-        ariaLabel={ariaLabel}
         isLikes={isLikes}
         setIsLikes={setIsLikes}
+        nameButton={nameButton}
+        ariaLabel={ariaLabel}
+        handleCreateMovie={handleCreateMovie}
+        handleDeleteMovie={handleDeleteMovie}
         findMovieInSavedMovie={findMovieInSavedMovie}
-        location={location}
       />
       <div className="movies-card__duration">
         {

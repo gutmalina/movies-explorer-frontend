@@ -1,28 +1,29 @@
 import {useState, useEffect} from "react";
 import InputFields from "../InputFields/InputFields";
 import Button from '../Button/Button';
-import { useFormWithValidation } from "../Hooks/useForm";
+import { useFormWithValidation } from "../../Hooks/useForm";
+import { MESSAGE_ERROR_EMAIL } from "../../utils/constants";
 
 function FormLogin({
   nameForm,
-  handleLogin,
   onError,
-  setIsError,
+  setErrorServer,
+  disabledButton,
+  setDisabledButton,
+  handleLogin,
 }){
-  // const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation()
+
   const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation({
     email: (value) =>{
       const emailRegex = /\S+@\S+\.\S+/;
       if (!emailRegex.test(email)) {
-        return 'Введите адрес электронной почты';
+        return {MESSAGE_ERROR_EMAIL};
       }
       return ''
     }
   })
-  const [DisabledButton, setDisabledButton] = useState(true)
-  const [ContentButton, setContentButton] = useState('Войти')
-
   const { email, password} = values;
+  const [ContentButton, setContentButton] = useState('Войти')
 
   /** установить disabled button */
   useEffect(()=>{
@@ -40,7 +41,7 @@ function FormLogin({
   /** Submit */
   const handleSubmit = (evt)=>{
     evt.preventDefault();
-    setIsError('');
+    setErrorServer('');
     renderLoading(true);
     handleLogin({
       email,
@@ -94,7 +95,7 @@ function FormLogin({
         aria-label="Авторизация пользователя"
         theme="auth"
         content={ContentButton}
-        disabled={DisabledButton}
+        disabled={disabledButton}
       />
     </form>
   )

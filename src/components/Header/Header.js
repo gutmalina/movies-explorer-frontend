@@ -5,19 +5,19 @@ import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import Navigation from '../Navigation/Navigation';
 
 function Header({
-  location,
   loggedIn,
+  location,
 }){
-  const [isMenuNavigationOpen, setIsMenuNavigationOpen] = useState(false)
+  const [menuNavigationOpen, setMenuNavigationOpen] = useState(false)
 
   /** Открыть меню */
   const handleMenuOpen = ()=>{
-    setIsMenuNavigationOpen(true)
+    setMenuNavigationOpen(true)
   }
 
   /** Закрыть меню */
   const handleMenuClose=()=>{
-    setIsMenuNavigationOpen(false)
+    setMenuNavigationOpen(false)
   }
 
   const headerMovies = [
@@ -71,10 +71,9 @@ function Header({
           <Route path={["/", "/movies", "/saved-movies", "/profile"]}>
             <BurgerMenu
               handleMenuOpen={handleMenuOpen}
-              location={location}
             />
             <Navigation
-              isOpen={isMenuNavigationOpen}
+              menuNavigationOpen={menuNavigationOpen}
               handleMenuClose={handleMenuClose}
             />
           </Route>

@@ -1,27 +1,27 @@
+import { useLocation } from 'react-router-dom';
 import Button from '../Button/Button';
 
 function FormMoviesCard({
-  handleCreateMovie,
-  handleDeleteMovie,
   movie,
-  nameButton,
-  ariaLabel,
   isLikes,
   setIsLikes,
+  nameButton,
+  ariaLabel,
+  handleCreateMovie,
+  handleDeleteMovie,
   findMovieInSavedMovie,
-  location,
 }){
+  const { pathname } = useLocation()
 
   /** поставить лайк, сохранить фильм */
   const addLike = ()=>{
-
     handleCreateMovie(movie);
     setIsLikes(true);
   }
 
   /** удалить лайк, удалить фильм из сохраненных */
   const removeLike = ()=>{
-    if(location === "/saved-movies"){
+    if(pathname === "/saved-movies"){
       handleDeleteMovie(movie);
       setIsLikes(false);
     }else{

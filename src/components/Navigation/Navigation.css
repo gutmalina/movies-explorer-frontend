@@ -55,6 +55,10 @@
   border-bottom: 2px solid #FFFFFF;
 }
 
+.navigation__list_item-active{
+  border-bottom: 2px solid #FFFFFF;
+}
+
 @media screen and (min-width: 768px) {
   .navigation__opened {
     min-width: 520px;
@@ -103,11 +107,11 @@
     margin-right: 16px;
     margin-bottom: 0;
   }
-  
+
   .navigation__list_item:first-of-type{
     display: none;
   }
-  
+
   .navigation__list_item:last-of-type{
     margin-right: 0;
   }
