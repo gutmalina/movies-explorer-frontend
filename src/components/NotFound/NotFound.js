@@ -1,11 +1,13 @@
 import { useHistory } from "react-router-dom";
 
-function NotFound(){
+function NotFound({
+  loggedIn,
+}){
   const history = useHistory()
 
   /** редирект */
   const handleGoBack=()=>{
-    history.goBack()
+    loggedIn ? history.goBack() : history.push('/')
   }
 
   return(

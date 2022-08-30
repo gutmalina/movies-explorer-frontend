@@ -52,8 +52,8 @@ function FormProfile({
       setErrorServer('');
       renderLoading(true);
       handleUpdateUser({
-        name,
-        email,
+        name: name || currentUser.name,
+        email: email || currentUser.email,
         onRenderLoading: ()=>{
           renderLoading(false)
         }

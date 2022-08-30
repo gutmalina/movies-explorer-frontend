@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, useLocation, Redirect } from 'react-router-dom';
+import { Route, Switch, useLocation, Redirect, useHistory } from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import *as auth from '../../utils/Auth';
 import mainApi from '../../utils/MainApi';
@@ -36,6 +36,7 @@ import {
 function App() {
   const [currentUser, setCurrentUser] = useState({})
   const { pathname } = useLocation()
+  const history = useHistory();
 
   /** ошибки при обработке данных */
   const [errorServer, setErrorServer] = useState('')
@@ -138,6 +139,7 @@ function App() {
           setPreloader(false)
         })
     }
+
     handleFilterMovies(keyword)
   }
 
@@ -190,12 +192,12 @@ function App() {
         setRenderMovies(JSON.parse(localStorage.getItem('movies')))
         setCheckbox(JSON.parse(localStorage.getItem('checkbox')))
         setKeyword(JSON.parse(localStorage.getItem('word')))
-      }else{
+      }else {
         setRenderMovies([])
         setCheckbox(false)
         setKeyword('')
       }
-    }else{
+    }else if(pathname === '/saved-movies'){
       setRenderMovies(savedMovies)
       setCheckbox(false)
       setKeyword('')
@@ -300,17 +302,19 @@ function App() {
         .then((res) => {
           if (res){
             setLoggedIn(true);
+            history.push(pathname);
           }
         })
         .catch((err)=>{
           setErrorServer(err.message);
+          history.push('/signin')
         })
     }
   }
 
   /**использование токена при возврате на сайт */
   useEffect(() => {
-    tokenCheck();
+    tokenCheck()
   }, [])
 
   /** сохранение фильма на сервере */
@@ -362,12 +366,13 @@ function App() {
     localStorage.removeItem('word');
     setRenderMovies([])
     setSavedMovies([])
-    setGetResAllMovies(false)
     setCurrentUser('')
+    setGetResAllMovies(false)
     setLoggedIn(false);
     setErrorServer('')
     setSuccessfulMessage('')
     setErrorNoMovies('')
+    history.push('/')
   }
 
   return (
@@ -404,7 +409,6 @@ function App() {
                   setInactivButtonElse={setInactivButtonElse}
                   handleCreateMovie={handleCreateMovie}
                   handleDeleteMovie={handleDeleteMovie}
-                  // handleFilterMovies={handleFilterMovies}
                   handleFilterMovies={handleGetAllMovies}
                   findMovieInSavedMovie={findMovieInSavedMovie}
                 />
@@ -471,7 +475,9 @@ function App() {
               }
             </Route>
             <Route path="*">
-              <NotFound/>
+              <NotFound
+                loggedIn={loggedIn}
+              />
             </Route>
           </Switch>
           <Footer
