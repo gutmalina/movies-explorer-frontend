@@ -146,7 +146,6 @@ function App() {
   const handleFilterMovies = ((keyword )=>{
       const allMovies = JSON.parse(localStorage.getItem('moviesAll')) || []
       const movies = pathname === '/movies' ? allMovies : savedMovies
-      console.log('moviesFILTER', movies)
       const filterMovies = movies.filter((movie)=>{
         return movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())
       })
