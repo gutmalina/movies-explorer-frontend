@@ -146,15 +146,19 @@ function App() {
   const handleFilterMovies = ((keyword )=>{
       const allMovies = JSON.parse(localStorage.getItem('moviesAll')) || []
       const movies = pathname === '/movies' ? allMovies : savedMovies
-      console.log('filter', savedMovies)
       const filterMovies = movies.filter((movie)=>{
         return movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())
       })
-      if(pathname === '/movies' && keyword ){
+      if(pathname === '/movies'){
         localStorage.setItem('word', JSON.stringify(keyword));
         localStorage.setItem('checkbox', JSON.stringify(checkbox));
         localStorage.setItem('movies', JSON.stringify(filterMovies));
       }
+      // if(pathname === '/movies' && getResAllMovies){
+      //   localStorage.setItem('word', JSON.stringify(keyword));
+      //   localStorage.setItem('checkbox', JSON.stringify(checkbox));
+      //   localStorage.setItem('movies', JSON.stringify(filterMovies));
+      // }
       setRenderMovies(filterMovies)
   })
 
@@ -162,9 +166,9 @@ function App() {
   const handleFilterCheckbox = (movies)=>{
     return renderMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
   }
-
   useEffect(()=>{
     if(checkbox){
+      // if(pathname === '/movies' && getResAllMovies){
       if(pathname === '/movies'){
         setRenderMovies(handleFilterCheckbox(renderMovies))
         localStorage.setItem('checkbox', JSON.stringify(checkbox));
@@ -175,6 +179,7 @@ function App() {
         setRenderMovies(handleFilterCheckbox(renderMovies))
       }
     }else{
+      // if(pathname === '/movies' && getResAllMovies){
       if(pathname === '/movies'){
         handleFilterMovies(keyword)
       }else if(pathname === '/saved-movies' && keyword === ''){
@@ -185,11 +190,14 @@ function App() {
     }
   }, [checkbox])
 
+
   /** установить параметры запроса при изменении страницы*/
   useEffect(()=>{
+    // const allMovies = JSON.parse(localStorage.getItem('moviesAll')) || []
+    // console.log(allMovies.length)
     if(pathname === '/movies'){
-      const allMovies = JSON.parse(localStorage.getItem('moviesAll')) || []
-      if(allMovies.length > 0){
+      if(getResAllMovies){
+      // if(allMovies.length > 0){
         setRenderMovies(JSON.parse(localStorage.getItem('movies')))
         setCheckbox(JSON.parse(localStorage.getItem('checkbox')))
         setKeyword(JSON.parse(localStorage.getItem('word')))

@@ -7,7 +7,7 @@ function NotFound({
 
   /** редирект */
   const handleGoBack=()=>{
-    loggedIn ? history.goBack() : history.push('/')
+    history.goBack()
   }
 
   return(
