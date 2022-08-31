@@ -66,11 +66,8 @@ function App() {
   const [renderCount, setRenderCount] = useState(setFirstRender(width))
   const nextRenderCount = setNextRender(width)
 
-  console.log('savedMovies', savedMovies)
-
   /** Получить данные профиля и фильмы */
   useEffect(()=>{
-    console.log('get')
     if(loggedIn){
       Promise
         .all([mainApi.getProfile(), mainApi.getMovies()])
@@ -82,7 +79,6 @@ function App() {
           setErrorNoMovies(MESSAGE_FILTER_ERROR);
           console.log(error)
         })
-      console.log('promise')
     }
   }, [loggedIn])
 
@@ -150,6 +146,7 @@ function App() {
   const handleFilterMovies = ((keyword )=>{
       const allMovies = JSON.parse(localStorage.getItem('moviesAll')) || []
       const movies = pathname === '/movies' ? allMovies : savedMovies
+      console.log('moviesFILTER', movies)
       const filterMovies = movies.filter((movie)=>{
         return movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())
       })

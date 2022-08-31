@@ -26,6 +26,7 @@ function Movies({
 
   /** скрыть кнопку ЕЩЕ когда отрисуется все фильмы */
   useEffect(()=>{
+    console.log('movies', movies)
     movies.length <= renderCount ? setInactivButtonElse(true) : setInactivButtonElse(false)
   }, [movies.length])
 
