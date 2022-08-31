@@ -35,6 +35,7 @@ function InputFields({
           onChange={onChange}
           disabled={disabledInput}
           value={value}
+          onKeyDown={onChange}
         />
       </div>
       <div className={spanWrap}>

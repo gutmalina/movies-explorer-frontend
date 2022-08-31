@@ -163,6 +163,8 @@ function App() {
     return renderMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
   }
 
+  console.log('savedMovies - внешний массив', savedMovies)
+
   useEffect(()=>{
     if(checkbox){
       if(pathname === '/movies'){
@@ -178,6 +180,7 @@ function App() {
       if(pathname === '/movies'){
         handleFilterMovies(keyword)
       }else if(pathname === '/saved-movies' && keyword === ''){
+        console.log('effect фильтр по checkbox')
         setRenderMovies(savedMovies)
       }else if(pathname === '/saved-movies' && keyword !== ''){
         handleFilterMovies(keyword)
@@ -199,6 +202,7 @@ function App() {
         setKeyword('')
       }
     }else if(pathname === '/saved-movies'){
+      console.log('effect установить параметры запроса')
       setRenderMovies(savedMovies)
       setCheckbox(false)
       setKeyword('')
