@@ -44,7 +44,7 @@ function App() {
   const [successfulMessage, setSuccessfulMessage] = useState('')
 
   /** состояние авторизации, загрузки данных */
-  const [loggedIn, setLoggedIn] = useState()
+  const [loggedIn, setLoggedIn] = useState('')
   const [preloader, setPreloader] = useState(false)
 
   /** массивы карточек */
@@ -66,8 +66,11 @@ function App() {
   const [renderCount, setRenderCount] = useState(setFirstRender(width))
   const nextRenderCount = setNextRender(width)
 
+  console.log('savedMovies', savedMovies)
+
   /** Получить данные профиля и фильмы */
   useEffect(()=>{
+    console.log('get')
     if(loggedIn){
       Promise
         .all([mainApi.getProfile(), mainApi.getMovies()])
@@ -79,6 +82,7 @@ function App() {
           setErrorNoMovies(MESSAGE_FILTER_ERROR);
           console.log(error)
         })
+      console.log('promise')
     }
   }, [loggedIn])
 
@@ -146,7 +150,6 @@ function App() {
   const handleFilterMovies = ((keyword )=>{
       const allMovies = JSON.parse(localStorage.getItem('moviesAll')) || []
       const movies = pathname === '/movies' ? allMovies : savedMovies
-      console.log('filter', savedMovies)
       const filterMovies = movies.filter((movie)=>{
         return movie.nameRU.toLowerCase().includes(keyword.toLowerCase().trim())
       })
@@ -163,8 +166,6 @@ function App() {
     return renderMovies.filter((movie) => movie.duration <= SHORT_MOVIES)
   }
 
-  console.log('savedMovies - внешний массив', savedMovies)
-
   useEffect(()=>{
     if(checkbox){
       if(pathname === '/movies'){
@@ -180,7 +181,6 @@ function App() {
       if(pathname === '/movies'){
         handleFilterMovies(keyword)
       }else if(pathname === '/saved-movies' && keyword === ''){
-        console.log('effect фильтр по checkbox')
         setRenderMovies(savedMovies)
       }else if(pathname === '/saved-movies' && keyword !== ''){
         handleFilterMovies(keyword)
@@ -201,13 +201,16 @@ function App() {
         setCheckbox(false)
         setKeyword('')
       }
-    }else if(pathname === '/saved-movies'){
-      console.log('effect установить параметры запроса')
+    }
+  }, [pathname])
+
+  useEffect(()=>{
+    if(pathname === '/saved-movies'){
       setRenderMovies(savedMovies)
       setCheckbox(false)
       setKeyword('')
     }
-  }, [pathname])
+  }, [pathname, savedMovies])
 
   /** показать сообщение при обработке запроса */
   useEffect(()=>{
@@ -375,7 +378,7 @@ function App() {
     setSavedMovies([])
     setCurrentUser('')
     setGetResAllMovies(false)
-    setLoggedIn('');
+    setLoggedIn(false);
     setErrorServer('')
     setSuccessfulMessage('')
     setErrorNoMovies('')
