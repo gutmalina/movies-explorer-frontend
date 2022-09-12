@@ -1,22 +1,34 @@
-import { initialCards } from "../../utils/initialCards";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
-function MoviesCardList() {
+function MoviesCardList({
+  movies,
+  likesLoading,
+  nameButton,
+  ariaLabel,
+  handleCreateMovie,
+  handleDeleteMovie,
+  findMovieInSavedMovie,
+}) {
+
   return (
-    <>
-      <section className="movies-card-list">
-        <div className="movies-card-list__group">
-        {
-          initialCards.map((card) => (
-            <MoviesCard {...card} key={card._id}
-            />
-          ))
-        }
-        </div>
-      </section>
-    </>
+    <section className="movies-card-list">
+      <div className="movies-card-list__group">
+      {
+        movies.map((movie) => (
+          <MoviesCard {...movie} key={movie.movieId}
+            likesLoading={likesLoading}
+            nameButton={nameButton}
+            ariaLabel={ariaLabel}
+            handleCreateMovie={handleCreateMovie}
+            handleDeleteMovie={handleDeleteMovie}
+            findMovieInSavedMovie={findMovieInSavedMovie}
+          />
+        ))
+      }
+      </div>
+    </section>
   );
 }
 
-export default MoviesCardList;
+export default MoviesCardList
 

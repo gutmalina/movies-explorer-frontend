@@ -7,6 +7,7 @@
   justify-content: center;
   position: relative;
 }
+
 .notfound__title{
   font-weight: 400;
   font-size: 80px;
@@ -14,12 +15,14 @@
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-bottom: 10px;
 }
+
 .notfound__subtitle{
   font-weight: 400;
   font-size: 12px;
   line-height: 125%;
   text-align: center;
 }
+
 .notfound__link{
   text-decoration: none;
   font-weight: 400;
@@ -29,35 +32,44 @@
   color: #4285F4;
   position: absolute;
   bottom: 30px;
+  background-color: #202020;
 }
+
 @media screen and (min-width: 768px) {
   .notfound{
     min-height: 1024px;
   }
+
   .notfound__title{
     font-size: 140px;
     margin-bottom: 3px;
   }
+
   .notfound__subtitle{
     font-size: 16px;
     line-height: 120%;
     margin-bottom: 10px;
   }
+
   .notfound__link{
     font-size: 14px;
     bottom: 219px;
   }
 }
+
 @media screen and (min-width: 1280px) {
   .notfound{
     min-height: 700px;
   }
+
   .notfound__title{
     margin-bottom: 4px;
   }
+
   .notfound__subtitle{
     margin-bottom: 15px;
   }
+
   .notfound__link{
     bottom: 60px;
   }

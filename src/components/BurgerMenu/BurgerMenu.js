@@ -1,20 +1,23 @@
-function BurgerMenu({onClick, location}){
-  const burgerButton = `burger__button button ${location === "/profile" ? "burger__button_type_profile" : ""}`;
+import { useLocation } from "react-router-dom"
 
-  return(
-    <>
-      <div className="burger">
-        <button
-          className={burgerButton}
-          type="button"
-          onClick={onClick}>
-          <div className="burger__item"></div>
-          <div className="burger__item"></div>
-          <div className="burger__item"></div>
-        </button>
-      </div>
-    </>
+function BurgerMenu({
+  handleMenuOpen,
+}){
+  const { pathname } = useLocation()
+  const burgerButton = `button ${pathname === '/' ? 'burger__button_teme_main' : 'burger__button'}`
+
+ return(
+    <div className="burger">
+      <button
+        className={burgerButton}
+        type="button"
+        onClick={handleMenuOpen}>
+        <div className="burger__item"></div>
+        <div className="burger__item"></div>
+        <div className="burger__item"></div>
+      </button>
+    </div>
   )
 };
 
-export default BurgerMenu;
+export default BurgerMenu

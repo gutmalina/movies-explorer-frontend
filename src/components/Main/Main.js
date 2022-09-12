@@ -6,6 +6,7 @@ import AboutMe from "../AboutMe/AboutMe";
 import Portfolio from '../Portfolio/Portfolio';
 
 function Main() {
+
   return (
     <main className="main">
       <Promo/>
@@ -18,4 +19,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default Main

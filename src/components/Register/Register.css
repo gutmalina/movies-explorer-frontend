@@ -4,17 +4,35 @@
   align-items: center;
   margin: 0 calc((100% - 260px) / 2);
 }
+
 .register__form{
   min-width: 100%;
 }
+
 .register__fieldset{
   margin-bottom: 220px;
 }
+
+.register__span_subtitle{
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 120%;
+  color: #EE3465;
+  visibility: visible;
+  min-height: 30px;
+  margin: 0 auto;
+}
+
+.register__span_subtitle_invalid{
+  visibility: hidden;
+}
+
 @media screen and (min-width: 768px){
   .register{
     align-items: flex-start;
     margin: 0 calc((100% - 396px) / 2);
   }
+  
   .register__fieldset{
     margin-bottom: 127px;
   }

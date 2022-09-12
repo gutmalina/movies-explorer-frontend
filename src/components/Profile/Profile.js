@@ -1,58 +1,45 @@
-import {useState} from "react";
+import React from "react";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import FormProfile from "../FormProfile/FormProfile";
-import ButtonSubmit from "../ButtonSubmit/ButtonSubmit";
 import CaptionForm from "../CaptionForm/CaptionForm";
 
-function Profile({title, location, onSubmit}){
-  const [isDisabledInput, setIsDisabledInput] = useState(true);
-
-  /* удалить disebled input для редактирования  */
-  const remoteInputuDisabled =()=>{
-      setIsDisabledInput(false)
-  };
+function Profile({
+  onError,
+  setErrorServer,
+  onSuccessfulMessage,
+  disabledInput,
+  setDisabledInput,
+  disabledButton,
+  setDisabledButton,
+  signOut,
+  handleUpdateUser,
+}){
+  const currentUser = React.useContext(CurrentUserContext)
 
   return(
-    <>
-      <section className="profile">
-        <h2 className="profile__title title title__type_form title__type_profile">{title}</h2>
-          <form name="profile-form"
-            className ="profile__form form"
-            onSubmit={onSubmit}>
-            <fieldset className="profile__fieldset fieldset">
-              <FormProfile
-                nameForm="profile"
-                location={location}
-                minLength="2"
-                maxLength="30"
-                onDisabled={isDisabledInput}
-              />
-
-            </fieldset>
-          </form>
-          <p className="profile__span_subtitle subtitle">При обновлении профиля произошла ошибка.</p>
-          { !isDisabledInput ?
-            <ButtonSubmit
-              name="register"
-              contentButton="Сохранить"
-              location={location}
-            />
-            : null}
-          { isDisabledInput ?
-            <>
-              <button
-                type="button"
-                className="profile__button button"
-                onClick={remoteInputuDisabled}>Редактировать
-              </button>
-              <CaptionForm
-                  nameForm="profile"
-                  location={location}
-              />
-            </>
-            : null}
-      </section>
-    </>
+    <section className="profile">
+      <h2 className="profile__title title title__type_form title__type_profile">
+      {`Привет, ${currentUser.name}!`}
+      </h2>
+      <FormProfile
+        nameForm="profile"
+        onError={onError}
+        setErrorServer={setErrorServer}
+        onSuccessfulMessage={onSuccessfulMessage}
+        disabledInput={disabledInput}
+        setDisabledInput={setDisabledInput}
+        disabledButton={disabledButton}
+        setDisabledButton={setDisabledButton}
+        handleUpdateUser={handleUpdateUser}
+      />
+      { disabledInput ?
+        <CaptionForm
+            nameForm="profile"
+            signOut={signOut}
+        />
+        : null}
+    </section>
   )
 };
 
-export default Profile;
+export default Profile

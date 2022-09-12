@@ -1,13 +1,35 @@
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-function NotFound(){
+function NotFound({
+  loggedIn,
+}){
+  const history = useHistory()
+
+  /** редирект */
+  const handleGoBack=()=>{
+    history.goBack()
+  }
+
   return(
     <div className="notfound">
-      <h2 className="notfound__title title">404</h2>
-      <p className="notfound__subtitle subtitle">Страница не найдена</p>
-        <Link to="/" className="notfound__link link">Назад</Link>
+      <h2
+        className="notfound__title title">
+          404
+      </h2>
+      <p
+        className="notfound__subtitle subtitle">
+          Страница не найдена
+      </p>
+      <button
+        className="button notfound__link link"
+        type='button'
+        name='back'
+        aria-label='Назад'
+        onClick={handleGoBack}>
+          Назад
+        </button>
     </div>
   )
 };
 
-export default NotFound;
+export default NotFound

@@ -6,6 +6,7 @@
   align-items: center;
   margin-bottom: 70px;
 }
+
 .navtab__button{
   background: #073042;
   opacity: 0.6;
@@ -18,22 +19,27 @@
   align-items: center;
   color: #FFFFFF;
 }
+
 .navtab__link{
   margin-bottom: 30px;
 }
+
 @media screen and (min-width: 768px){
   .navtab{
     margin-bottom: 90px;
   }
+  
   .navtab__link{
     margin-bottom: 76px;
   }
 }
+
 @media screen and (min-width: 1280px){
   .navtab{
     margin-bottom: 108px;
     align-items: flex-start;
   }
+  
   .navtab__button{
     margin-left: 70px;
   }

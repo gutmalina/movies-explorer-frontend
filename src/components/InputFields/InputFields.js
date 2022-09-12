@@ -1,64 +1,51 @@
-import {useRef, useState, useCallback, useEffect} from "react";
+function InputFields({
+  nameForm,
+  nameInput,
+  type,
+  placeholder,
+  textContent,
+  minLength,
+  maxLength,
+  disabledInput,
+  value,
+  onChange,
+  error,
+}){
+  const container = `input__container input__container_theme_${nameForm} container`
+  const input = `input input__type_form input__type_${nameForm} ${error ? "input__invalid" : ""}`
+  const subtitle = `input__subtitle subtitle input__subtitle_type_${nameForm}`
+  const spanWrap = `span-wrap span-wrap_type_${nameForm}`
+  const span = `span ${error ? 'span__invalid' : ''}`
+  const wrap = `input-wrap input-wrap_type_${nameForm}`
 
-function InputFields({ nameForm, nameInput, type, placeholder, textContent, location, minLength, maxLength, onDisabled, valueData }){
-  const inputRef = useRef(true);
-  const [isInputValue, setIsInputValue] = useState(true);
-
-  /** Получить значение введенное в поле input */
-  const handleChangeInput = useCallback((evt)=>{
-    const { name, value } = evt.target
-    setIsInputValue(prevState=>({...prevState, [name]: value}))
-  }, [setIsInputValue])
-
-  /** проверить валидность поля input */
-  useEffect(()=>{
-    if(inputRef.current.value !== ''){
-      setIsInputValue(inputRef.current.validity.valid);
-    }
-  }, [inputRef.current.value])
-
-  const wrap = `input-wrap ${location === "/profile" ? "input-wrap_type_profile" : ""}`;
-  const container = `input__container container ${location === "/profile" ? "input__container_type_profile" : ""}`;
-  const input = `input input__type_form ${
-    location === "/profile" && !isInputValue ? "input__type_profile input__invalid" ://если профайл и данные НЕ валидны
-    location === "/profile" && isInputValue? "input__type_profile"://если профайл и данные валидны
-    location !== "/profile" && !isInputValue ? "input__invalid" : ""}`;//если НЕ профалй и данные НЕ валидны
-
-  const subtitle = `input__subtitle subtitle ${location === "/profile" ? "input__subtitle_type_profile" : ""}`;
-  const spanWrap = `span-wrap ${location === "/profile" ? "span-wrap_type_profile" : ""}`;
-
-  /** если значения введенные в поле input не валидны */
-  const span = `span ${!isInputValue ? 'span__invalid' : ''}`
-  const spanMessage = `${!isInputValue ? inputRef.current.validationMessage : ''}`
-
-   return(
-    <>
-      <div className={wrap}>
-        <div className={container}>
-          <p className={subtitle}>{textContent}</p>
-          <input
-            id={`${nameForm}-${nameInput}`}
-            type={type}
-            name={nameInput}
-            className={input}
-            placeholder={placeholder}
-            autoFocus
-            required
-            autoComplete={`new-${nameInput}`}
-            minLength={minLength || ''}
-            maxLength={maxLength || ''}
-            ref={inputRef}
-            onChange={handleChangeInput}
-            disabled={onDisabled}
-          />
-        </div>
-        <div className={spanWrap}>
-          <span
-            className={span}>{spanMessage}</span>
-        </div>
+  return(
+    <div className={wrap}>
+      <div className={container}>
+        <p className={subtitle}>{textContent}</p>
+        <input
+          id={`${nameForm}-${nameInput}`}
+          type={type}
+          name={nameInput}
+          className={input}
+          placeholder={placeholder}
+          required
+          autoComplete={`new-${nameInput}`}
+          minLength={minLength || ''}
+          maxLength={maxLength || ''}
+          onChange={onChange}
+          disabled={disabledInput}
+          value={value}
+          onKeyDown={onChange}
+        />
       </div>
-    </>
+      <div className={spanWrap}>
+        <span
+          className={span}>
+            {error}
+        </span>
+      </div>
+    </div>
   )
 };
 
-export default InputFields;
+export default InputFields

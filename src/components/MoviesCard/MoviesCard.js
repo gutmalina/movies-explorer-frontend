@@ -1,45 +1,59 @@
-import { Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import FormMoviesCard from "../FormMoviesCard/FormMoviesCard";
 
-function MoviesCard({...card}) {
+function MoviesCard({
+  likesLoading,
+  nameButton,
+  ariaLabel,
+  handleCreateMovie,
+  handleDeleteMovie,
+  findMovieInSavedMovie,
+  ...movie
+}) {
+  const [isLikes, setIsLikes] = useState(false)
 
-/** перевести минуты в часы и минуты */
+  /** установить лайк или дизлайк карточке */
+  useEffect(()=>{
+    likesLoading(movie.movieId) ? setIsLikes(true) : setIsLikes (false)
+  }, [movie])
+
+  /** перевести минуты в часы и минуты */
   const toTime = (time) => {
     const h = Math.trunc(time / 60);
     const m = time - (h * 60)
     return h + "ч " + m + "м";
   }
 
+  /** показать трейлер фильма */
+  const handleClickOnVideo = ()=>{
+    window.open(movie.trailerLink)
+  }
+
   return (
-    <>
-      <article className="card">
-        <img className="card__img"
-          src={card.image}
-          alt={card.nameRu}/>
-        <div className="card__caption">
-          <h2 className="card__title-nameRu title">{card.nameRu}</h2>
-          <Route path="/movies">
-            <button
-              type="button"
-              aria-label="Поставить лайк"
-              className="card__button card__button button card__button_like_inactive">
-            </button>
-          </Route>
-          <Route path="/saved-movies">
-            <button
-              type="button"
-              aria-label="Удалить фильм из сохраненных"
-              className="card__button card__button button card__button_delete">
-            </button>
-          </Route>
-        </div>
-        <div className="card__duration">
-          {
-            toTime(card.duration)
-          }
-        </div>
-      </article>
-    </>
+    <article className="movies-card">
+      <img className="movies-card__img"
+        src={movie.image}
+        alt={movie.nameRU}
+        onClick={handleClickOnVideo}
+        target="_blank"
+      />
+      <FormMoviesCard
+        movie={movie}
+        isLikes={isLikes}
+        setIsLikes={setIsLikes}
+        nameButton={nameButton}
+        ariaLabel={ariaLabel}
+        handleCreateMovie={handleCreateMovie}
+        handleDeleteMovie={handleDeleteMovie}
+        findMovieInSavedMovie={findMovieInSavedMovie}
+      />
+      <div className="movies-card__duration">
+        {
+          toTime(movie.duration)
+        }
+      </div>
+    </article>
   );
 }
 
-export default MoviesCard;
+export default MoviesCard

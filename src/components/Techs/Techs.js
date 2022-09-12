@@ -1,42 +1,39 @@
+import TechsCard from '../TechsCard/TechsCard';
+import { TECHS_ARRAY } from '../../utils/TechsCardLists';
+import {
+  TECHS,
+  TECHS_TITLE,
+  TECHS_DESCRIPTION,
+} from '../../utils/constants'
+
 function Techs() {
   return (
-    <>
-      <section className="techs">
-        <div className="main__title-wrap techs__title-wrap">
-          <h2 className="main__title title">Технологии</h2>
-        </div>
-        <ul className="techs__container container">
-          <li className="techs__list list">
-            <h3 className="techs__title title">7 технологий</h3>
-            <p className="techs__subtitle subtitle">На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p>
-          </li>
-        </ul>
-        <div className="techs__grid">
-          <div className="techs__item">
-            <p className="techs__grid_subtitle subtitle">HTML</p>
-          </div>
-          <div className="techs__item">
-            <p className="techs__grid_subtitle subtitle">CSS</p>
-          </div>
-          <div className="techs__item">
-            <p className="techs__grid_subtitle subtitle">JS</p>
-          </div>
-          <div className="techs__item">
-            <p className="techs__grid_subtitle subtitle">React</p>
-          </div>
-          <div className="techs__item">
-            <p className="techs__grid_subtitle subtitle">Git</p>
-          </div>
-          <div className="techs__item">
-            <p className="techs__grid_subtitle subtitle">Express.js</p>
-          </div>
-          <div className="techs__item">
-            <p className="techs__grid_subtitle subtitle">mongoDB</p>
-          </div>
-        </div>
-      </section>
-    </>
+    <section className="techs">
+      <div className="main__title-wrap techs__title-wrap">
+        <h2 className="main__title title">
+          {TECHS}
+        </h2>
+      </div>
+      <ul className="techs__container container">
+        <li className="techs__list list">
+          <h3 className="techs__title title">
+            {TECHS_TITLE}
+          </h3>
+          <p className="techs__subtitle subtitle">
+            {TECHS_DESCRIPTION}
+          </p>
+        </li>
+      </ul>
+      <div className="techs__grid">
+      {
+        TECHS_ARRAY.map((card) => (
+          <TechsCard {...card} key={card._id}
+          />
+        ))
+      }
+      </div>
+    </section>
   );
 }
 
-export default Techs;
+export default Techs

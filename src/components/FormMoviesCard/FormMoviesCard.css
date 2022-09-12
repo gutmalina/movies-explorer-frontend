@@ -1,0 +1,33 @@
+.movie-card__fieldset{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 46px;
+  margin-bottom: 14px;
+}
+
+.movie-card__title{
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 125%;
+  text-align: start;
+  margin-right: 10px;
+}
+
+@media screen and (min-width: 768px){
+  .movie-card__fieldset{
+    margin-bottom: 13px;
+  }
+  .movie-card__title{
+    font-size: 13px;
+    line-height: 123%;
+    margin-right: 15px;
+  }
+}
+
+@media screen and (min-width: 1280px){
+  .movie-card__title{
+    margin-right: 25px;
+  }
+}

@@ -1,11 +1,18 @@
 import { Link } from 'react-router-dom';
 
-function Account(){
+function Account({
+  handleMenuClose
+}){
   return(
     <div className="account">
-      <Link to="/profile" className='account__link link'>
+      <Link
+        to="/profile"
+        className='account__link link'
+        onClick={handleMenuClose}>
         <div className="account__container container">
-          <p className="account__subtitle subtitle">Аккаунт</p>
+          <p className="account__subtitle subtitle">
+            Аккаунт
+          </p>
           <div className="account__icon"></div>
         </div>
       </Link>
@@ -13,4 +20,4 @@ function Account(){
   )
 };
 
-export default Account;
+export default Account
