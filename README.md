@@ -2,9 +2,6 @@
 
 ### ***Дипломная работа посвещена созданию сервиса, в котором можно найти фильмы по запросу и сохранить в личном кабинете.***
 
-* Пул реквест: [https://github.com/gutmalina/movies-explorer-frontend/pull/2](https://github.com/gutmalina/movies-explorer-frontend/pull/2)
-* Публичный IPv4 сервера: [http://51.250.77.19](http://51.250.77.19)
-* Ссылка на Frontend проекта: [https://webdiploma.nomoredomains.xyz](https://webdiploma.nomoredomains.xyz)
 
 ### ***Функционал приложения:***
 * Авторизация пользователя по email и паролю, без подтверждения email
@@ -14,7 +11,11 @@
 * Сохранение\удаление найденных фильмов в своем личном кабинете
 
 ### ***Стэк:***
+* Css, HTML
+* JavaScript
 * Node.js
 * MongoDB
 * Express.js
 * React
+
+[Ссылка на проект](https://webdiploma.nomoredomains.xyz)
